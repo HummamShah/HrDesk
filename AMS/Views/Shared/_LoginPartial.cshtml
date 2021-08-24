@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNet.Identity
+<div  ng-init="UserIdentityInit()">
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="UserInfo">
+                <a href="/Manage/" title="Manage" class="" style="color:white;">
+                    <img src="{{UserIdentity.ImageUrl}}" style="width:24px;height:21px;"/> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
+                    @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                </a>
+                <a style="color:white;" href="javascript:document.getElementById('logoutForm').submit()" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        }
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }
+
+</div>

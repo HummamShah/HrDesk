@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Add Admin";
+}
+
+<div class="container-fluid" ng-controller="UserCtrl" ng-init="AddAdminInit()">
+    <h3 class="mt-4">Add User</h3>
+
+    <div class="jumbotron pageHeading">
+        <form class="p-3">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" ng-model="Admin.FirstName" />
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" ng-model="Admin.LastName" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Address</label>
+                    <input type="text" class="form-control" ng-model="Admin.Address" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Email</label>
+                    <input type="email" class="form-control" ng-model="Admin.Email" />
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="form-group col-md-3">
+                    <label>Primary Contact</label>
+                    <input type="text" class="form-control" ng-model="Admin.Contact1" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Secondary Contact</label>
+                    <input type="text" class="form-control" ng-model="Admin.Contact2" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Password</label>
+                    <input type="password" class="form-control" ng-model="Admin.Password" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" ng-model="Admin.ConfirmPassword" />
+                </div>
+                @*<div class="form-group col-md-3" ng-if="User.HasSupervisor">
+                    <select ng-model="User.SupervisorId" class="form-control">
+                        <option selected value="">Select Supervisor</option>
+                        <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Has Supervisor</label>
+                    <input type="checkbox" class="" ng-model="User.HasSupervisor" ng-change="CheckForDepartment(User.DepartmentId)" />
+                </div>*@
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Profile/Logo Photo</label>
+                    <input type="file" accept="image/*" ngf-select="UploadAdminImage($files,'ImageUrl')" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <img style="  max-height: 413px;max-width:200px" src="{{Admin.ImageUrl}}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success float-right" ng-click="AddAdmin(Admin)">Add HR</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

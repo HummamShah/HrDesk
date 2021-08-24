@@ -1,0 +1,113 @@
+﻿body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    
+    font-family: Calibri;
+}
+
+.UserInfo a {
+    color: white !important;
+    padding-right: 10px;
+    padding-left: 8px;
+}
+
+.Login-form {
+    padding-top: 100px;
+}
+
+.LoginBG {
+    background-color: white !important;
+    color: black;
+    /*border:dotted !important;*/
+    border-color: lavender;
+}
+
+.LoginBG h2 {
+        text-align: center;
+}
+
+.image-fit {
+    margin-top: -56px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    height: 141px;
+}
+
+.form {
+    padding-left: 10%;
+    padding-top: 7%;
+    font-size: 23px;
+}
+
+.L-layout {
+    background-image: url("/Content/Images/tower.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    color: white;
+}
+
+.form-input {
+    border-radius: 2.5rem;
+    max-width: 340px;
+    opacity: 0.4;
+}
+.main-dashboard {
+    padding-top: 3%;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+.nav-Logo {
+    padding-bottom: 23px;
+}
+
+.nav-row {
+    padding-bottom: 20px;
+    color:white;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.sub-menu {
+    padding-left: 14%;
+}
+
+.hvr-glow {
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow;
+    transition-property: box-shadow;
+}
+
+    .hvr-glow:hover, .hvr-glow:focus, .hvr-glow:active {
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+    }
+
+.nav-button{
+    background-color:transparent !important;
+    color:white;
+}

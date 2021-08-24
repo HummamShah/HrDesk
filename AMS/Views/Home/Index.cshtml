@@ -1,0 +1,381 @@
+﻿@using Microsoft.AspNet.Identity;
+@using UserRoles = AMS.Models.Enums.Roles;
+@{
+    ViewBag.Title = "Home Page";
+    
+}
+<div class="container-fluid" ng-init="initDashboard()">
+    <div class="clearfix">
+        <h3 class="pull-left"></h3>
+    </div>
+    <div>
+        <div class="row">
+            
+            <img src="~/Content/Image/SharptelLogo.png" class="image-fit" />
+        </div>
+
+        @if(User.IsInRole(UserRoles.Employee) || User.IsInRole(UserRoles.HR))
+         {
+            <div class="row">
+                <div class="col-md-4">
+                    <label>First Name: {{UserInfo.FirstName}}</label>
+                </div>
+                <div class="col-md-4">
+                    <label>Last Name: {{UserInfo.LastName}}</label>
+                </div>
+                <div class="col-md-4">
+                    <label>Attendance Marked: {{UserInfo.IsAttendanceMarked}}</label>
+                </div>
+                
+               
+                
+            </div>
+         }
+
+        @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.PreSale) || User.IsInRole(UserRoles.Lead_Sales) || User.IsInRole(UserRoles.Pmd_Feasibility))
+        {
+            <!--<div class="jumbotron">
+            <div class="row">
+                <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading crd-heading-bg-color">
+                            <h3 class="panel-title text-uppercase">
+                                <b>Leads</b><span class="float-right" style="padding-right:0px!important;">({{UserReportData.TotalLeadsData.TotalCountOfLeads}})</span>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div col-4>
+                                Open<span class="label text-capitalize float-right Open Badge-Width">{{UserReportData.TotalLeadsData.TotalOpenLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Complete<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCompletedLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Cancelled<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCancelledLeads}}</span>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+                    </div>
+                </div>-->
+            @*Card 2*@
+            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+            <div class="panel hvr-glow">
+                <div class="panel-heading crd-heading-bg-color">
+                    <h3 class="panel-title text-uppercase"><b>Leads Feasibility</b></h3>
+                </div>
+                <div class="panel-body">
+                    <div col-4>
+                        Pending<span class="label label-warning text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalPendingByPMDLeads}}</span>
+                    </div>
+                    <div col-4>
+                        Feasible<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalFeasibleLeads}}</span>
+                    </div>
+                    <div col-4>
+                        Not-Feasible<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalNotFeasibleLeads}}</span>
+                    </div>
+                </div>
+                <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+            </div>
+        </div>-->
+            @* Card 03 *@
+            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+            <div class="panel hvr-glow">
+                <div class="panel-heading crd-heading-bg-color">
+                    <h3 class="panel-title text-uppercase"><b>Quotation Status</b></h3>
+                </div>
+                <div class="panel-body">
+                    <div col-4>
+                        Pending<span class="label label-warning text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalPendingByPreSale}}</span>
+                    </div>
+                    <div col-4>
+                        Submitted<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalSubmittedByPreSale}}</span>
+                    </div>
+                    <div col-4>
+                        Reverted<span class="label label-danger text-capitalize float-right Badge-Width" title="PMD = {{UserReportData.TotalLeadsData.TotalRTPByPMDLeads}}, Sales = {{UserReportData.TotalLeadsData.TotalRTSByPreSale}}">{{UserReportData.TotalLeadsData.TotalRevertedByPreSale}}</span>
+                    </div>
+                </div>
+                <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+            </div>
+        </div>-->
+            @*Card 04*@
+            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading crd-heading-bg-color">
+                            <h3 class="panel-title text-uppercase"><b>Leads Approval</b></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div col-4>
+                                Pending<span class="label label-warning text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalPendingByAdminLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Approved<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalApprovedLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Not-Approved<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalNotApprovedLeads}}</span>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="row" style="padding-bottom:12px;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="pull-right">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default">today</button>
+                            <button type="button" class="btn btn-default">this week</button>
+                            <button type="button" class="btn btn-default">this Month</button>
+                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#DateModel" title="Custom Date"><i class="far fa-calender"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Sales Leads</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_SalesLeads" chart-labels="labels_SalesLeads"
+                                    chart-series="series_SalesLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Feasible Leads</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_PMDLeads" chart-labels="labels_PMDLeads"
+                                    chart-series="series_PMDLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Quotation Leads</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_QuotationLeads" chart-labels="labels_QuotationLeads"
+                                    chart-series="series_QuotationLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Approved Leads</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_ApprovedLeads" chart-labels="labels_ApprovedLeads"
+                                    chart-series="series_ApprovedLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        }
+        @if (User.IsInRole(UserRoles.Accounts))
+        {
+            <!--<div class="jumbotron">
+            <div class="row">
+                <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading crd-heading-bg-color">
+                            <h3 class="panel-title text-uppercase">
+                                <b>Invoice</b><span class="float-right" style="padding-right:0px!important;">({{UserReportData.TotalLeadsData.TotalCountOfLeads}})</span>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div col-4>
+                                Pending<span class="label text-capitalize float-right Open Badge-Width">{{UserReportData.TotalLeadsData.TotalOpenLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Complete<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCompletedLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Reversed<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCancelledLeads}}</span>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+                    </div>
+                </div>-->
+            @*Card 2*@
+            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+            <div class="panel hvr-glow">
+                <div class="panel-heading crd-heading-bg-color">
+                    <h3 class="panel-title text-uppercase"><b>Account</b></h3>
+                </div>
+                <div class="panel-body">
+                    <div col-4>
+                        Active<span class="label label-warning text-capitalize float-right Badge-Width">{{UserReportData.TotalAccountData.TotalActiveAccounts}}</span>
+                    </div>
+                    <div col-4>
+                        In-Active<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalAccountData.TotalInActiveAccount}}</span>
+                    </div>
+                    <div col-4>
+                        Total Accounts<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalAccountData.TotalCountOfAccounts}}</span>
+                    </div>
+                </div>
+                <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+            </div>
+        </div>-->
+            @* Card 03 *@
+            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+            <div class="panel hvr-glow">
+                <div class="panel-heading crd-heading-bg-color">
+                    <h3 class="panel-title text-uppercase"><b>Payment</b></h3>
+                </div>
+                <div class="panel-body">
+                    <div col-4>
+                        Pending<span class="label label-warning text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalPendingByPreSale}}</span>
+                    </div>
+                    <div col-4>
+                        Completed<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalSubmittedByPreSale}}</span>
+                    </div>
+                    <div col-4>
+                        Total Number Of Payment<span class="label label-danger text-capitalize float-right Badge-Width" title="PMD = {{UserReportData.TotalLeadsData.TotalRTPByPMDLeads}}, Sales = {{UserReportData.TotalLeadsData.TotalRTSByPreSale}}">{{UserReportData.TotalLeadsData.TotalRevertedByPreSale}}</span>
+                    </div>
+                </div>
+                <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+            </div>
+        </div>-->
+            @*Card 04*@
+            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading crd-heading-bg-color">
+                            <h3 class="panel-title text-uppercase"><b>Company Billing</b></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div col-4>
+                                Enable<span class="label label-warning text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalPendingByAdminLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Disable<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalApprovedLeads}}</span>
+                            </div>
+                            <div col-4>
+                                Total Number of Active Billing<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalNotApprovedLeads}}</span>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="row" style="padding-bottom:12px;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="pull-right">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default">today</button>
+                            <button type="button" class="btn btn-default">this week</button>
+                            <button type="button" class="btn btn-default">this Month</button>
+                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#DateModel" title="Custom Date"><i class="far fa-calender"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Active Accounts</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_Accounts" chart-labels="labels_Accounts"
+                                    chart-series="series_Accounts">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Accounts Termination VS Activation</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_PMDLeads" chart-labels="labels_PMDLeads"
+                                    chart-series="series_PMDLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Revenue</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_QuotationLeads" chart-labels="labels_QuotationLeads"
+                                    chart-series="series_QuotationLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel hvr-glow">
+                        <div class="panel-heading pb-0 table-head">
+                            <h4 class="text-capitalize">Collection</h4>
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data_ApprovedLeads" chart-labels="labels_ApprovedLeads"
+                                    chart-series="series_ApprovedLeads">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        }
+
+
+    </div>
+    <!-- Modal -->
+    <!--<div id="DateModel" class="modal fade" role="dialog">
+        <div class="modal-dialog">-->
+
+            <!-- Modal content-->
+            <!--<div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Select Date</h4>
+                </div>
+                <div class="">
+                    <form id="AssignmentForm ">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label>Date</label>
+                                <input type="date" class="form-control" ng-model="Date" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" style=" margin-top: 25px;" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" style=" margin-top: 25px;" data-dismiss="modal" ng-click="GetDataForCustomDate(Date)">Get</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+</div>

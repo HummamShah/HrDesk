@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<<div class="container-fluid" ng-controller="UserCtrl" ng-init="HiringAddInit()">
+    <h3 class="mt-4">Add User</h3>
+
+    <div class="jumbotron pageHeading">
+        <form class="p-3">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>1st Interview</label>
+                    <input type="text" class="form-control" ng-model="User.FirstInterview" />
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>2nd Interview</label>
+                    <input type="text" class="form-control" ng-model="User.SecondInterview" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Remarks</label>
+                    <input type="text" class="form-control" ng-model="User.Remarks" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Approved By</label>
+                    <input type="email" class="form-control" ng-model="User.ApprovedBy" />
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Approval Image Upload</label>
+                    <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ApprovalImageUrl')" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <img style="  max-height: 413px;max-width:200px" src="{{User.ApprovalImageUrl}}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success float-right" ng-click="AddUser(User)">Add User</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

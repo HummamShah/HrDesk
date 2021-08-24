@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "AgentAttendanceReport";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<!--<div ng-controller="AgentAttendanceReportCtrl" ng-init="initIndex()">
+    <div class="jumbotron PageHeading margin-b-0">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Attendance List</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group col-md-5">
+                    <label>Date From</label>
+                    <input type="date" class="form-control" ng-model="DateFrom" />
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Date To</label>
+                    <input type="date" class="form-control" ng-model="DateTo" />
+                </div>
+                <button style="margin-top:20px" class="btn btn-primary" ng-click="GetAttendanceReport(DateFrom,DateTo)">Get</button>
+            </div>-->
+            @*<div class="col-md-1">
+                    <div class="float-right">
+                        <button class="btn btn-primary" ng-click="GetAttendance(DateFrom,DateTo)">Get</button>
+                    </div>
+                </div>*@
+        <!--</div>
+
+    </div>
+    <div class="jumbotron PageHeading margin-b-0">
+        <div class="row">
+            <div class="col-xs-10">
+
+            </div>
+            <div class="col-xs-2">
+                @if (User.IsInRole("Admin") || User.IsInRole("HR"))
+                {
+                    <button class="btn btn-primary pull-right" ng-disabled="AttendanceList.length == 0" ng-click="Export('AgentAttendanceReport')"><i class="fas fa-file-excel"></i></button>}
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table grid-list" width="100%" id="mytable" style="overflow-x:scroll">
+                <tr class="table-head">
+                    <th>
+                        Dates
+                    </th>
+                    <th ng-repeat="date in AttendanceDates">
+                        {{date |  date:'MMM d, y'}}
+                    </th>
+                </tr>
+                <tr class="table-head">
+                    <th>Name</th>
+                    <th ng-repeat="date in AttendanceDates">
+                        {{date |  date:'EEEE'}}
+                    </th>
+                    <th>Consecutive Late Counter</th>
+                    <th>Deduction In Days</th>
+                    <th>Remaining Leaves</th>
+                </tr>
+                <tr ng-repeat="Attendance in AttendanceList">
+                    <td>{{Attendance.AgentName}}</td>
+                    <td ng-repeat="details in Attendance.Details">
+                        <span ng-if="details.IsLate == true">Late</span>
+                        <span ng-if="details.IsPresent == true">Present</span>
+                        <span ng-if="details.IsExcused == true">Excused</span>
+                        <span ng-if="details.IsAbsent == true">Absent</span>
+                    </td>
+                    <td>{{Attendance.TotalConsecutiveLateCounter}}</td>
+                    <td>{{Attendance.TotalDeductionInDays}}</td>
+                    <td>{{Attendance.TotalRemainingLeaves}}</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>-->
+
+<div class="container-fluid" ng-controller="AgentAttendanceReportCtrl" ng-init="initIndex()">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Attendance List</h2>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group col-md-5 float-right">
+                <label>Date From</label>
+                <input type="date" class="form-control" ng-model="DateFrom" />
+                <label>Date To</label>
+                <input type="date" class="form-control" ng-model="DateTo" />
+                <button style="margin-top:20px" class="btn btn-primary" ng-click="GetAttendanceReport(DateFrom,DateTo)">Get</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Agent Attendance Montly Report
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-md" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="overflow:hidden;">
+                            <th>
+                                Dates
+                            </th>
+                            <th ng-repeat="date in AttendanceDates">
+                                {{date |  date:'MMM d, y'}}
+                            </th>
+                        </tr>
+                        <tr style="overflow:hidden;">
+                            <th>Name</th>
+                            <th ng-repeat="date in AttendanceDates">
+                                {{date |  date:'EEEE'}}
+                            </th>
+                            <th>Consecutive Late Counter</th>
+                            <th>Deduction In Days</th>
+                            <th>Remaining Leaves</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Attendance in AttendanceList">
+                            <td>{{Attendance.AgentName}}</td>
+                            <td ng-repeat="details in Attendance.Details">
+                                <span ng-if="details.IsLate == true">Late</span>
+                                <span ng-if="details.IsPresent == true">Present</span>
+                                <span ng-if="details.IsExcused == true">Excused</span>
+                                <span ng-if="details.IsAbsent == true">Absent</span>
+                            </td>
+                            <td>{{Attendance.TotalConsecutiveLateCounter}}</td>
+                            <td>{{Attendance.TotalDeductionInDays}}</td>
+                            <td>{{Attendance.TotalRemainingLeaves}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

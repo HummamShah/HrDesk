@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid" ng-controller="DepartmentCtrl" ng-init="initIndex()">
+    <div class="row">
+        <div class="col-sm-9 col-9">
+            <h3 class="mt-4">Department</h3>
+        </div>
+        <div class="col-sm-3 col-3">
+            <a href="/Department/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
+                Add <span><i class="fas fa-plus"></i></span>
+            </a>
+        </div>
+
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            List of Department
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-md" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="overflow:hidden;">
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Created At
+                            </th>
+                            <th>
+                                Created By
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Department in Departments">
+                            <td>
+                                {{Department.Id}}
+                            </td>
+                            <td>
+                                {{Department.Name}}
+                            </td>
+                            <td>
+                                {{Department.Description}}
+                            </td>
+
+                            <td>
+                                {{Department.CreatedAt | date:'MMM d, y'}}
+                            </td>
+                            <td>
+                                {{Department.CreatedBy}}
+                            </td>
+                            <td>
+                                <a href="/Department/Edit?Id={{Department.Id}}" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @*<div class="float-right">
+                        <button ng-disabled="ListingOptions.CurrentPage == 1" ng-click="PreviousPage()">Previous</button>
+                        <span>{{ListingOptions.CurrentPage}}</span>
+                        <button ng-disabled="ListingOptions.TotalRecords < (ListingOptions.CurrentPage  * ListingOptions.PageSize)" ng-click="NextPage()">Next</button>
+                        <span>
+                            <small class="Pagination-text">Showing from {{(ListingOptions.PageSize  * (ListingOptions.CurrentPage - 1))}} - {{ListingOptions.PageSize * ListingOptions.CurrentPage}} outof {{ListingOptions.TotalRecords}}</small>
+                        </span>
+                    </div>
+                    <div class="float-left">
+                        <span>
+                            <small class="Pagination-text">Show Per Page</small>
+                            <select ng-model="ListingOptions.PageSize" ng-click="UpdatePaginationSize()">
+                                <option value="10" ng-selected="ListingOptions.PageSize == 10">10</option>
+                                <option value="50" ng-selected="ListingOptions.PageSize == 50">50</option>
+                                <option value="100" ng-selected="ListingOptions.PageSize == 100">100</option>
+                            </select>
+                        </span>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
