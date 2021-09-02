@@ -9,9 +9,9 @@ namespace AMS.Model.Request.Leave
 {
     public class GetLeaveRecordRequest
     {
-
         private AMSEntities _dbContext = new AMSEntities();
         public string UserId { get; set; }
+        public int year { get; set; }
         public Object RunRequest(GetLeaveRecordRequest request)
         {
             var response = new GetLeaveHistoryResponse();
@@ -31,6 +31,7 @@ namespace AMS.Model.Request.Leave
                     leave.AccpRejDate = Leave.AccpRejDate;
                     response.LeaveRecordList.Add(leave);
                 }
+
                 response.IsSuccessful = true;
             }
             catch (Exception e)

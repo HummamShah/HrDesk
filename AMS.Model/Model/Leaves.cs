@@ -23,7 +23,6 @@ namespace AMS.Model.Model
         public Nullable<int> Status { get; set; }
         public Nullable<int> Type { get; set; }
         public string Reason { get; set; }
-    
         public virtual Agent Agent { get; set; }
     }
 }
