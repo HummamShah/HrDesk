@@ -31,6 +31,19 @@
                         $scope.AttendanceList = response.data.Data;
                     });
             }
+
+            $scope.AttendanceRecord = function (dateFrom, dateTo) {
+                dateFrom = $scope.GetDatePostFormat(dateFrom);
+                dateTo = $scope.GetDatePostFormat(dateTo);
+                $scope.AttendanceList = {};
+                $scope.AjaxGet("/api/AgentAttendanceApi/GetAgentAttendance", { DateFrom: dateFrom, DateTo: dateTo }).then(
+                    function (response) {
+                        console.log(response);
+                        /* $scope.NewDate = response.data.Data;*/
+                        $scope.AttendanceList = response.data.AgentAttandanceList;
+                    });
+            }
+
             //Monthly Attendance Report
             /* $scope.GetAttendanceReport = function (dateFrom, dateTo) {
                  dateFrom = $scope.GetDatePostFormat(dateFrom);

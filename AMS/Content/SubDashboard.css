@@ -572,6 +572,13 @@ pre {
     }
 }
 
+@media (min-width: 1200px) and (max-width: 1320px) {
+    .barmt {
+        margin-top: 18px;
+    }
+
+}
+
 @media (min-width: 992px) {
     .container-lg, .container-md, .container-sm, .container {
         max-width: 960px;
@@ -11023,3 +11030,4 @@ body {
     padding-top: 4px;
     text-decoration: none;
 }
+
