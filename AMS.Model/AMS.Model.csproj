@@ -91,6 +91,8 @@
     <Compile Include="Enum\AttendanceType.cs" />
     <Compile Include="Enum\Departments.cs" />
     <Compile Include="Enum\Designation.cs" />
+    <Compile Include="Enum\LeaveStatus.cs" />
+    <Compile Include="Enum\LeaveType.cs" />
     <Compile Include="Enum\Roles.cs" />
     <Compile Include="Model\Agent.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -113,6 +115,9 @@
     <Compile Include="Model\Department.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Leaves.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,6 +132,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Pay.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -158,6 +166,8 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Request\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

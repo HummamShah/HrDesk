@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a33e63a315db4cd0b2b87ddede707bff" Name="Diagram1">
+      <Diagram DiagramId="a33e63a315db4cd0b2b87ddede707bff" Name="Diagram1" ZoomLevel="85">
         <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AgentAttendance" Width="1.5" PointX="7.5" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
@@ -18,6 +18,10 @@
         <AssociationConnector Association="AMSModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="AMSModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="AMSModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AMSModel.Leaves" Width="1.5" PointX="7.5" PointY="9" />
+        <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
+        <EntityTypeShape EntityType="AMSModel.Pay" Width="1.5" PointX="7.5" PointY="13.25" />
+        <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

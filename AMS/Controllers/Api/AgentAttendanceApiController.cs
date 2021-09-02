@@ -27,7 +27,7 @@ namespace AMS.Controllers.Api
         }
 
         [HttpPost]
-        public object AddAgentAttendance([FromBody] AddAgentAttendanceRequest req) //If not working remove frombody
+        public object AddAgentAttendance([FromBody] AddAgentAttendanceRequest req)  
         {
             req.UserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);
@@ -35,19 +35,24 @@ namespace AMS.Controllers.Api
         }
 
         [HttpPost]
-        public object AddAgentExcuse([FromBody] AddAgentExcuseRequest req) //If not working remove frombody
+        public object AddAgentExcuse([FromBody] AddAgentExcuseRequest req)  
         {
             var result = req.RunRequest(req);
             return result;
         }
 
         [HttpPost]
-        public object SignOffAttendance([FromBody] SignOffAttendanceRequest req) //If not working remove frombody
+        public object SignOffAttendance([FromBody] SignOffAttendanceRequest req)  
         {
             req.UserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);
             return result;
         }
-
+        //[HttpPost]
+        //public object GetGraphData([FromBody] GetGraphDataRequest req) 
+        //{
+        //    var result = req.RunRequest(req);
+        //    return result;
+        //}
     }
 }
