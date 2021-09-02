@@ -32,5 +32,7 @@ namespace AMS.Model.Model
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<Leaves> Leaves { get; set; }
+        public virtual DbSet<Pay> Pay { get; set; }
     }
 }

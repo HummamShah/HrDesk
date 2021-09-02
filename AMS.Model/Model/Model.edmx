@@ -133,6 +133,32 @@
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
+        <EntityType Name="Leaves">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="ApplyDate" Type="datetime" />
+          <Property Name="AccpRejDate" Type="datetime" />
+          <Property Name="LeaveFrom" Type="datetime" />
+          <Property Name="LeaveTo" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Pay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="Month" Type="nvarchar(max)" />
+          <Property Name="Year" Type="int" />
+          <Property Name="PaySlipUrl" Type="nvarchar(max)" />
+          <Property Name="GeneratedOn" Type="datetime" />
+          <Property Name="Salary" Type="int" />
+        </EntityType>
         <Association Name="FK_Agent_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="Agent1" Type="Self.Agent" Multiplicity="*" />
@@ -225,6 +251,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Leaves_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Leaves" Type="Self.Leaves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leaves">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pay_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Pay" Type="Self.Pay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pay">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AMSModelStoreContainer">
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentAttendance" EntityType="Self.AgentAttendance" Schema="dbo" store:Type="Tables" />
@@ -234,6 +284,8 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Agent1" EntitySet="Agent" />
@@ -261,6 +313,14 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leaves_Agent" Association="Self.FK_Leaves_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Leaves" EntitySet="Leaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pay_Agent" Association="Self.FK_Pay_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Pay" EntitySet="Pay" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -307,6 +367,8 @@
           <Property Name="DocumentsImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CompanyBelonging" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ExitEmployeeFormImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
+          <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -499,7 +561,69 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Leaves" EntityType="AMSModel.Leaves" />
+          <AssociationSet Name="FK_Leaves_Agent" Association="AMSModel.FK_Leaves_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Leaves" EntitySet="Leaves" />
+          </AssociationSet>
+          <EntitySet Name="Pay" EntityType="AMSModel.Pay" />
+          <AssociationSet Name="FK_Pay_Agent" Association="AMSModel.FK_Pay_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Pay" EntitySet="Pay" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Leaves">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="ApplyDate" Type="DateTime" Precision="3" />
+          <Property Name="AccpRejDate" Type="DateTime" Precision="3" />
+          <Property Name="LeaveFrom" Type="DateTime" Precision="3" />
+          <Property Name="LeaveTo" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Leaves" ToRole="Agent" />
+        </EntityType>
+        <Association Name="FK_Leaves_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Leaves" Role="Leaves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leaves">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Pay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="Month" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="PaySlipUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GeneratedOn" Type="DateTime" Precision="3" />
+          <Property Name="Salary" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Pay_Agent" FromRole="Pay" ToRole="Agent" />
+        </EntityType>
+        <Association Name="FK_Pay_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Pay" Role="Pay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pay">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -639,6 +763,34 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Leaves">
+            <EntityTypeMapping TypeName="AMSModel.Leaves">
+              <MappingFragment StoreEntitySet="Leaves">
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LeaveTo" ColumnName="LeaveTo" />
+                <ScalarProperty Name="LeaveFrom" ColumnName="LeaveFrom" />
+                <ScalarProperty Name="AccpRejDate" ColumnName="AccpRejDate" />
+                <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pay">
+            <EntityTypeMapping TypeName="AMSModel.Pay">
+              <MappingFragment StoreEntitySet="Pay">
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="GeneratedOn" ColumnName="GeneratedOn" />
+                <ScalarProperty Name="PaySlipUrl" ColumnName="PaySlipUrl" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

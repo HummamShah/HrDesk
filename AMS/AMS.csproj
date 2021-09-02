@@ -196,6 +196,8 @@
     <Compile Include="Controllers\Api\DepartmentApiController.cs" />
     <Compile Include="Controllers\Api\FileUploadApiController.cs" />
     <Compile Include="Controllers\Api\HiringApiController.cs" />
+    <Compile Include="Controllers\Api\LeaveApiController.cs" />
+    <Compile Include="Controllers\Api\PayApiContoller.cs" />
     <Compile Include="Controllers\Api\ReportApiController.cs" />
     <Compile Include="Controllers\Api\UserApiController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
