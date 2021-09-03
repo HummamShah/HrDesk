@@ -365,6 +365,7 @@
     <Content Include="Content\Image\image008.jpg" />
     <Content Include="Content\Image\image010.jpg" />
     <Content Include="Content\Image\image011.jpg" />
+    <Content Include="Content\Image\userImageAvatar.jpg" />
     <Content Include="Content\Image\Sharptel.png" />
     <Content Include="Content\Image\SharptelLogo.png" />
     <Content Include="Content\Image\SharptelLogoLogin.png" />

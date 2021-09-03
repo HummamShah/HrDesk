@@ -1,15 +1,19 @@
 ﻿@using Microsoft.AspNet.Identity
-<div  ng-init="UserIdentityInit()">
+<div ng-init="UserIdentityInit()">
     @if (Request.IsAuthenticated)
     {
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
         {
             @Html.AntiForgeryToken()
             <div class="UserInfo">
-                <a href="/Manage/" title="Manage" class="" style="color:white;">
-                    <img src="{{UserIdentity.ImageUrl}}" style="width:24px;height:21px;border-radius:50%"/> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
+                <!--<a href="/Manage/" title="Manage" class="" style="color:white;">
+                    <img src="~/Content/Image/userImageAvatar.jpg" style="width:24px;height:21px;border-radius:50%" /> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}-->
                     @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-                </a>
+                <!--</a>-->
+                <span style="color:white;">
+                    <img src="~/Content/Image/userImageAvatar.jpg" style="width:24px;height:21px;border-radius:50%" /> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
+                    @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                </span>
                 <a style="color:white;" href="javascript:document.getElementById('logoutForm').submit()" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         }
@@ -23,3 +27,5 @@
     }
 
 </div>
+
+@*"{{UserIdentity.ImageUrl}}"*@
