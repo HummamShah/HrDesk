@@ -10,6 +10,7 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
 :root {
     --blue: #007bff;
     --indigo: #6610f2;
@@ -10711,6 +10712,12 @@ body {
             overflow-y: auto;
         }
 
+.topnavcolor {
+    background-color: #202833 !important;
+}
+.sidenavcolor {
+    background-color: #0b0c10 !important;
+}
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
     padding-left: 225px;
     top: 56px;
@@ -10742,7 +10749,7 @@ body {
 
 .sb-topnav {
     padding-left: 0;
-    height: 56px;
+    height: 68px;
     z-index: 1039;
 }
 
@@ -10790,6 +10797,7 @@ body {
                 padding-top: 0.75rem;
                 padding-bottom: 0.75rem;
                 position: relative;
+                
             }
 
                 .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {

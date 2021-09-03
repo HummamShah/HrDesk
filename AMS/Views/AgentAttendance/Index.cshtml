@@ -3,6 +3,198 @@
     ViewBag.Title = "Index";
 }
 
+@if (User.IsInRole(UserRoles.HR))
+{
+
+    <div class="container-fluid" ng-controller="AgentAttendanceCtrl" ng-init="initIndex()">
+
+        <div class="row" style="margin-top: 20px;">
+
+            <div class="col-xl-5 col-md-12 col-lg-12 barmt">
+                <canvas id="bar" class="chart-bar"
+                        chart-data="data" chart-labels="labels">
+                    chart-series="series"
+                </canvas>
+            </div>
+            <div class="col-xl-7 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header  border-0">
+                        <h4 class="card-title">Days Overview This Month</h4>
+                    </div>
+                    <div class="card-body pt-0 pb-3">
+                        <div class="row mb-0 pb-0">
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">31</h6>
+                                <h6 class="mb-0 mt-3">Half</h6>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3 ">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">24</h6>
+                                <h6 class="mb-0 mt-3">Present</h6>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">2</h6>
+                                <h6 class="mb-0 mt-3">Absent</h6>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-warning-transparent">0</h6>
+                                <h6 class="mb-0 mt-3">Total Working</h6>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3 ">
+                                <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">2</h6>
+                                <h6 class="mb-0 mt-3">Late</h6>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</h6>
+                                <h6 class="mb-0 mt-3">Holidays</h6>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</h6>
+                                <h6 class="mb-0 mt-3">Leaves</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-md-12 col-lg-12">
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-header  border-0">
+                        <h4 class="card-title">Attendance Overview</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-xl-5">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">From:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="feather feather-calendar"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="date" class="form-control" ng-model="DateFrom" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">To:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="feather feather-calendar"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="date" class="form-control" ng-model="DateTo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 col-lg-12 col-xl-2">
+                                <div class="form-group mt-4">
+                                    <a href="#" class="btn btn-primary btn-block" style="margin-top: 33px;" ng-click="AttendanceRecord(DateFrom,DateTo)">GET</a>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered table-responsive-xs" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr style="overflow:hidden;">
+                                        <th>
+                                            Date <a href="" class="sort-icon" ng-click="SetSortingColoumn('Date')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Status <a href="" class="sort-icon" ng-click="SetSortingColoumn('Status')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Clock-In <a href="" class="sort-icon" ng-click="SetSortingColoumn('Clock-In')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Clock-Out <a href="" class="sort-icon" ng-click="SetSortingColoumn('Clock-Out')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Hours <a href="" class="sort-icon" ng-click="SetSortingColoumn('Hours')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="User in AttendanceList  | orderBy:Sorting.Field:Sorting.IsAscending">
+                                        <td>
+                                            {{User.Date | date:'MMM d, y'}}
+                                        </td>
+                                        <td>
+                                            <span ng-if="User.IsLate == true" style="color:red">Late</span>
+                                            <span ng-if="User.IsPresent == true" style="color:darkgreen">On Time</span>
+                                            <span ng-if="User.IsExcused == true" style="color:darkorange">Excused</span>
+                                            <span ng-if="User.IsAbsent == true" style="color:black">Absent</span>
+                                        </td>
+                                        <td>
+                                            {{User.StartDate | date:'hh:mm a'}}
+                                        </td>
+                                        <td>
+                                            {{User.EndDate | date:'hh:mm a'}}
+                                        </td>
+                                        <td>
+                                            {{(User.EndDate | date:'hh:mm a')-(User.StartDate | date:'hh:mm a')}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="emp-attendance_info" role="status" aria-live="polite">
+                                        Showing 1 to 10 of {{User.Id}} entries
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="emp-attendance_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled" id="emp-attendance_previous">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="0" tabindex="0" class="page-link">
+                                                    Previous
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item active">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="1" tabindex="0" class="page-link">
+                                                    1
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item ">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="2" tabindex="0" class="page-link">
+                                                    2
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item next" id="emp-attendance_next">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="3" tabindex="0" class="page-link">
+                                                    Next
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
 
 @if (User.IsInRole(UserRoles.Employee))
 {
@@ -150,7 +342,39 @@
                                     </tr>
                                 </tbody>
                             </table>
-
+                            <div class="row col-xl-12 col-sm-12" style="padding-left:30px;">
+                                <div class="col-sm-12 col-md-9">
+                                    <div class="dataTables_info" id="emp-attendance_info" role="status" aria-live="polite">
+                                        Showing 1 to 10 of 15 entries
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="emp-attendance_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled" id="emp-attendance_previous">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="0" tabindex="0" class="page-link">
+                                                    Previous
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item active">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="1" tabindex="0" class="page-link">
+                                                    1
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item ">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="2" tabindex="0" class="page-link">
+                                                    2
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item next" id="emp-attendance_next">
+                                                <a href="#" aria-controls="emp-attendance" data-dt-idx="3" tabindex="0" class="page-link">
+                                                    Next
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,5 +383,5 @@
     </div>
 
 }
-</div>
+
 
