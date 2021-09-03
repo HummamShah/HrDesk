@@ -7,7 +7,7 @@
             @Html.AntiForgeryToken()
             <div class="UserInfo">
                 <a href="/Manage/" title="Manage" class="" style="color:white;">
-                    <img src="{{UserIdentity.ImageUrl}}" style="width:24px;height:21px;"/> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
+                    <img src="{{UserIdentity.ImageUrl}}" style="width:24px;height:21px;border-radius:50%"/> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
                     @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                 </a>
                 <a style="color:white;" href="javascript:document.getElementById('logoutForm').submit()" title="Logout"><i class="fas fa-sign-out-alt"></i></a>

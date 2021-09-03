@@ -21,7 +21,8 @@ namespace AMS.Models.Requests.User
 		public bool? HasSupervisor { get; set; }
 		public int? SupervisorId { get; set; }
 		public string ImageUrl { get; set; }
-	}
+        public List<string> Role { get; set; }
+    }
 
 	public class UserIdentityRequest
 	{
@@ -38,6 +39,7 @@ namespace AMS.Models.Requests.User
 			response.FirstName = Data.FisrtName;
 			response.LastName = Data.LastName;
 			response.ImageUrl = Data.ImageUrl;
+			response.Role = Data.AspNetUsers.AspNetRoles.Select(x => x.Name).ToList();
 			return response;
 		}
 	}
