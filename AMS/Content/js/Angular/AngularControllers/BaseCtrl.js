@@ -1,4 +1,5 @@
-﻿angular.module('main', ['toaster'])
+﻿
+angular.module('main', ['toaster'])
 
 'use strict';
 app.controller('baseCtrl',
@@ -111,19 +112,6 @@ app.controller('baseCtrl',
                      });
              }*/
             //Get Notifications End
-
-
-            //Bar Chart Start
-            $scope.labels = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            $scope.series = ['Series A', 'Series B', 'Series C'];
-
-            $scope.data = [
-                [11],
-                [9],
-                [10],
-
-            ];
-            //Bar Chart End
 
 
             //Listing Code Start

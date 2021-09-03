@@ -365,6 +365,7 @@
     <Content Include="Content\Image\image008.jpg" />
     <Content Include="Content\Image\image010.jpg" />
     <Content Include="Content\Image\image011.jpg" />
+    <Content Include="Content\Image\userImageAvatar.jpg" />
     <Content Include="Content\Image\Sharptel.png" />
     <Content Include="Content\Image\SharptelLogo.png" />
     <Content Include="Content\Image\SharptelLogoLogin.png" />
@@ -495,6 +496,7 @@
     <Content Include="Views\Hiring\Edit.cshtml" />
     <Content Include="Views\Leave\Index.cshtml" />
     <Content Include="Views\PayRecord\Index.cshtml" />
+    <Content Include="Views\AgentAttendance\EmployeeAttendance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

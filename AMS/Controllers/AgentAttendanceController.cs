@@ -9,8 +9,15 @@ namespace AMS.Controllers
     public class AgentAttendanceController : Controller
     {
         // GET: AgentAttendance
-        [Authorize(Roles = "HR,Admin,SuperAdmin,Employee")]
+        [Authorize(Roles = "HR,Admin,SuperAdmin, Employee")]
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET AllEmployeesAttendance
+        [Authorize(Roles = "HR,SuperAdmin")]
+        public ActionResult EmployeeAttendance()
         {
             return View();
         }

@@ -61,20 +61,20 @@
 
                         @if (User.IsInRole(UserRoles.Employee))
                         {
-                            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#profle" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            @*<a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#profle" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Profile
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
+                            </a>*@
                             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#attend" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Attendance
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="attend" aria-labelledby="headingthree">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/AgentAttendance/Index">Attendence History</a>
+                                    <a class="nav-link" href="/AgentAttendance/Index">My Attendence</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            @*<a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Leave
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -91,7 +91,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/PayRecord/Index">Pay Record</a>
                                 </nav>
-                            </div>
+                            </div>*@
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#marksignoff" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Mark Sign Off
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -103,22 +103,23 @@
                             </div>
                         }
 
-                        
+
                         @if (User.IsInRole(UserRoles.SuperAdmin))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseDepartment12" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                ADD
+                                HR
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapseDepartment12" aria-labelledby="headingthree">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/User/AddAdmin">Add HR</a>
                                 </nav>
-                            </div>}
+                            </div>
+                        }
                         @if (User.IsInRole(UserRoles.HR))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseDepartment1" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                ADD
+                                User
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapseDepartment1" aria-labelledby="headingthree">
@@ -126,8 +127,9 @@
                                     <a class="nav-link" href="/User/Add">Add User</a>
                                     <a class="nav-link" href="/User/">Users</a>
                                 </nav>
-                            </div>}
-                        @if (User.IsInRole(UserRoles.HR))
+                            </div>
+                        }
+                             @if (User.IsInRole(UserRoles.HR))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseDepartment" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Department
@@ -148,22 +150,22 @@
                             <div class="collapse" id="pagesCollapseTickets" aria-labelledby="headingthree">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/Report/AgentAttendanceReport">Agent Attendance Report</a>
-
                                 </nav>
                             </div>
                         }
                         @if (User.IsInRole(UserRoles.HR))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAttendance" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                Agent Attendance
+                                Attendance
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapseAttendance" aria-labelledby="headingthree">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/AgentAttendance/">Daily Agent Attendance</a>
-
+                                    <a class="nav-link" href="/AgentAttendance">My Attendance</a>
+                                    <a class="nav-link" href="/AgentAttendance/EmployeeAttendance">Agent Attendance</a>
                                 </nav>
-                            </div>}
+                            </div>
+                        }
                         @if (User.IsInRole(UserRoles.HR))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseUpload" aria-expanded="false" aria-controls="pagesCollapseTickets">

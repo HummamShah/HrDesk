@@ -29,6 +29,7 @@ namespace AMS.Model.Requests.AgentAttendance
 		public bool IsPresent { get; set; }
 		public bool IsLate { get; set; }
 		public bool? IsExcused { get; set; }
+		public bool? IsAbsent { get; set; }
 		public int RemainingLeaves { get; set; }
 		public int ConsecutiveLateCounter { get; set; }
 		public int DeductionInDays { get; set; }
@@ -37,8 +38,9 @@ namespace AMS.Model.Requests.AgentAttendance
 		public string TypeEnum { get; set; }
 		public double? Latitude { get; set; }
 		public double? Longitude { get; set; }
+        public string WorkingHours { get; set; }
 
-	}
+    }
 	public class GetListingRequest
 	{
 		private AMSEntities _dbContext = new AMSEntities();
@@ -69,12 +71,25 @@ namespace AMS.Model.Requests.AgentAttendance
 				AgentAttendance.CreatedBy = attendance.CreatedBy;
 				AgentAttendance.Date = attendance.Date;
 				AgentAttendance.EndDate = attendance.EndDate;
-				AgentAttendance.EndDateTime = attendance.EndDateTime;
 				AgentAttendance.IsLate = attendance.IsLate;
 				AgentAttendance.IsExcused = attendance.IsExcused;
 				AgentAttendance.IsPresent = attendance.IsPresent;
+				AgentAttendance.IsAbsent = attendance.IsAbsent;
 				AgentAttendance.StartDate = attendance.StartDate;
 				AgentAttendance.StartDateTime = attendance.StartDateTime;
+				if (attendance.StartDateTime.HasValue) {
+					if (attendance.EndDateTime != null)
+					{
+						AgentAttendance.EndDateTime = attendance.EndDateTime;
+					}
+					else
+					{
+						TimeSpan ts = new TimeSpan(17, 30, 0);
+						AgentAttendance.EndDateTime = attendance.StartDateTime.Value.Date + ts;
+					}
+					TimeSpan duration = AgentAttendance.EndDateTime.Value.TimeOfDay - AgentAttendance.StartDateTime.Value.TimeOfDay;
+					AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+				}
 				AgentAttendance.UpdatedAt = attendance.UpdatedAt;
 				AgentAttendance.UpdatedBy = attendance.UpdatedBy;
 				AgentAttendance.RemainingLeaves = attendance.Agent.RemainingLeaves;
