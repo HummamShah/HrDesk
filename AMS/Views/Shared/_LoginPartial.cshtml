@@ -10,8 +10,8 @@
                     <img src="~/Content/Image/userImageAvatar.jpg" style="width:24px;height:21px;border-radius:50%" /> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}-->
                     @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                 <!--</a>-->
-                <span style="color:white;">
-                    <img src="~/Content/Image/userImageAvatar.jpg" style="width:24px;height:21px;border-radius:50%" /> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
+                <span style="color:white;padding: 3px;font-size: 20px;">
+                    <img src="~/Content/Image/userImageAvatar.jpg" style="width:24px;height:20px;border-radius:50%;margin-right: 2px;" /> Hello {{UserIdentity.FirstName + " " + UserIdentity.LastName}}
                     @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                 </span>
                 <a style="color:white;" href="javascript:document.getElementById('logoutForm').submit()" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
