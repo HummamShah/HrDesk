@@ -41,19 +41,26 @@ namespace AMS.Models.Requests.AgentAttendance
                     AgentAttendance.Id = Attendance.Id;
                     AgentAttendance.Date = Attendance.Date;
                     AgentAttendance.StartDate = Attendance.StartDateTime;
+                
                     if (Attendance.StartDateTime.HasValue)
                     {
                         if (Attendance.EndDateTime != null)
                         {
                             AgentAttendance.EndDate = Attendance.EndDateTime;
+                            TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+                            AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                        }
+                        else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < new TimeSpan(17, 30, 0))
+                        {
+                            AgentAttendance.WorkingHours = "Currently Working";
                         }
                         else
                         {
                             TimeSpan ts = new TimeSpan(17, 30, 0);
                             AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + ts;
+                            TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+                            AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
                         }
-                        TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
-                        AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
                     }
                     AgentAttendance.IsLate = Attendance.IsLate;
                     AgentAttendance.IsExcused = Attendance.IsExcused;
@@ -83,7 +90,7 @@ namespace AMS.Models.Requests.AgentAttendance
         public int LateCount { get; set; }
         public List<AgentAttendanceData> AgentAttandanceList { get; set; }
         public bool IsSuccessfull { get; set; }
-        public List<String> ValidationErrors { get; set; }
+        public List<String> ValidationErrors { get; set; } = new List<string>();
 
     }
     public class AgentAttendanceData
@@ -98,6 +105,7 @@ namespace AMS.Models.Requests.AgentAttendance
         public bool IsAbsent { get; set; }
         public bool IsExcused { get; set; }
         public string WorkingHours { get; set; }
+
     }
 }
 
