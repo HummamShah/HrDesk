@@ -48,6 +48,14 @@ namespace AMS.Controllers.Api
             var result = req.RunRequest(req);
             return result;
         }
+
+        [HttpPost]
+        public object GetSummary([FromBody] GetSummaryRequest req)
+        {
+            req.UserId = User.Identity.GetUserId();
+            var result = req.RunRequest(req);
+            return result;
+        }
         //[HttpPost]
         //public object GetGraphData([FromBody] GetGraphDataRequest req) 
         //{
