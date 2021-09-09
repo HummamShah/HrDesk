@@ -8,49 +8,69 @@
 
             @*@if (User.IsInRole(UserRoles.Employee))
             {*@
-                @*<div class="col-xl-5 col-md-12 col-lg-12">
+                <div class="col-xl-5 col-md-12 col-lg-12">
                     <canvas id="bar" class="chart-bar"
                             chart-data="data" chart-labels="labels">
                         chart-series="series"
                     </canvas>
-                </div>*@
+                </div>
                 <div class="col-xl-7 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header  border-0">
-                            <h4 class="card-title">Overview During {{DateFrom | date:'MMM d, y'}} and {{DateTo | date:'MMM d, y'}}</h4>
+                            <h4 class="card-title">Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
                         </div>
                         <div class="card-body pt-0 pb-3">
                             <div class="row mb-0 pb-0">
                                 @*<div class="col-md-1 col-xl-auto text-center py-3">
-                                    <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">31</h6>
-                                    <h6 class="mb-0 mt-3">Half</h6>
-                                </div>*@
-                                <div class="col-md-1 col-xl-auto text-center py-3 ">
-                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{AgentInfo.PresentCount}}</h6>
-                                    <h6 class="mb-0 mt-3">Present</h6>
+            <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">31</h6>
+            <h6 class="mb-0 mt-3">Half</h6>
+        </div>*@
+                                <div ng-if="!Summary.AttendanceIsEmpty">
+                                    @*<div class="col-md-1 col-xl-auto text-center py-3">
+                                        <h6 class="avatar avatar-md bradius fs-20 bg-warning-transparent">{{Summary.WorkingDays}}</h6>
+                                        <h6 class="mb-0 mt-3">Working Days</h6>
+                                    </div>*@
+                                    <div class="col-md-1 col-xl-auto text-center py-3 ">
+                                        <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.PresentCount}}</h6>
+                                        <h6 class="mb-0 mt-3">On Time</h6>
+                                    </div>
+                                    <div class="col-md-1 col-xl-auto text-center py-3 ">
+                                        <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{Summary.LateCount}}</h6>
+                                        <h6 class="mb-0 mt-3">Late</h6>
+                                    </div>
+                                    <div class="col-md-1 col-xl-auto text-center py-3">
+                                        <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.ExcuseCount}}</h6>
+                                        <h6 class="mb-0 mt-3">Excused</h6>
+                                    </div>
+                                    <div class="col-md-1 col-xl-auto text-center py-3">
+                                        <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
+                                        <h6 class="mb-0 mt-3">Absent</h6>
+                                    </div>
                                 </div>
-                                <div class="col-md-1 col-xl-auto text-center py-3">
-                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{AgentInfo.AbsentCount}}</h6>
-                                    <h6 class="mb-0 mt-3">Absent</h6>
+                                <div ng-if="Summary.AttendanceIsEmpty"> There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}</div>
+                                <div style="width:15%;float:right;margin-left:5px;">
+                                    <select ng-model="selectedMonth">
+                                        <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
+                                    </select>
+                                </div>
+                                <div style="width:15%;float:right;margin-left:5px;">
+                                    <select ng-model="selectedYear">
+                                        <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-block" ng-click="GetSummary(selectedYear, selectedMonth)">GET SUMMARY</button>
                                 </div>
                                 @*<div class="col-md-1 col-xl-auto text-center py-3">
-                                    <h6 class="avatar avatar-md bradius fs-20 bg-warning-transparent">0</h6>
-                                    <h6 class="mb-0 mt-3">Working Days</h6>
-                                </div>*@
-                                <div class="col-md-1 col-xl-auto text-center py-3 ">
-                                    <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{AgentInfo.LateCount}}</h6>
-                                    <h6 class="mb-0 mt-3">Late</h6>
-                                </div>
-                                @*<div class="col-md-1 col-xl-auto text-center py-3">
-                                    <h6 class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</h6>
-                                    <h6 class="mb-0 mt-3">Holidays</h6>
-                                </div>
-                                <div class="col-md-1 col-xl-auto text-center py-3">
-                                    <h6 class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</h6>
-                                    <h6 class="mb-0 mt-3">Leaves</h6>
-                                </div>*@
+                <h6 class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</h6>
+                <h6 class="mb-0 mt-3">Holidays</h6>
+        </div>
+        <div class="col-md-1 col-xl-auto text-center py-3">
+                <h6 class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</h6>
+                <h6 class="mb-0 mt-3">Leaves</h6>
+            </div>*@
                             </div>
-                        </div>
+                            </div>
                     </div>
                 </div>
             @*}*@
