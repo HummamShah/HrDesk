@@ -26,8 +26,9 @@
 <body class="sb-nav-fixed" ng-controller="baseCtrl" ng-class="ServiceClassBinder" ng-cloak>
     <toaster-container toaster-options="{'time-out': 7000}"></toaster-container>
     <div class="loader" ng-if="TotalNumberOfServicesRunning > 0"></div>
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a href="" style="color:white">SharpTel</a>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark topnavcolor">
+
+        <h3 style="font-size: 46px;"><a href="" style="color:white">SharpTel</a></h3>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -48,8 +49,8 @@
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu font-12">
+            <nav class="sb-sidenav accordion sidenavcolor" id="sidenavAccordion">
+                <div class="sb-sidenav-menu font-12" style="margin-top : 18px;">
                     <div class="nav">
                         <a class="nav-link" href="~/Home">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -60,10 +61,15 @@
 
                         @if (User.IsInRole(UserRoles.Employee))
                         {
-                            @*<a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#profle" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#profle" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Profile
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>*@
+                            </a>
+                            <div class="collapse" id="profle" aria-labelledby="headingthree">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Profile/Index">Profile</a>
+                                </nav>
+                            </div>
                             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#attend" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Attendance
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -73,7 +79,7 @@
                                     <a class="nav-link" href="/AgentAttendance/Index">My Attendence</a>
                                 </nav>
                             </div>
-                            @*<a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Leave
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -90,7 +96,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/PayRecord/Index">Pay Record</a>
                                 </nav>
-                            </div>*@
+                            </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#marksignoff" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Mark Sign Off
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -128,7 +134,7 @@
                                 </nav>
                             </div>
                         }
-                             @if (User.IsInRole(UserRoles.HR))
+                        @if (User.IsInRole(UserRoles.HR))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseDepartment" aria-expanded="false" aria-controls="pagesCollapseTickets">
                                 Department
