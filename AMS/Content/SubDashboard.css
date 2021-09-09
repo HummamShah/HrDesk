@@ -4510,6 +4510,12 @@ input[type=button].btn-block {
     }
 }
 
+@media (max-width: 472px) {
+    .userinfo {
+        display: none;
+    }
+}
+
 @media (min-width: 1200px) {
     .navbar-expand-xl {
         flex-flow: row nowrap;
