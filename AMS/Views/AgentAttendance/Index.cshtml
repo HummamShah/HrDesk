@@ -145,27 +145,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="Agent in AttendanceList  | orderBy:Sorting.Field:Sorting.IsAscending">
+                                    <tr ng-repeat="Attendance in AttendanceList  | orderBy:Sorting.Field:Sorting.IsAscending">
                                         <td>
-                                            {{Agent.Date  | date:'MMM d, y'}}
+                                            {{Attendance.Date  | date:'MMM d, y'}}
                                         </td>
                                         <td>
-                                            <span ng-if="Agent.IsLate == true" style="color:red">Late</span>
-                                            <span ng-if="Agent.IsPresent == true" style="color:darkgreen">On Time</span>
-                                            <span ng-if="Agent.IsExcused == true" style="color:darkorange">Excused</span>
-                                            <span ng-if="Agent.IsAbsent == true" style="color:black">Absent</span>
+                                            <span ng-if="Attendance.IsLate == true" style="color:red">Late</span>
+                                            <span ng-if="Attendance.IsPresent == true" style="color:darkgreen">On Time</span>
+                                            <span ng-if="Attendance.IsExcused == true" style="color:darkorange">Excused</span>
+                                            <span ng-if="Attendance.IsAbsent == true" style="color:black">Absent</span>
                                         </td>
                                         <td>
-                                           <span ng-if="Agent.IsAbsent == false">{{Agent.StartDate | date:'hh:mm a'}}</span>
-                                           <span ng-if="Agent.IsAbsent == true">NA</span>
+                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
+                                           <span ng-if="Attendance.IsAbsent == true">NA</span>
                                         </td>                                    
                                         <td>
-                                           <span ng-if="Agent.IsAbsent == false">{{Agent.EndDate | date:'hh:mm a'}}</span>
-                                           <span ng-if="Agent.IsAbsent == true">NA</span>
+                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
+                                           <span ng-if="Attendance.IsAbsent == true">NA</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Agent.IsAbsent == false">{{Agent.WorkingHours}}</span>
-                                            <span ng-if="Agent.IsAbsent == true">NA</span>
+                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.WorkingHours}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
                                         </td>
                                     </tr>
                                 </tbody>
