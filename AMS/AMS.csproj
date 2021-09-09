@@ -209,6 +209,7 @@
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PayRecordController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CardStyle.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\Image\image003.jpg" />
     <Content Include="Content\Image\image008.jpg" />
@@ -377,6 +379,7 @@
     <Content Include="Content\js\Angular\AngularControllers\AgentAttendanceReportCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\BaseCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\DepartmentCtrl.js" />
+    <Content Include="Content\js\Angular\AngularControllers\ProfileCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\UserCtrl.js" />
     <Content Include="Content\js\Angular\app.js" />
     <Content Include="Content\js\jquery.min.js" />
@@ -497,6 +500,7 @@
     <Content Include="Views\Leave\Index.cshtml" />
     <Content Include="Views\PayRecord\Index.cshtml" />
     <Content Include="Views\AgentAttendance\EmployeeAttendance.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
