@@ -51,7 +51,7 @@ namespace AMS.Controllers.Api
         [System.Web.Http.HttpGet]
         public object GetUser([FromUri] GetUserRequest req)
         {
-
+            req.UserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);
             return result;
         }
@@ -208,7 +208,7 @@ namespace AMS.Controllers.Api
         }
 
         [System.Web.Http.HttpPost]
-        [System.Web.Http.Authorize(Roles = "SuperAdmin,HR")]
+        [System.Web.Http.Authorize(Roles = "SuperAdmin,HR,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<object> EditUser(EditUserRequest request)
         {
