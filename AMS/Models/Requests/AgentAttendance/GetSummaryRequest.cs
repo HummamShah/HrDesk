@@ -19,7 +19,7 @@ namespace AMS.Models.Requests.AgentAttendance
             try
             {
                 var id = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;
-                var Attendances = _dbContext.AgentAttendance.Where(x => x.AgentId == id).ToList();
+                var Attendances = _dbContext.AgentAttendance.Where(x => x.AgentId == id && x.IsAttendanceMarked == true).ToList();
                 if (request.Month == 1) {
                     Attendances = Attendances.Where(x => x.CreatedAt >= new DateTime(Year, Month + 1, 1) && x.CreatedAt <= new DateTime(Year, Month + 1, 28)).ToList();
                 }

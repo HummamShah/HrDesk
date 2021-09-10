@@ -23,7 +23,7 @@ namespace AMS.Models.Requests.AgentAttendance
                 response.ImageUrl = Agent.ImageUrl;
                 response.AgentAttandanceList = new List<AgentAttendanceData>();
 
-                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.UserId == request.UserId).ToList();
+                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.UserId == request.UserId && x.IsAttendanceMarked == true).OrderBy(x => x.CreatedAt).ToList();
                 if (request.DateFrom.HasValue)
                 {
                     Attendances = Attendances.Where(x => x.Date >= request.DateFrom.Value).ToList();

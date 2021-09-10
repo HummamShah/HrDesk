@@ -1,4 +1,5 @@
-﻿using AMS.Model.Model;
+﻿using AMS.Model.Enum;
+using AMS.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace AMS.Model.Request.Leave
     {
         private AMSEntities _dbContext = new AMSEntities();
         public string UserId { get; set; }
-        public int year { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
         public Object RunRequest(GetLeaveRecordRequest request)
         {
             var response = new GetLeaveHistoryResponse();
@@ -27,6 +29,10 @@ namespace AMS.Model.Request.Leave
                     leave.LeaveTo = Leave.LeaveTo;
                     leave.Status = Leave.Status;
                     leave.Type = Leave.Type;
+                    if (leave.Type.HasValue)
+                    {
+                        leave.TypeEnum = ((LeaveType)Leave.Type.Value).ToString();
+                    }
                     leave.Reason = Leave.Reason;
                     leave.AccpRejDate = Leave.AccpRejDate;
                     response.LeaveRecordList.Add(leave);
@@ -46,7 +52,7 @@ namespace AMS.Model.Request.Leave
     {
         public bool IsSuccessful { get; set; }
         public List<LeaveDetails> LeaveRecordList { get; set; }
-        public List<string> ValidationErrors { get; set; }
+        public List<string> ValidationErrors { get; set; } = new List<string>();
     }
     public class LeaveDetails
     {
@@ -58,5 +64,6 @@ namespace AMS.Model.Request.Leave
         public string Reason { get; set; }
         public DateTime? LeaveFrom { get; set; }
         public DateTime? LeaveTo{ get; set; }
+        public string TypeEnum{ get; set; }
     }
 }
