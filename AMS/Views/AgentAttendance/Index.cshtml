@@ -19,9 +19,6 @@
                 <div class="card-body pt-0 pb-0">
                     <div class="row mb-0 pb-0">
                         <div class="row mb-0 pb-0 ml-4">
-                            <div ng-if="Summary.AttendanceIsEmpty">
-                                There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}
-                            </div>
                             <div class="col-md-1 col-xl-auto text-center py-3">
                                 <select ng-model="selectedMonth">
                                     <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
@@ -34,6 +31,12 @@
                             </div>
                             <div class="col-md-1 col-xl-auto text-center py-3">
                                 <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="GetSummary(selectedYear, selectedMonth)">GET SUMMARY</button>
+                            </div>
+
+                            <div class="col-md-1 col-xl-auto text-center py-3 ml-5" ng-if="Summary.AttendanceIsEmpty">
+                                <div>
+                                    There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
