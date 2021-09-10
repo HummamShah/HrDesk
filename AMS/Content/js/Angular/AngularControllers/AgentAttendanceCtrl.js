@@ -1,5 +1,5 @@
 ﻿app.controller('AgentAttendanceCtrl',
-[
+    [
     "$scope",
     "$rootScope",
     "$timeout",
@@ -9,7 +9,7 @@
     "toaster",
 
 
-    function ($scope, $rootScope, $timeout, $q, $window, $http, toaster) {
+        function ($scope, $rootScope, $timeout, $q, $window, $http, toaster) {
         console.log("Connected to AgentAttendanceCtrl App");
 
         // ================================================== INIT INDEX (Agent) ==========================================================
@@ -80,7 +80,7 @@
             );
         }
 
-        // ================================================== GET USER ID (MARK EXCUSE) =============================================y
+        // ================================================== GET USER ID (MARK EXCUSE) ===============================================
         $scope.SaveExcusedAgent = function (Agent) {
             $scope.ExcusedAgentId = Agent.Id;
             $scope.ExcusedAgentRemarks = "";
@@ -107,7 +107,8 @@
                     if (response.status == 200) {
                         $scope.GetAllEmployeesAttendance($scope.DateFrom, $scope.DateTo);
                     }
-                });
+                }
+            );
         }
 
         $scope.SaveExcusedAgent = function (Agent) {
@@ -127,15 +128,6 @@
         $scope.selectedYear = date.getFullYear();
         $scope.months = [{ id: 0, name: "January" }, { id: 1, name: "February" }, { id: 2, name: "March" }, { id: 3, name: "April" }, { id: 4, name: "May" }, { id: 5, name: "June" }, { id: 6, name: "July" }, { id: 7, name: "August" }, { id: 8, name: "September" }, { id: 9, name: "October" }, { id: 10, name: "November" }, { id: 11, name: "December" }];
         $scope.years = ["2021"];    //["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"];
-        //Monthly Attendance Report
-        /* $scope.GetAttendanceReport = function (dateFrom, dateTo) {
-            dateFrom = $scope.GetDatePostFormat(dateFrom);
-            dateTo = $scope.GetDatePostFormat(dateTo);
-            $scope.AjaxGet("/api/ReportApi/GetAttendanceReport", { DateFrom: dateFrom, DateTo: dateTo }).then(
-            function (response) {
-                        console.log(response);
-                        $scope.AttendanceList = response.data.Data;
-                });
-        }*/
-    }
-]);
+        }
+    ]
+);

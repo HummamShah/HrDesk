@@ -1,4 +1,5 @@
 ﻿using AMS.Model.Model;
+using AMS.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace AMS.Models.Requests.User
 		public int AgentId { get; set; }
 		public string UpdatedBy { get; set; }
 		public int? DepartmentId { get; set; }
+		public string DepartmentEnum { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Address { get; set; }
@@ -50,6 +52,9 @@ namespace AMS.Models.Requests.User
 				response.LastName = Data.LastName;
 				response.SupervisorId = Data.SuperVisorId;
 				response.ImageUrl = Data.ImageUrl;
+				if (response.DepartmentId.HasValue) {
+					response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+				}
 			}
             else
             {

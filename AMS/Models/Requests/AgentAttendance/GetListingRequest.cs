@@ -52,7 +52,7 @@ namespace AMS.Model.Requests.AgentAttendance
 			var response = new GetListingResponse();
 			response.Data = new List<AgentAttendanceData>();
 			//var Companies = _dbContext.Company.Where(x=>x.BillingInformationId != null);
-			var Attendances = _dbContext.AgentAttendance.ToList();
+			var Attendances = _dbContext.AgentAttendance.Where(x => x.IsAttendanceMarked == true).OrderBy(x => x.CreatedAt).ToList();
 			if (req.DateFrom.HasValue)
 			{
 				Attendances = Attendances.Where(x => x.Date >= req.DateFrom.Value).ToList();
@@ -70,25 +70,31 @@ namespace AMS.Model.Requests.AgentAttendance
 				AgentAttendance.CreatedAt = attendance.CreatedAt;
 				AgentAttendance.CreatedBy = attendance.CreatedBy;
 				AgentAttendance.Date = attendance.Date;
-				AgentAttendance.EndDate = attendance.EndDate;
+				AgentAttendance.EndDate = attendance.EndDateTime;
 				AgentAttendance.IsLate = attendance.IsLate;
 				AgentAttendance.IsExcused = attendance.IsExcused;
 				AgentAttendance.IsPresent = attendance.IsPresent;
 				AgentAttendance.IsAbsent = attendance.IsAbsent;
-				AgentAttendance.StartDate = attendance.StartDate;
+				AgentAttendance.StartDate = attendance.StartDateTime;
 				AgentAttendance.StartDateTime = attendance.StartDateTime;
 				if (attendance.StartDateTime.HasValue) {
 					if (attendance.EndDateTime != null)
 					{
 						AgentAttendance.EndDateTime = attendance.EndDateTime;
+						TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+						AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+					}
+					else if (attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < new TimeSpan(17, 30, 0))
+					{
+						AgentAttendance.WorkingHours = "Currently Working";
 					}
 					else
 					{
 						TimeSpan ts = new TimeSpan(17, 30, 0);
 						AgentAttendance.EndDateTime = attendance.StartDateTime.Value.Date + ts;
+						TimeSpan duration = AgentAttendance.EndDateTime.Value.TimeOfDay - AgentAttendance.StartDateTime.Value.TimeOfDay;
+						AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
 					}
-					TimeSpan duration = AgentAttendance.EndDateTime.Value.TimeOfDay - AgentAttendance.StartDateTime.Value.TimeOfDay;
-					AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
 				}
 				AgentAttendance.UpdatedAt = attendance.UpdatedAt;
 				AgentAttendance.UpdatedBy = attendance.UpdatedBy;

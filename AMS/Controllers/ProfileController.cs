@@ -7,7 +7,7 @@ namespace AMS.Controllers
 {
     public class ProfileController : Controller
     {
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee, HR")]
         public ActionResult Index()
         {
             return View();
