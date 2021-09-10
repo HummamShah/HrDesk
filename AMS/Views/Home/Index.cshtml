@@ -4,18 +4,20 @@
     ViewBag.Title = "Home Page";
     
 }
-<div class="container-fluid" ng-init="initDashboard()">
+<link href="~/Content/CardStyle.css" rel="stylesheet" />
+<link href="~/Content/Clock.css" rel="stylesheet" />
+<div class="container-fluid" ng-controller="ProfileCtrl" ng-init="InitIndex()">
     <div class="clearfix">
         <h3 class="pull-left"></h3>
     </div>
     <div>
-        <div class="row">
-            
-            <img src="~/Content/Image/SharptelLogo.png" class="image-fit" />
-        </div>
+        @*<div class="row">
 
-        @if(User.IsInRole(UserRoles.Employee) || User.IsInRole(UserRoles.HR))
-         {
+            <img src="~/Content/Image/SharptelLogo.png" class="image-fit" />
+        </div>*@
+
+        @*@if (User.IsInRole(UserRoles.Employee) || User.IsInRole(UserRoles.HR))
+        {
             <div class="row">
                 <div class="col-md-4">
                     <label>First Name: {{UserInfo.FirstName}}</label>
@@ -26,37 +28,151 @@
                 <div class="col-md-4">
                     <label>Attendance Marked: {{UserInfo.IsAttendanceMarked}}</label>
                 </div>
-                
-               
-                
+
+
+
             </div>
-         }
+
+        }*@
+        
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Orders Received</h6>
+                            <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xl-3">
+                    <div class="card bg-c-green order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Orders Received</h6>
+                            <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xl-3">
+                    <div class="card bg-c-yellow order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Orders Received</h6>
+                            <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xl-3">
+                    <div class="card bg-c-pink order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Orders Received</h6>
+                            <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                
+
+
+                <div class="col-lg-4 mb-3">
+                    <div class="profile-card-4 z-depth-3">
+                        <div class="card">
+                            <div class="card-body text-center bg-primary rounded-top">
+                                <div class="user-box">
+                                    <img src="{{User.ImageUrl}}" alt="user avatar">
+                                </div>
+                                <h5 class="mb-1 text-white">{{User.FirstName}} {{User.LastName}}</h5>
+                                <h6 class="text-light">UI/UX Engineer</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group shadow-none">
+                                    <li class="list-group-item">
+                                        <div class="list-icon">
+                                            <i class="fa fa-phone-square"></i>
+                                        </div>
+                                        <div class="list-details">
+                                            <span>{{TempUser.Contact1}}</span>
+                                            <small>Mobile Number</small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="list-icon">
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <div class="list-details">
+                                            <span>{{TempUser.Email}}</span>
+                                            <small>Email Address</small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="list-icon">
+                                            <i class="fa fa-home"></i>
+                                        </div>
+                                        <div class="list-details">
+                                            <span>{{TempUser.Address}}</span>
+                                            <small>Address</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="row text-center mt-4">
+                                    <div class="col p-2">
+                                        <h4 class="mb-1 line-height-5">4</h4>
+                                        <small class="mb-0 font-weight-bold">Projects</small>
+                                    </div>
+                                    <div class="col p-2">
+                                        <h4 class="mb-1 line-height-5">60%</h4>
+                                        <small class="mb-0 font-weight-bold">Attendance</small>
+                                    </div>
+                                    <div class="col p-2">
+                                        <h4 class="mb-1 line-height-5">5</h4>
+                                        <small class="mb-0 font-weight-bold">Leaves</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
 
         @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.PreSale) || User.IsInRole(UserRoles.Lead_Sales) || User.IsInRole(UserRoles.Pmd_Feasibility))
         {
             <!--<div class="jumbotron">
-            <div class="row">
-                <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
-                    <div class="panel hvr-glow">
-                        <div class="panel-heading crd-heading-bg-color">
-                            <h3 class="panel-title text-uppercase">
-                                <b>Leads</b><span class="float-right" style="padding-right:0px!important;">({{UserReportData.TotalLeadsData.TotalCountOfLeads}})</span>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div col-4>
-                                Open<span class="label text-capitalize float-right Open Badge-Width">{{UserReportData.TotalLeadsData.TotalOpenLeads}}</span>
-                            </div>
-                            <div col-4>
-                                Complete<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCompletedLeads}}</span>
-                            </div>
-                            <div col-4>
-                                Cancelled<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCancelledLeads}}</span>
-                            </div>
-                        </div>
-                        <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+                <div class="panel hvr-glow">
+                    <div class="panel-heading crd-heading-bg-color">
+                        <h3 class="panel-title text-uppercase">
+                            <b>Leads</b><span class="float-right" style="padding-right:0px!important;">({{UserReportData.TotalLeadsData.TotalCountOfLeads}})</span>
+                        </h3>
                     </div>
-                </div>-->
+                    <div class="panel-body">
+                        <div col-4>
+                            Open<span class="label text-capitalize float-right Open Badge-Width">{{UserReportData.TotalLeadsData.TotalOpenLeads}}</span>
+                        </div>
+                        <div col-4>
+                            Complete<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCompletedLeads}}</span>
+                        </div>
+                        <div col-4>
+                            Cancelled<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCancelledLeads}}</span>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+                </div>
+            </div>-->
             @*Card 2*@
             <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
             <div class="panel hvr-glow">
@@ -193,28 +309,28 @@
         @if (User.IsInRole(UserRoles.Accounts))
         {
             <!--<div class="jumbotron">
-            <div class="row">
-                <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
-                    <div class="panel hvr-glow">
-                        <div class="panel-heading crd-heading-bg-color">
-                            <h3 class="panel-title text-uppercase">
-                                <b>Invoice</b><span class="float-right" style="padding-right:0px!important;">({{UserReportData.TotalLeadsData.TotalCountOfLeads}})</span>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div col-4>
-                                Pending<span class="label text-capitalize float-right Open Badge-Width">{{UserReportData.TotalLeadsData.TotalOpenLeads}}</span>
-                            </div>
-                            <div col-4>
-                                Complete<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCompletedLeads}}</span>
-                            </div>
-                            <div col-4>
-                                Reversed<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCancelledLeads}}</span>
-                            </div>
-                        </div>
-                        <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+                <div class="panel hvr-glow">
+                    <div class="panel-heading crd-heading-bg-color">
+                        <h3 class="panel-title text-uppercase">
+                            <b>Invoice</b><span class="float-right" style="padding-right:0px!important;">({{UserReportData.TotalLeadsData.TotalCountOfLeads}})</span>
+                        </h3>
                     </div>
-                </div>-->
+                    <div class="panel-body">
+                        <div col-4>
+                            Pending<span class="label text-capitalize float-right Open Badge-Width">{{UserReportData.TotalLeadsData.TotalOpenLeads}}</span>
+                        </div>
+                        <div col-4>
+                            Complete<span class="label label-success text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCompletedLeads}}</span>
+                        </div>
+                        <div col-4>
+                            Reversed<span class="label label-danger text-capitalize float-right Badge-Width">{{UserReportData.TotalLeadsData.TotalCancelledLeads}}</span>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
+                </div>
+            </div>-->
             @*Card 2*@
             <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
             <div class="panel hvr-glow">

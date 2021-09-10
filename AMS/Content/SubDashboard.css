@@ -11,6 +11,8 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+
+
 :root {
     --blue: #007bff;
     --indigo: #6610f2;
@@ -10717,6 +10719,12 @@ body {
         .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
             overflow-y: auto;
         }
+
+.sb-sidenav-menu a {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+}
 
 .topnavcolor {
     background: linear-gradient(180deg,#007bff,#1a528e);
