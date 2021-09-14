@@ -19,26 +19,40 @@ namespace AMS.Model.Request.Leave
             var response = new GetLeaveHistoryResponse();
             try
             {
-                var LeaveRecord = _dbContext.Leaves.Where(x => x.Agent.UserId == request.UserId).ToList();
-                response.LeaveRecordList = new List<LeaveDetails>();
-                foreach (var Leave in LeaveRecord) {
-                    var leave = new LeaveDetails();
-                    leave.Id = Leave.Id;
-                    leave.ApplyDate = Leave.ApplyDate;
-                    leave.LeaveFrom = Leave.LeaveFrom;
-                    leave.LeaveTo = Leave.LeaveTo;
-                    leave.Status = Leave.Status;
-                    leave.Type = Leave.Type;
-                    if (leave.Type.HasValue)
-                    {
-                        leave.TypeEnum = ((LeaveType)Leave.Type.Value).ToString();
-                    }
-                    leave.Reason = Leave.Reason;
-                    leave.AccpRejDate = Leave.AccpRejDate;
-                    response.LeaveRecordList.Add(leave);
-                }
+                var id = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;
+                var AgentLeave = _dbContext.Leaves.Where(x => x.AgentId == id).FirstOrDefault();
+                
+                if (AgentLeave != null)
+                {
+                    response.LeaveRecordList = new List<LeaveDetails>();
+                    var LeaveId = AgentLeave.Id;
+                    var LeaveRecord = _dbContext.LeaveDates.Where(x => x.LeaveId == LeaveId && x.Dates.Value.Month == request.Month && x.Dates.Value.Year == request.Year).ToList();
 
-                response.IsSuccessful = true;
+                    
+                    foreach (var Leave in LeaveRecord)
+                    {
+                        var leave = new LeaveDetails();
+                        leave.Id = Leave.Id;
+                        leave.ApplyDate = Leave.Leaves.ApplyDate;
+                        //leave.LeaveFrom = Leave.Leaves.LeaveFrom;
+                        //leave.LeaveTo = Leave.Leaves.LeaveTo;
+                        leave.LeaveDate = Leave.Dates;
+                        leave.Status = Leave.Leaves.Status;
+                        leave.Type = Leave.Leaves.Type;
+                        if (leave.Type.HasValue)
+                        {
+                            leave.TypeEnum = ((LeaveType)Leave.Leaves.Type.Value).ToString();
+                        }
+                        leave.Reason = Leave.Leaves.Reason;
+                        leave.AccpRejDate = Leave.Leaves.AccpRejDate;
+                        response.LeaveRecordList.Add(leave);
+                    }
+
+                    response.IsSuccessful = true;
+                }
+                else {
+                    response.IsSuccessful = false;
+                }
             }
             catch (Exception e)
             {
@@ -62,8 +76,9 @@ namespace AMS.Model.Request.Leave
         public int? Type { get; set; }
         public int? Status { get; set; }
         public string Reason { get; set; }
-        public DateTime? LeaveFrom { get; set; }
-        public DateTime? LeaveTo{ get; set; }
+        //public DateTime? LeaveFrom { get; set; }
+        //public DateTime? LeaveTo{ get; set; }
+        public DateTime? LeaveDate { get; set; }
         public string TypeEnum{ get; set; }
     }
 }

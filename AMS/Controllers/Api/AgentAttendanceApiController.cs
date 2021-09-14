@@ -50,7 +50,7 @@ namespace AMS.Controllers.Api
         }
 
         [HttpPost]
-        public object GetSummary([FromBody] GetSummaryRequest req)
+        public object GetSummary([FromBody] GetAttendanceSummaryRequest req)
         {
             req.UserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);

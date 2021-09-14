@@ -70,5 +70,6 @@
     <Build Include="dbo\Tables\Department.sql" />
     <Build Include="dbo\Tables\Leaves.sql" />
     <Build Include="dbo\Tables\Pay.sql" />
+    <Build Include="dbo\Tables\LeaveDates.sql" />
   </ItemGroup>
 </Project>

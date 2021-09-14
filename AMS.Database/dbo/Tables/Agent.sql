@@ -24,6 +24,8 @@
 	[DeductionInDays] INT NOT NULL DEFAULT 0, 
     [ConsecutiveLateCounter] INT NOT NULL DEFAULT 0, 
     [RemainingLeaves] INT NOT NULL DEFAULT 30,
+	[AnnualLeaves] INT NOT NULL DEFAULT 20,
+	[MedicalLeaves] INT NOT NULL DEFAULT 10,
 	[FirstInterviewBy] nvarchar(max),
 	[SecondInterviewBy] nvarchar(max),
 	[ApprovedBy] nvarchar(max),

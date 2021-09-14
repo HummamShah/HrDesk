@@ -14,6 +14,12 @@ namespace AMS.Model.Model
     
     public partial class Leaves
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Leaves()
+        {
+            this.LeaveDates = new HashSet<LeaveDates>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> AgentId { get; set; }
         public Nullable<System.DateTime> ApplyDate { get; set; }
@@ -23,6 +29,9 @@ namespace AMS.Model.Model
         public Nullable<int> Status { get; set; }
         public Nullable<int> Type { get; set; }
         public string Reason { get; set; }
+    
         public virtual Agent Agent { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaveDates> LeaveDates { get; set; }
     }
 }

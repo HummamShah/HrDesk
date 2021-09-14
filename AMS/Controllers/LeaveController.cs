@@ -18,5 +18,11 @@ namespace AMS.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles = "HR")]
+        public ActionResult Requests()
+        {
+            return View();
+        }
     }
 }

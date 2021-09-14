@@ -1,4 +1,5 @@
 ﻿using AMS.Model.Request.Leave;
+using AMS.Models.Requests.Leave;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,13 @@ namespace AMS.Controllers.Api
         }
         [HttpPost]
         public object ApplyLeave([FromBody] ApplyLeaveRequest req)
+        {
+            req.UserId = User.Identity.GetUserId();
+            var result = req.RunRequest(req);
+            return result;
+        }
+        [HttpPost]
+        public object GetSummary([FromBody] GetLeaveSummaryRequest req)
         {
             req.UserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);

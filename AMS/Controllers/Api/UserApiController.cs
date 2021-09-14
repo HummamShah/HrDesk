@@ -285,5 +285,20 @@ namespace AMS.Controllers.Api
 
         }
 
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Authorize(Roles = "SuperAdmin,HR,Employee")]
+        [ValidateAntiForgeryToken]
+        public async Task<object> EditUserByUser(EditUserRequest request)
+        {
+            var response = new EditUserResponse();
+
+            var AgentData = db.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
+            AgentData.Address = request.Address;
+            AgentData.Contact1 = request.Contact1;
+            AgentData.Contact2 = request.Contact2;
+            AgentData.ImageUrl = request.ImageUrl;
+            db.SaveChanges();
+            return response;
+        }
     }
 }

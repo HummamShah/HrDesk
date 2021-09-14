@@ -6,16 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 namespace AMS.Models.Requests.AgentAttendance
 {
-    public class GetSummaryRequest  
+    public class GetAttendanceSummaryRequest  
     {
 
         private AMSEntities _dbContext = new AMSEntities();
         public string UserId{ get; set; }
         public int Month{ get; set; }
         public int Year{ get; set; }
-        public Object RunRequest(GetSummaryRequest request)
+        public Object RunRequest(GetAttendanceSummaryRequest request)
         {
-            var response = new GetSummaryResponse();
+            var response = new GetAttendanceSummaryResponse();
             try
             {
                 var id = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;
@@ -51,7 +51,7 @@ namespace AMS.Models.Requests.AgentAttendance
             return response;
         }
     }
-    public class GetSummaryResponse
+    public class GetAttendanceSummaryResponse
     {
         public int PresentCount { get; set; }
         public int AbsentCount { get; set; }

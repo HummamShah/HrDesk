@@ -6,6 +6,45 @@
 
 <div class="container-fluid" ng-controller="LeaveCtrl" ng-init="initIndex()">
     <div class="row" style="margin-top: 20px;">
+
+        @*<div class="col-xl-5 col-md-12 col-lg-12">
+                <canvas id="bar" class="chart-bar"
+                        chart-data="data" chart-labels="labels">
+                    chart-series="series"
+                </canvas>
+            </div>*@
+        <div class="col-xl-5 col-md-12 col-lg-auto">
+            <div>
+                <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#applyleaves">APPLY LEAVE</button>
+            </div>
+            <div class="card">
+                <div class="card-header  border-0">
+                    <h4 class="card-title">Summary for Leaves</h4>
+                </div>
+                <div class="card-body pt-0 pb-0">
+                    <div class="row mb-0 pb-0">
+                        <div class="row mb-0 pb-0 ml-4">
+                        </div>
+                        <div class="row mb-0 pb-0 ml-5">
+                            <div style="color: chartreuse" class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{UserIdentity.RemainingLeaves}}</h6>
+                                <h6 class="mb-0 mt-3">Total Remaining Leaves</h6>
+                            </div>
+                            <div style="color: red" class="col-md-1 col-xl-auto text-center py-3 ">
+                                <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{UserIdentity.AnnualLeaves}}</h6>
+                                <h6 class="mb-0 mt-3">Annual Leaves Left</h6>
+                            </div>
+                            <div style="color: blueviolet" class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{UserIdentity.MedicalLeaves}}</h6>
+                                <h6 class="mb-0 mt-3">Medical Leaves Left</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
         @*<div class="col-xl-5 col-md-12 col-lg-12 barmt">
                 <canvas id="bar" class="chart-bar"
                         chart-data="data" chart-labels="labels">
@@ -14,38 +53,23 @@
             </div>*@
         <div class="col-xl-7 col-md-12 col-lg-12">
             <div class="card">
-                <div>
-                    <button class="btn btn-primary btn-block" ng-click="SaveExcusedAgent(Agent)" data-toggle="modal" data-target="#applyleaves">APPLY LEAVE</button>
-                </div>
                 <div class="card-header  border-0">
                     <h4 class="card-title">Leaves Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
                 </div>
                 <div class="card-body pt-0 pb-3">
                     <div class="row mb-0 pb-0">
-                        <div ng-if="!Summary.AttendanceIsEmpty">
+                        <div ng-if="!Summary.LeaveIsEmpty">
                             <div class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">31</h6>
-                                <h6 class="mb-0 mt-3"></h6>
+                                <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">{{Summary.AnnualLeaves}}</h6>
+                                <h6 class="mb-0 mt-3">Annual Leaves</h6>
                             </div>
                             <div class="col-md-1 col-xl-auto text-center py-3 ">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">24</h6>
-                                <h6 class="mb-0 mt-3"></h6>
-                            </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">2</h6>
-                                <h6 class="mb-0 mt-3"></h6>
-                            </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-warning-transparent">0</h6>
-                                <h6 class="mb-0 mt-3"></h6>
-                            </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3 ">
-                                <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">2</h6>
-                                <h6 class="mb-0 mt-3"></h6>
+                                <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.MedicalLeaves}}</h6>
+                                <h6 class="mb-0 mt-3">Medical Leaves</h6>
                             </div>
                         </div>
-                        <div ng-if="Summary.AttendanceIsEmpty">
-                            There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}
+                        <div ng-if="Summary.LeaveIsEmpty">
+                            You don't have any leaves for {{months[searchedMonth].name}}' {{selectedYear}}
                         </div>
                         <div style="width:15%;float:right;margin-left:5px;">
                             <select ng-model="selectedMonth">
@@ -58,7 +82,7 @@
                             </select>
                         </div>
                         <div>
-                            <button class="btn btn-primary btn-block" ng-click="GetSummary(selectedYear, selectedMonth)">GET SUMMARY</button>
+                            <button class="btn btn-primary btn-block" ng-click="getLeaveSummary(selectedYear, selectedMonth)">GET</button>
                         </div>
                     </div>
                 </div>
@@ -77,10 +101,7 @@
                             <thead>
                                 <tr style="overflow:hidden;">
                                     <th>
-                                        From <a href="" class="sort-icon" ng-click="SetSortingColoumn('From')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
-                                    </th>
-                                    <th>
-                                        To <a href="" class="sort-icon" ng-click="SetSortingColoumn('To')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        Date <a href="" class="sort-icon" ng-click="SetSortingColoumn('From')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
                                     </th>
                                     <th>
                                         Status <a href="" class="sort-icon" ng-click="SetSortingColoumn('Status')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
@@ -102,20 +123,20 @@
                             <tbody>
                                 <tr ng-repeat="Leave in LeavesList| orderBy:Sorting.Field:Sorting.IsAscending">
                                     <td>
-                                        {{Leave.LeaveFrom}}
+                                        {{Leave.LeaveDate | date:'MMM d, y'}}
                                     </td>
                                     <td>
-                                        {{Leave.LeaveTo}}
+                                        <span ng-if="Leave.Status == 0" style="color: blueviolet">Pending</span>
+                                        <span ng-if="Leave.Status == 1" style="color: chartreuse">Accepted</span>
+                                        <span ng-if="Leave.Status == 2" style="color:red">Rejected</span>
                                     </td>
                                     <td>
-                                        {{Leave.Status}}
+                                        {{Leave.ApplyDate | date:'MMM d, y'}}
                                     </td>
                                     <td>
-                                        {{Leave.ApplyDate}}
-                                    </td>
-                                    <td>
-                                        {{Leave.AccpRejDate}}
-                                    </td>
+                                        <span ng-if="Leave.Status == 0" style="color: grey">waiting for a response</span>
+                                        <span ng-if="Leave.Status != 0" style="color: grey">{{Leave.AccpRejDate | date:'MMM d, y'}}</span>
+</td>
                                     <td>
                                         {{Leave.TypeEnum}}
                                     </td>
@@ -144,96 +165,37 @@
                 <div class="modal-body">
                     <div class="leave-types">
                         <div class="form-group">
-                            <label class="form-label">Leaves Dates</label>
-                            <select name="projects" class="form-control custom-select select2" id="daterange-categories">
-                                <option value="single">Single Leave</option>
-                                <option value="multiple">Multiple Leaves</option>
+                            <label class="form-label">Leave Days</label>
+                            <select class="form-control custom-select select2" ng-model="Leave.singleMultiple">
+                                <option value="single">Single Day</option>
+                                <option value="multiple">Multiple Days</option>
                             </select>
                         </div>
-                        <div class="leave-content active" id="single">
-                            <div class="form-group">
-                                <label class="form-label">Date Range:</label>
-                                <div class="input-group">
-                                    <input type="date" name="singledaterange" class="form-control" placeholder="select dates" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <i class="bx bx-calendar"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="leave-content" id="multiple">
-                            <div class="form-group">
-                                <label class="form-label">Date Range:</label>
-                                <div class="input-group">
-                                    <input type="date" name="daterange" class="form-control" placeholder="select dates" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <i class="bx bx-calendar"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <label class="form-label" ng-if="Leave.singleMultiple == 'single'">Choose Date:</label>
+                        <label class="form-label" ng-if="Leave.singleMultiple == 'multiple'">From:</label>
+                        <input type="date" class="form-control" ng-model="Leave.LeaveFrom" />
+                        <label class="form-label" ng-if="Leave.singleMultiple == 'multiple'">To:</label>
+                        <input type="date" class="form-control" ng-if="Leave.singleMultiple == 'multiple'" ng-model="Leave.LeaveTo" />
                         <div class="form-group">
-                            <label class="form-label">Leaves Types</label>
-                            <select name="projects" class="form-control custom-select select2" data-placeholder="Select">
-                                <option label="select"></option>
-                                <option value="1">Half Day Leave</option>
-                                <option value="2">Casual Leaves</option>
-                                <option value="3">Sick Leaves</option>
-                                <option value="4">Maternity Leaves</option>
-                                <option value="5">Paternity Leaves</option>
-                                <option value="6">Annual Leaves</option>
-                                <option value="6">Unpaid Leaves</option>
-                                <option value="8">Other Leaves</option>
+                            <label class="form-label">Type</label>
+                            <select class="form-control custom-select select2" ng-model="Leave.Type">
+                                <option ng-selected="Leave.Type == 0" value="0">Annual Leave</option>
+                                <option value="1">Medical Leave</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Reason:</label>
-                            <textarea class="form-control" rows="5">Some text here...</textarea>
+                            <textarea class="form-control" rows="5" ng-model="Leave.Reason">(optional)</textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="">
-                        <label class="mb-0 font-weight-semibold">Selected Days:</label>
-                        <span class="badge badge-danger badge-pill ml-2">2</span>
-                    </div>
                     <div class="ml-auto">
                         <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
-                        <a href="#" class="btn btn-primary">Submit</a>
+                        <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" data-dismiss="modal" ng-click="applyLeave()">Apply</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@*<div id="applyLeaveModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    Apply Leave
-                </h4>
-            </div>
-            <div>
-                <label class=""> Remarks </label>
-                <input class="" type="text" ng-model="ExcusedAgentRemarks" />
-            </div>
-            <div class="modal-body">
-                <h5 class="text-center">Are you sure?</h5>
-            </div>
-            <div class="modal-footer">
-                <div class="btn btn-danger" data-dismiss="modal">
-                    No
-                </div>
-                <div class="btn btn-success" ng-click="MarkExcused(ExcusedAgentId, ExcusedAgentRemarks)" data-dismiss="modal">
-                    Yes
-                </div>
-            </div>
-        </div>
-    </div>
-</div>*@
