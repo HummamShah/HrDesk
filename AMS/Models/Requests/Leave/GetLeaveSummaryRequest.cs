@@ -25,8 +25,10 @@ namespace AMS.Models.Requests.Leave
                     LeaveDates = LeaveDates.Where(x => x.Dates.Value.Month == request.Month + 1 && x.Dates.Value.Year == request.Year).ToList();
                     if (LeaveDates.Count != 0)
                     {
-                        response.AnnualLeaves = LeaveDates.Where(x => x.Leaves.Type == 0).Count();
-                        response.MedicalLeaves = LeaveDates.Where(x => x.Leaves.Type == 1).Count();
+                        response.PendingAnnualLeaves = LeaveDates.Where(x => x.Leaves.Type == 0 && x.Leaves.Status == 0).Count();
+                        response.AcceptedAnnualLeaves = LeaveDates.Where(x => x.Leaves.Type == 0 && x.Leaves.Status == 1).Count();
+                        response.PendingMedicalLeaves = LeaveDates.Where(x => x.Leaves.Type == 1 && x.Leaves.Status == 0).Count();
+                        response.AcceptedMedicalLeaves = LeaveDates.Where(x => x.Leaves.Type == 1 && x.Leaves.Status == 1).Count();
                         response.IsSuccessful = true;
                         response.LeaveRecordList = new List<LeaveDetails>();
                         foreach(var leave in LeaveDates) 
@@ -68,8 +70,10 @@ namespace AMS.Models.Requests.Leave
     public class GetLeaveSummaryResponse
     {
         public int RemainingLeaves { get; set; }
-        public int AnnualLeaves { get; set; }
-        public int MedicalLeaves { get; set; }
+        public int PendingAnnualLeaves { get; set; }
+        public int AcceptedAnnualLeaves { get; set; }
+        public int PendingMedicalLeaves { get; set; }
+        public int AcceptedMedicalLeaves { get; set; }
         public bool IsSuccessful { get; set; }
         public bool LeaveIsEmpty { get; set; }
         public List<LeaveDetails> LeaveRecordList { get; set; }

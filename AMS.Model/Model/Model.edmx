@@ -156,6 +156,7 @@
           <Property Name="Status" Type="int" />
           <Property Name="Type" Type="int" />
           <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="DaysCount" Type="int" />
         </EntityType>
         <EntityType Name="Pay">
           <Key>
@@ -621,6 +622,7 @@
           <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Leaves" ToRole="Agent" />
           <NavigationProperty Name="LeaveDates" Relationship="AMSModel.FK_LeaveDates_Leaves" FromRole="Leaves" ToRole="LeaveDates" />
+          <Property Name="DaysCount" Type="Int32" />
         </EntityType>
         <Association Name="FK_Leaves_Agent">
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
@@ -824,6 +826,7 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="AMSModel.Leaves">
               <MappingFragment StoreEntitySet="Leaves">
+                <ScalarProperty Name="DaysCount" ColumnName="DaysCount" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

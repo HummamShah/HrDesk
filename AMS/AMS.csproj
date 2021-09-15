@@ -238,9 +238,12 @@
     <Compile Include="Models\Requests\Hiring\AddHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\EditHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\GetHiringRequest.cs" />
+    <Compile Include="Models\Requests\Leave\AccpetLeaveRequest.cs" />
     <Compile Include="Models\Requests\Leave\ApplyLeaveRequest.cs" />
     <Compile Include="Models\Requests\Leave\GetLeaveRecordRequest.cs" />
     <Compile Include="Models\Requests\Leave\GetLeaveSummaryRequest.cs" />
+    <Compile Include="Models\Requests\Leave\GetPendingLeavesRequest.cs" />
+    <Compile Include="Models\Requests\Leave\RejectLeaveRequest.cs" />
     <Compile Include="Models\Requests\Pay\AddPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Pay\GetPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />

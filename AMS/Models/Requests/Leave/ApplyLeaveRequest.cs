@@ -49,11 +49,11 @@ namespace AMS.Model.Request.Leave
                 }
                 else if (request.Type == 0 && AnnualLeaves < allDates.Count) 
                 {
-                    response.ValidationErrors.Add("You have only " + AnnualLeaves + " annual leaves left");
+                    response.ValidationErrors.Add("You applied for " + allDates.Count + " days but you have only " + AnnualLeaves + " annual leaves left");
                 }
                 else if (request.Type == 1 && MedicalLeaves < allDates.Count)
                 {
-                    response.ValidationErrors.Add("You have only " + MedicalLeaves + " medical leaves left");
+                    response.ValidationErrors.Add("You applied for " + allDates.Count + " days but you have only " + MedicalLeaves + " medical leaves left");
                 }
                 else {
                     Leave.AgentId = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;
@@ -70,6 +70,7 @@ namespace AMS.Model.Request.Leave
                     Leave.Reason = request.Reason;
                     Leave.Type = request.Type;
                     Leave.Status = 0;
+                    Leave.DaysCount = allDates.Count;
                     _dbContext.Leaves.Add(Leave);
                     _dbContext.SaveChanges();
 

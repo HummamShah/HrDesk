@@ -8,17 +8,12 @@ namespace AMS.Controllers
 {
     public class LeaveController : Controller
     {
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee , HR")]
         public ActionResult Index()
         {
             return View();
         }
-        [Authorize(Roles = "Employee")]
-        public ActionResult Apply()
-        {
-            return View();
-        }
-
+ 
         [Authorize(Roles = "HR")]
         public ActionResult Requests()
         {

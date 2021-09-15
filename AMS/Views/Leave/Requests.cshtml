@@ -4,5 +4,99 @@
     Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
 }
 
-<h2>Requests</h2>
-
+<div class="container-fluid" ng-controller="LeaveCtrl" ng-init="getPendingLeaves()">
+    
+    <div class="row">
+        <div class="col-xl-12 col-md-12 col-lg-12">
+            <div class="card" style="margin-top: 10px;">
+                <div class="card-header  border-0">
+                    <h4 class="card-title">Requested Leaves By Employees</h4>
+                </div>
+                <div  ng-if="PendingLeavesList.length == 0">
+                    There are no leave requests
+                </div>
+                <div ng-if="PendingLeavesList.length != 0" class="card-body">
+                    <div class="row">
+                        <table class="table table-bordered table-responsive-xs" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="overflow:hidden;">
+                                    <th>
+                                        Agent Name <a href="" class="sort-icon" ng-click="SetSortingColoumn('From')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Status <a href="" class="sort-icon" ng-click="SetSortingColoumn('Status')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Apply Date <a href="" class="sort-icon" ng-click="SetSortingColoumn('Apply Date')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Type <a href="" class="sort-icon" ng-click="SetSortingColoumn('Accepted/Rejected Date')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        From <a href="" class="sort-icon" ng-click="SetSortingColoumn('Type')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        To <a href="" class="sort-icon" ng-click="SetSortingColoumn('Type')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Reason <a href="" class="sort-icon" ng-click="SetSortingColoumn('Reason')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Total Days <a href="" class="sort-icon" ng-click="SetSortingColoumn('Reason')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Total Leaves Left<a href="" class="sort-icon" ng-click="SetSortingColoumn('Reason')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Specific Leaves Left<a href="" class="sort-icon" ng-click="SetSortingColoumn('Reason')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                    <th>
+                                        Accept/Reject <a href="" class="sort-icon" ng-click="SetSortingColoumn('Reason')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Leave in PendingLeavesList| orderBy:Sorting.Field:Sorting.IsAscending">
+                                    <td>
+                                        {{Leave.AgentName}}
+                                    </td>
+                                    <td>
+                                        <span ng-if="Leave.Status == 0" style="color: blueviolet">Pending</span>
+                                    </td>
+                                    <td>
+                                        {{Leave.ApplyDate | date:'MMM d, y'}}
+                                    </td>
+                                    <td>
+                                        {{Leave.TypeEnum}}
+                                    </td>
+                                    <td>
+                                        {{Leave.LeaveFrom | date:'MMM d, y'}}
+                                    </td>
+                                    <td>
+                                        {{Leave.LeaveTo | date:'MMM d, y'}}
+                                    </td>
+                                    <td>
+                                        {{Leave.Reason}}
+                                    </td>
+                                    <td>
+                                        {{Leave.DaysCount}}
+                                    </td>
+                                    <td>
+                                        {{Leave.RemainingLeaves}}
+                                    </td>
+                                    <td>
+                                        <span ng-if="Leave.Type == 0">{{Leave.AnnualLeaves}}</span>
+                                        <span ng-if="Leave.Type == 1">{{Leave.MedicalLeaves}}</span>
+                                    </td>
+                                    <td>
+                                        <button style="color: darkgreen" ng-click="acceptLeave(Leave)">Accept</button><button style="color: red" ng-click="rejectLeave(Leave)">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

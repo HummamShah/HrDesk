@@ -32,5 +32,23 @@ namespace AMS.Controllers.Api
             var result = req.RunRequest(req);
             return result;
         }
+        [HttpGet]
+        public object GetPendingLeaves([FromUri] GetPendingLeavesRequest req)
+        {
+            var result = req.RunRequest(req);
+            return result;
+        }
+        [HttpPost]
+        public object AccpetLeave([FromBody] AcceptLeaveRequest req)
+        {
+            var result = req.RunRequest(req);
+            return result;
+        }
+        [HttpPost]
+        public object RejectLeave([FromBody] RejectLeaveRequest req)
+        {
+            var result = req.RunRequest(req);
+            return result;
+        }
     }
 }
