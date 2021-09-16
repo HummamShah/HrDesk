@@ -19,12 +19,12 @@ namespace AMS.Controllers.Api
             return result;
         }
         [HttpGet]
-        public object GetAgentAttendance([FromUri] GetAgentAttendanceRequest req)
-        {
-            req.UserId = User.Identity.GetUserId();
-            var result = req.RunRequest(req);
-            return result;
-        }
+        //public object GetAgentAttendance([FromUri] GetAgentAttendanceRequest req)
+        //{
+        //    req.UserId = User.Identity.GetUserId();
+        //    var result = req.RunRequest(req);
+        //    return result;
+        //}
 
         [HttpPost]
         public object AddAgentAttendance([FromBody] AddAgentAttendanceRequest req)  

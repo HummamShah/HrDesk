@@ -10,12 +10,9 @@
         "toaster",
         function ($scope, $rootScope, $timeout, $q, $window, $http, Upload, toaster) {
             console.log("Connected to User App");
-            //$scope.TryingAjaxService = function () {
-            //    $scope.AjaxGet("/api/UserApi/GetListData", null).then(
-            //        function (response) {
-            //            console.log(response);
-            //        })
-            //}
+
+            // ====================================================== INIT INDEX ============================================================
+
             $scope.initIndex = function () {
                 /*$scope.AjaxGet("/api/UserApi/GetListData", null).then(
                     function (response) {
@@ -33,6 +30,9 @@
                 $scope.ListingOptions.Url = '/api/UserApi/GetListData';
                 $scope.InitListing();
             }
+
+            // ====================================================== ADD USER ============================================================
+
             $scope.AddUser = function (user) {
                 console.log(user);
                 /*if (user.DepartmentId == null || user.DepartmentId == 0) {
@@ -65,6 +65,10 @@
                     toaster.pop('error', "error", "Password and Confirm Password should match!");
                     return;
                 }
+                if ((user.AnnualLeaves + user.MedicalLeaves) != user.RemainingLeaves) {
+                    toaster.pop('error', "error", "The total of Annual & Medical Leaves should be equal to Remaining Leaves!");
+                    return;
+                }
 
                 //Loader need to make it generic so we could use this in a function
                 $scope.IsServiceRunning = true;
@@ -76,50 +80,60 @@
                         if (response.status == 200) {
                             if (response.data.Success) {
                                 //alert("User has been Added Successfully!");
-                                toaster.pop('success', "success", "User Add Successfully!");
+                                toaster.pop('success', "success", "User Added Successfully!");
                                 $timeout(function () { window.location.href = '/User'; }, 2000);
-                            } else {
+                            }
+                            else {
                                 angular.forEach(response.data.ValidationErrors, function (error, key) {
-                                    toaster.pop('error', "error", error);
-                                });
-
+                                    toaster.pop('error', "error", error);}
+                                );
                             }
 
                         } else {
                             toaster.pop('error', "error", "Could Not Add User!");
                         }
-                    });
-
+                    }
+                );
             }
 
+            // ====================================================== ADD ADMIN ============================================================
 
             $scope.AddAdmin = function (user) {
                 console.log(user);
-
-
                 $scope.AjaxPost("/api/UserApi/RegisterAdmin", user).then(
                     function (response) {
                         if (response.status == 200) {
-                            toaster.pop('success', "success", "Admin Add Successfully!");
+                            toaster.pop('success', "success", "Admin Added Successfully!");
                             $timeout(function () { window.location.href = '/User'; }, 2000);
                         } else {
                             toaster.pop('error', "error", "Could Not Add Admin!");
                         }
-                    });
-
+                    }
+                );
             }
-            $scope.EditUser = function (User) {
-                console.log(User);
-                $scope.AjaxPost("/api/UserApi/EditUser", User).then(
+
+            // ====================================================== EDIT USER ============================================================
+
+            $scope.EditUser = function (user) {
+                console.log(user);
+                if ((user.AnnualLeaves + user.MedicalLeaves) != user.RemainingLeaves) {
+                    toaster.pop('error', "error", "The total of Annual & Medical Leaves should be equal to Remaining Leaves!");
+                    return;
+                }
+                $scope.AjaxPost("/api/UserApi/EditUser", user).then(
                     function (response) {
                         if (response.status == 200) {
-                            toaster.pop('success', "success", "User Edit Successfully!");
+                            toaster.pop('success', "success", "User Edited Successfully!");
                             $timeout(function () { window.location.href = '/User'; }, 2000);
                         } else {
                             toaster.pop('error', "error", "Could Not Update User!");
                         }
-                    });
+                    }
+                );
             }
+
+            // ====================================================== ADD ADMIN INIT ============================================================
+
             $scope.AddAdminInit = function () {
                 $scope.Admin = {};
             }
@@ -128,8 +142,12 @@
                     function (response) {
                         console.log(response);
                         $scope.Departments = response.data.Data;
-                    });
+                    }
+                );
             }
+
+            // ====================================================== EDIT INIT ============================================================
+
             $scope.EditInit = function () {
                 $scope.User = {};
                 GetDepartments();
@@ -139,15 +157,20 @@
                         console.log(response);
                         $scope.User = response.data;
                         $scope.GetUsersByDepartmentId($scope.User.DepartmentId);
-                    });
+                    }
+                );
             }
+
+            // ====================================================== ADD INIT ============================================================
+
             $scope.AddInit = function () {
                 $scope.User = {};
                 $scope.AjaxGet("/api/DepartmentApi/GetDepartmentsDropdown", null).then(
                     function (response) {
                         console.log(response);
                         $scope.Departments = response.data.Data;
-                    });
+                    }
+                );
             }
 
             $scope.UploadUserImage = function (files, prop) {
@@ -160,7 +183,8 @@
                         } else {
 
                         }
-                    });
+                    }
+                );
             }
             $scope.UploadAdminImage = function (files, prop) {
                 $scope.GetSingleImageUploadUrl(files).then(
@@ -172,16 +196,15 @@
                         } else {
 
                         }
-                    });
+                    }
+                );
             }
 
             $scope.HiringAddInit = function () {
                 $scope.Id = $scope.GetUrlParameter("Id");
-                
             }
             $scope.AddHiring = function(user)
             {
-                
                 $scope.AjaxPost("/api/HiringApi/AddHiring", { Id: $scope.Id, User: user }).then(
                     function (response) {
                         if (response.status == 200) {
@@ -190,8 +213,9 @@
                         } else {
                             toaster.pop('error', "error", "Could Not Add Hiring Process!");
                         }
-                    });
+                    }
+                );
             }
         }
-
-    ]);
+    ]
+);

@@ -106,8 +106,11 @@ namespace AMS.Controllers
                                     Agent.ConsecutiveLateCounter++;
                                     if (Agent.ConsecutiveLateCounter % 3 == 0)
                                     {
-                                        if (Agent.RemainingLeaves > 0)
+                                        if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
+                                        {
                                             Agent.RemainingLeaves--;
+                                            Agent.AnnualLeaves--;
+                                        }
                                         else
                                             Agent.DeductionInDays++;
                                     }
@@ -143,8 +146,11 @@ namespace AMS.Controllers
                                     Agent.ConsecutiveLateCounter++;
                                     if (Agent.ConsecutiveLateCounter % 3 == 0)
                                     {
-                                        if (Agent.RemainingLeaves > 0)
+                                        if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
+                                        {
                                             Agent.RemainingLeaves--;
+                                            Agent.AnnualLeaves--;
+                                        }
                                         else
                                             Agent.DeductionInDays++;
                                     }

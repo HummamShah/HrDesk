@@ -39,6 +39,7 @@
           <Property Name="SecondInterviewBy" Type="nvarchar(max)" />
           <Property Name="ApprovedBy" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="Gender" Type="nvarchar(max)" />
           <Property Name="ApprovalImageUrl" Type="nvarchar(max)" />
           <Property Name="DocumentsImageUrl" Type="nvarchar(max)" />
           <Property Name="CompanyBelonging" Type="nvarchar(max)" />
@@ -399,6 +400,7 @@
           <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
           <Property Name="AnnualLeaves" Type="Int32" Nullable="false" />
           <Property Name="MedicalLeaves" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -691,6 +693,7 @@
           <EntitySetMapping Name="Agent">
             <EntityTypeMapping TypeName="AMSModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="MedicalLeaves" ColumnName="MedicalLeaves" />
                 <ScalarProperty Name="AnnualLeaves" ColumnName="AnnualLeaves" />
                 <ScalarProperty Name="ExitEmployeeFormImageUrl" ColumnName="ExitEmployeeFormImageUrl" />

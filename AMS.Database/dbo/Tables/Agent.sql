@@ -30,6 +30,7 @@
 	[SecondInterviewBy] nvarchar(max),
 	[ApprovedBy] nvarchar(max),
 	[Remarks] nvarchar(max),
+	[Gender] nvarchar(max),
 	[ApprovalImageUrl] nvarchar(max),
 	[DocumentsImageUrl] nvarchar(max),
 	[CompanyBelonging] nvarchar(max),

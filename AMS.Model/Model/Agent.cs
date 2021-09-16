@@ -57,6 +57,7 @@ namespace AMS.Model.Model
         public string ExitEmployeeFormImageUrl { get; set; }
         public int AnnualLeaves { get; set; }
         public int MedicalLeaves { get; set; }
+        public string Gender { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agent> Agent1 { get; set; }

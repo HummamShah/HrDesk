@@ -18,8 +18,9 @@ namespace AMS.Models.Requests.AgentAttendance
             var response = new GetAttendanceSummaryResponse();
             try
             {
-                var id = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;
-                var Attendances = _dbContext.AgentAttendance.Where(x => x.AgentId == id && x.IsAttendanceMarked == true).ToList();
+                //var id = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;
+                //var Attendances = _dbContext.AgentAttendance.Where(x => x.AgentId == id && x.IsAttendanceMarked == true).ToList();
+                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.UserId == request.UserId && x.IsAttendanceMarked == true).OrderBy(x => x.CreatedAt).ToList();
                 if (request.Month == 1) {
                     Attendances = Attendances.Where(x => x.CreatedAt >= new DateTime(Year, Month + 1, 1) && x.CreatedAt <= new DateTime(Year, Month + 1, 28)).ToList();
                 }
@@ -36,7 +37,45 @@ namespace AMS.Models.Requests.AgentAttendance
                     response.PresentCount = Attendances.Where(x => x.IsPresent == true).Count();
                     response.LateCount = Attendances.Where(x => x.IsLate == true).Count();
                     response.ExcuseCount = Attendances.Where(x => x.IsExcused == true).Count();
-                    response.IsSuccessful = true;
+
+                    // getting individual attendance details
+                    response.AgentAttandanceList = new List<AgentAttendanceData>();
+                    foreach (var Attendance in Attendances)
+                    {
+                        var AgentAttendance = new AgentAttendanceData();
+                        AgentAttendance.Id = Attendance.Id;
+                        AgentAttendance.Date = Attendance.Date;
+                        AgentAttendance.StartDate = Attendance.StartDateTime;
+
+                        if (Attendance.StartDateTime.HasValue)
+                        {
+                            if (Attendance.EndDateTime != null)
+                            {
+                                AgentAttendance.EndDate = Attendance.EndDateTime;
+                                TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+                                AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                            }
+                            else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < new TimeSpan(17, 30, 0))
+                            {
+                                AgentAttendance.WorkingHours = "Currently Working";
+                            }
+                            else
+                            {
+                                TimeSpan ts = new TimeSpan(17, 30, 0);
+                                AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + ts;
+                                TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+                                AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                            }
+                        }
+                        AgentAttendance.IsLate = Attendance.IsLate;
+                        AgentAttendance.IsExcused = Attendance.IsExcused;
+                        AgentAttendance.IsPresent = Attendance.IsPresent;
+                        AgentAttendance.IsAbsent = Attendance.IsAbsent;
+                        AgentAttendance.IsAttendanceMarked = Attendance.IsAttendanceMarked;
+
+                        response.AgentAttandanceList.Add(AgentAttendance);
+                        response.IsSuccessful = true;
+                    }
                 }
                 else {
                     response.AttendanceIsEmpty = true;
@@ -59,6 +98,20 @@ namespace AMS.Models.Requests.AgentAttendance
         public int ExcuseCount { get; set; }
         public bool IsSuccessful { get; set; }
         public bool AttendanceIsEmpty { get; set; }
+        public List<AgentAttendanceData> AgentAttandanceList { get; set; } = new List<AgentAttendanceData>();
         public List<string> ValidationErrors { get; set; } = new List<string>();
+    }
+    public class AgentAttendanceData
+    {
+        public int Id { get; set; }
+        public DateTime? Date { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public bool IsAttendanceMarked { get; set; }
+        public bool IsPresent { get; set; }
+        public bool IsLate { get; set; }
+        public bool IsAbsent { get; set; }
+        public bool IsExcused { get; set; }
+        public string WorkingHours { get; set; }
     }
 }

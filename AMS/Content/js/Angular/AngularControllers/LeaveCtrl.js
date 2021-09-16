@@ -53,14 +53,58 @@
                 );
             }
 
+            // ====================================================== GET PENDING LEAVE REQUESTS (HR) =========================================================
+            $scope.getPendingLeaves = function () {
+                $scope.AjaxGet("/api/LeaveApi/GetPendingLeaves", {}).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            $scope.PendingLeavesList = response.data.PendingLeavesList;
+                            console.log($scope.PendingLeavesList);
+                        } else {
+                            toaster.pop('error', "error", "Could Not Find Pending Leave Requests, try again!");
+                        }
+                    }
+                );
+            }
+
+            // ====================================================== ACCEPT LEAVE (HR) =========================================================
+            $scope.acceptLeave = function (Leave) {
+                $scope.AjaxPost("/api/LeaveApi/AccpetLeave", { LeaveId: Leave.Id, DaysCount: Leave.DaysCount }).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            $scope.getPendingLeaves();
+                        } else {
+                            toaster.pop('error', "error", "Could Not Proceed Accpet Leave, try again!");
+                        }
+                    }
+                );
+            }
+
+            // ====================================================== REJECT LEAVE (HR) =========================================================
+            $scope.rejectLeave = function (Leave) {
+                $scope.AjaxPost("/api/LeaveApi/RejectLeave", { LeaveId: Leave.Id }).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            $scope.getPendingLeaves();
+                        } else {
+                            toaster.pop('error', "error", "Could Not Proceed Reject Leave, try again!");
+                        }
+                    }
+                );
+            }
+
             // ===================================================== APPLY LEAVE =========================================================
             $scope.applyLeave = function () {
-                console.log($scope.Leave);
+                //console.log($scope.Leave.LeaveFrom < new Date().today);
+                //var a = new Date();
+                //console.log(a);
+                //console.log($scope.Leave);
+                
                 if ($scope.Leave.LeaveFrom == null) {
                     toaster.pop('error', "error", "Please choose date");
                     return;
                 }
-                if ($scope.Leave.LeaveFrom < new Date().today) {
+                if ($scope.Leave.LeaveFrom < new Date()) {
                     toaster.pop('error', "error", "You can't apply for passed dates");
                     return;
                 }
@@ -82,14 +126,27 @@
                     toaster.pop('error', "error", "Please choose weekdays");
                     return;
                 }
-                $scope.Leave.LeaveFrom = $scope.GetDatePostFormat($scope.Leave.LeaveFrom);
-                $scope.Leave.LeaveTo = $scope.GetDatePostFormat($scope.Leave.LeaveTo);
-                $scope.AjaxPost("/api/LeaveApi/ApplyLeave", $scope.Leave).then(
+
+                $scope.LeaveTemp = {};
+                $scope.LeaveTemp.Type = $scope.Leave.Type;
+                $scope.LeaveTemp.Reason = $scope.Leave.Reason;
+                $scope.LeaveTemp.LeaveFrom = $scope.GetDatePostFormat($scope.Leave.LeaveFrom);
+                $scope.LeaveTemp.LeaveTo = $scope.GetDatePostFormat($scope.Leave.LeaveTo);
+                //$scope.Leave.LeaveFrom = $scope.GetDatePostFormat($scope.Leave.LeaveFrom);
+                //$scope.Leave.LeaveTo = $scope.GetDatePostFormat($scope.Leave.LeaveTo);
+                $scope.AjaxPost("/api/LeaveApi/ApplyLeave", $scope.LeaveTemp).then(
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
-                            toaster.pop('success', "success", "HR will check your request soon!");
-                            $timeout(function () { window.location.href = '/Home'; }, 1000);
+                            if (response.data.IsSuccessful) {
+                                toaster.pop('success', "success", "HR will check your request soon!");
+                                $timeout(function () { window.location.href = '/Leave'; }, 2000);
+
+                            }
+                            else if (!response.data.IsSuccessful)
+                            {
+                                toaster.pop('error', "error", response.data.ValidationErrors[0]);
+                            }
                         } else {
                             toaster.pop('error', "error", "Could Not Apply Leave, TRY AGAIN!");
                         }

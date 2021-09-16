@@ -167,6 +167,10 @@ namespace AMS.Controllers.Api
                     AgentData.CreatedAt = DateTime.Now;
                     AgentData.CreatedBy = CurrentUserName;
                     AgentData.ImageUrl = model.ImageUrl;
+                    AgentData.RemainingLeaves = model.RemainingLeaves;
+                    AgentData.MedicalLeaves = model.MedicalLeaves;
+                    AgentData.AnnualLeaves = model.AnnualLeaves;
+                    AgentData.Gender = model.Gender;
                     if (model.HasSupervisor.HasValue)
                     {
                         AgentData.HasSupervisor = model.HasSupervisor;
@@ -226,6 +230,9 @@ namespace AMS.Controllers.Api
             AgentData.CreatedAt = DateTime.Now;
             AgentData.UpdatedBy = request.UpdatedBy;
             AgentData.RemainingLeaves = request.RemainingLeaves;
+            AgentData.AnnualLeaves = request.AnnualLeaves;
+            AgentData.MedicalLeaves = request.MedicalLeaves;
+            AgentData.Gender = request.Gender;
             AgentData.ImageUrl = request.ImageUrl;
             if (request.HasSupervisor.HasValue)
             {

@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AgentAttendance" Width="1.5" PointX="7.5" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AMSModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AMSModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetUsers" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.Department" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
