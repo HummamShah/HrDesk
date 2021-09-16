@@ -167,6 +167,10 @@ namespace AMS.Controllers.Api
                     AgentData.CreatedAt = DateTime.Now;
                     AgentData.CreatedBy = CurrentUserName;
                     AgentData.ImageUrl = model.ImageUrl;
+                    AgentData.RemainingLeaves = model.RemainingLeaves;
+                    AgentData.MedicalLeaves = model.MedicalLeaves;
+                    AgentData.AnnualLeaves = model.AnnualLeaves;
+                    AgentData.Gender = model.Gender;
                     if (model.HasSupervisor.HasValue)
                     {
                         AgentData.HasSupervisor = model.HasSupervisor;
@@ -226,6 +230,9 @@ namespace AMS.Controllers.Api
             AgentData.CreatedAt = DateTime.Now;
             AgentData.UpdatedBy = request.UpdatedBy;
             AgentData.RemainingLeaves = request.RemainingLeaves;
+            AgentData.AnnualLeaves = request.AnnualLeaves;
+            AgentData.MedicalLeaves = request.MedicalLeaves;
+            AgentData.Gender = request.Gender;
             AgentData.ImageUrl = request.ImageUrl;
             if (request.HasSupervisor.HasValue)
             {
@@ -285,5 +292,20 @@ namespace AMS.Controllers.Api
 
         }
 
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Authorize(Roles = "SuperAdmin,HR,Employee")]
+        [ValidateAntiForgeryToken]
+        public async Task<object> EditUserByUser(EditUserRequest request)
+        {
+            var response = new EditUserResponse();
+
+            var AgentData = db.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
+            AgentData.Address = request.Address;
+            AgentData.Contact1 = request.Contact1;
+            AgentData.Contact2 = request.Contact2;
+            AgentData.ImageUrl = request.ImageUrl;
+            db.SaveChanges();
+            return response;
+        }
     }
 }

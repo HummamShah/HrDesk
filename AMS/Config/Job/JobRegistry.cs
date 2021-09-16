@@ -12,8 +12,6 @@ namespace AMS.Config.Job
         public JobsRegistry()
         {
             Schedule<GenerateDailyAgentAttendance>().ToRunEvery(1).Days().At(10, 00);
-            
-           
         }
     }
 }

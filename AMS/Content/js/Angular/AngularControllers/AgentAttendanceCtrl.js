@@ -18,7 +18,7 @@
             var date = new Date();
             $scope.DateFrom = new Date(date.getFullYear(), date.getMonth(), 1);
             $scope.DateTo = new Date();
-            $scope.GetAgentAttendanceRecord($scope.DateFrom, $scope.DateTo);
+            //$scope.GetAgentAttendanceRecord($scope.DateFrom, $scope.DateTo);
             $scope.GetSummary($scope.selectedYear, $scope.selectedMonth,);
             $scope.searchedMonth = $scope.selectedMonth;
         }
@@ -93,6 +93,7 @@
                 function (response) {
                     if (response.status == 200) {
                         $scope.Summary = response.data;
+                        $scope.AttendanceList = response.data.AgentAttandanceList;
                         $scope.searchedMonth = $scope.selectedMonth;
                         console.log($scope.Summary);
                     }

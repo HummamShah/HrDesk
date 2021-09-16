@@ -33,10 +33,13 @@
           <Property Name="DeductionInDays" Type="int" Nullable="false" />
           <Property Name="ConsecutiveLateCounter" Type="int" Nullable="false" />
           <Property Name="RemainingLeaves" Type="int" Nullable="false" />
+          <Property Name="AnnualLeaves" Type="int" Nullable="false" />
+          <Property Name="MedicalLeaves" Type="int" Nullable="false" />
           <Property Name="FirstInterviewBy" Type="nvarchar(max)" />
           <Property Name="SecondInterviewBy" Type="nvarchar(max)" />
           <Property Name="ApprovedBy" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="Gender" Type="nvarchar(max)" />
           <Property Name="ApprovalImageUrl" Type="nvarchar(max)" />
           <Property Name="DocumentsImageUrl" Type="nvarchar(max)" />
           <Property Name="CompanyBelonging" Type="nvarchar(max)" />
@@ -133,6 +136,14 @@
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
+        <EntityType Name="LeaveDates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LeaveId" Type="int" Nullable="false" />
+          <Property Name="Dates" Type="datetime" />
+        </EntityType>
         <EntityType Name="Leaves">
           <Key>
             <PropertyRef Name="Id" />
@@ -146,6 +157,7 @@
           <Property Name="Status" Type="int" />
           <Property Name="Type" Type="int" />
           <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="DaysCount" Type="int" />
         </EntityType>
         <EntityType Name="Pay">
           <Key>
@@ -251,6 +263,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveDates_Leaves">
+          <End Role="Leaves" Type="Self.Leaves" Multiplicity="1" />
+          <End Role="LeaveDates" Type="Self.LeaveDates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leaves">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveDates">
+              <PropertyRef Name="LeaveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Leaves_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="Leaves" Type="Self.Leaves" Multiplicity="*" />
@@ -284,6 +308,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
@@ -313,6 +338,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveDates_Leaves" Association="Self.FK_LeaveDates_Leaves">
+            <End Role="Leaves" EntitySet="Leaves" />
+            <End Role="LeaveDates" EntitySet="LeaveDates" />
           </AssociationSet>
           <AssociationSet Name="FK_Leaves_Agent" Association="Self.FK_Leaves_Agent">
             <End Role="Agent" EntitySet="Agent" />
@@ -369,6 +398,9 @@
           <Property Name="ExitEmployeeFormImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
           <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
+          <Property Name="AnnualLeaves" Type="Int32" Nullable="false" />
+          <Property Name="MedicalLeaves" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -571,6 +603,11 @@
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Pay" EntitySet="Pay" />
           </AssociationSet>
+          <EntitySet Name="LeaveDates" EntityType="AMSModel.LeaveDates" />
+          <AssociationSet Name="FK_LeaveDates_Leaves" Association="AMSModel.FK_LeaveDates_Leaves">
+            <End Role="Leaves" EntitySet="Leaves" />
+            <End Role="LeaveDates" EntitySet="LeaveDates" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
           <Key>
@@ -586,6 +623,8 @@
           <Property Name="Type" Type="Int32" />
           <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Leaves" ToRole="Agent" />
+          <NavigationProperty Name="LeaveDates" Relationship="AMSModel.FK_LeaveDates_Leaves" FromRole="Leaves" ToRole="LeaveDates" />
+          <Property Name="DaysCount" Type="Int32" />
         </EntityType>
         <Association Name="FK_Leaves_Agent">
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
@@ -624,6 +663,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LeaveDates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LeaveId" Type="Int32" Nullable="false" />
+          <Property Name="Dates" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_LeaveDates_Leaves" FromRole="LeaveDates" ToRole="Leaves" />
+        </EntityType>
+        <Association Name="FK_LeaveDates_Leaves">
+          <End Type="AMSModel.Leaves" Role="Leaves" Multiplicity="1" />
+          <End Type="AMSModel.LeaveDates" Role="LeaveDates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leaves">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveDates">
+              <PropertyRef Name="LeaveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -633,6 +693,9 @@
           <EntitySetMapping Name="Agent">
             <EntityTypeMapping TypeName="AMSModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="MedicalLeaves" ColumnName="MedicalLeaves" />
+                <ScalarProperty Name="AnnualLeaves" ColumnName="AnnualLeaves" />
                 <ScalarProperty Name="ExitEmployeeFormImageUrl" ColumnName="ExitEmployeeFormImageUrl" />
                 <ScalarProperty Name="CompanyBelonging" ColumnName="CompanyBelonging" />
                 <ScalarProperty Name="DocumentsImageUrl" ColumnName="DocumentsImageUrl" />
@@ -766,6 +829,7 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="AMSModel.Leaves">
               <MappingFragment StoreEntitySet="Leaves">
+                <ScalarProperty Name="DaysCount" ColumnName="DaysCount" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -787,6 +851,15 @@
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveDates">
+            <EntityTypeMapping TypeName="AMSModel.LeaveDates">
+              <MappingFragment StoreEntitySet="LeaveDates">
+                <ScalarProperty Name="Dates" ColumnName="Dates" />
+                <ScalarProperty Name="LeaveId" ColumnName="LeaveId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

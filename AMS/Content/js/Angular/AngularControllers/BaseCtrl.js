@@ -175,7 +175,8 @@ app.controller('baseCtrl',
                         $scope.TotalRevenue = response.data.TotalRevenue; //TODO
                         $scope.ListingOptions.TotalRecords = response.data.TotalRecords;
                         $scope.ListingOptions.TotalRevenue = response.data.TotalRevenue;
-                    });
+                    }
+                );
             }
 
 

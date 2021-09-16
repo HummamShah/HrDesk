@@ -227,7 +227,7 @@
     <Compile Include="Models\Requests\AgentAttendance\AddAgentExcuseRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetAgentAttendanceRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetListingRequest.cs" />
-    <Compile Include="Models\Requests\AgentAttendance\GetSummaryRequest.cs" />
+    <Compile Include="Models\Requests\AgentAttendance\GetAttendanceSummaryRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\SignOffAttendanceRequest.cs" />
     <Compile Include="Models\Requests\Department\AddDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\EditDepartmentRequest.cs" />
@@ -238,8 +238,12 @@
     <Compile Include="Models\Requests\Hiring\AddHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\EditHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\GetHiringRequest.cs" />
+    <Compile Include="Models\Requests\Leave\AccpetLeaveRequest.cs" />
     <Compile Include="Models\Requests\Leave\ApplyLeaveRequest.cs" />
     <Compile Include="Models\Requests\Leave\GetLeaveRecordRequest.cs" />
+    <Compile Include="Models\Requests\Leave\GetLeaveSummaryRequest.cs" />
+    <Compile Include="Models\Requests\Leave\GetPendingLeavesRequest.cs" />
+    <Compile Include="Models\Requests\Leave\RejectLeaveRequest.cs" />
     <Compile Include="Models\Requests\Pay\AddPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Pay\GetPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />
@@ -510,6 +514,7 @@
     <Content Include="Views\PayRecord\Index.cshtml" />
     <Content Include="Views\AgentAttendance\EmployeeAttendance.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Leave\Requests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

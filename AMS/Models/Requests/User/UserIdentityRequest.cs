@@ -20,6 +20,9 @@ namespace AMS.Models.Requests.User
 		public string Email { get; set; }
 		public bool? HasSupervisor { get; set; }
 		public int? SupervisorId { get; set; }
+		public int RemainingLeaves { get; set; }
+		public int AnnualLeaves { get; set; }
+		public int MedicalLeaves { get; set; }
 		public string ImageUrl { get; set; }
         public List<string> Role { get; set; }
     }
@@ -40,6 +43,9 @@ namespace AMS.Models.Requests.User
 			response.LastName = Data.LastName;
 			response.ImageUrl = Data.ImageUrl;
 			response.Role = Data.AspNetUsers.AspNetRoles.Select(x => x.Name).ToList();
+			response.RemainingLeaves = Data.RemainingLeaves;
+			response.AnnualLeaves = Data.AnnualLeaves;
+			response.MedicalLeaves = Data.MedicalLeaves;
 			return response;
 		}
 	}

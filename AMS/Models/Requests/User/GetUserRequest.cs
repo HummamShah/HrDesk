@@ -23,8 +23,11 @@ namespace AMS.Models.Requests.User
 		public bool? HasSupervisor { get; set; }
 		public int? SupervisorId { get; set; }
         public string ImageUrl { get; set; }
+        public string Gender { get; set; }
+		public int? RemainingLeaves { get; set; }
+		public int? AnnualLeaves { get; set; }
+		public int? MedicalLeaves { get; set; }
 
-		
 	}
 
 	public class GetUserRequest
@@ -52,6 +55,10 @@ namespace AMS.Models.Requests.User
 				response.LastName = Data.LastName;
 				response.SupervisorId = Data.SuperVisorId;
 				response.ImageUrl = Data.ImageUrl;
+				response.RemainingLeaves = Data.RemainingLeaves;
+				response.AnnualLeaves = Data.AnnualLeaves;
+				response.MedicalLeaves = Data.MedicalLeaves;
+				response.Gender = Data.Gender;
 				if (response.DepartmentId.HasValue) {
 					response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
 				}
@@ -71,9 +78,12 @@ namespace AMS.Models.Requests.User
 				response.LastName = Data.LastName;
 				response.SupervisorId = Data.SuperVisorId;
 				response.ImageUrl = Data.ImageUrl;
-				
+				response.RemainingLeaves = Data.RemainingLeaves;
+				response.AnnualLeaves = Data.AnnualLeaves;
+				response.MedicalLeaves = Data.MedicalLeaves;
+				response.Gender = Data.Gender;
 			}
-			
+
 			return response;
 		}
 	}

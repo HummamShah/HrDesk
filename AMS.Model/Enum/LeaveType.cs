@@ -8,6 +8,6 @@ namespace AMS.Model.Enum
 {
     public enum LeaveType
     {
-        Other, Casual, Sick, Paid, Unpaid
+        Anuual, Medical
     }
 }

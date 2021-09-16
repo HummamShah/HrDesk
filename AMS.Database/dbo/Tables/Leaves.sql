@@ -9,5 +9,6 @@
 	[Status] int default(0),
 	[Type] int,
 	[Reason] nvarchar(max),
+	[DaysCount] int,
     CONSTRAINT [FK_Leaves_Agent] FOREIGN KEY (AgentId) REFERENCES [dbo].Agent([Id])
 )

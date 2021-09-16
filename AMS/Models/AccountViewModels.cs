@@ -104,8 +104,12 @@ namespace AMS.Models
         public int? DepartmentId { get; set; }
         //public string Email { get; set; }
         public string ImageUrl { get; set; }
+        public string Gender { get; set; }
         public bool? HasSupervisor { get; set; }
         public int? SupervisorId { get; set; }
+        public int RemainingLeaves { get; set; }
+        public int AnnualLeaves { get; set; }
+        public int MedicalLeaves { get; set; }
     }
     public class ResetPasswordViewModel
     {

@@ -9,7 +9,7 @@ namespace AMS.Model.Requests.AgentAttendance
 {
     public class AddAgentExcuseResponse
     {
-        public List<string> ValidationErrors { get; set; }
+        public List<string> ValidationErrors { get; set; } = new List<string>();
     }
     public class AddAgentExcuseRequest
     {
@@ -20,24 +20,34 @@ namespace AMS.Model.Requests.AgentAttendance
         public object RunRequest(AddAgentExcuseRequest req)
         {
             var response = new AddAgentExcuseResponse();
-            var AgentAttendance = _dbContext.AgentAttendance.Where(x => x.Id == req.Id).FirstOrDefault();
-
-            // undo the changes that were done at the time of login becuase of being late
-            if (AgentAttendance.Agent.ConsecutiveLateCounter % 3 == 0)
+            try
             {
-                if (AgentAttendance.Agent.DeductionInDays == 0)
-                    AgentAttendance.Agent.RemainingLeaves++;
-                else
-                    AgentAttendance.Agent.DeductionInDays--;
+                var AgentAttendance = _dbContext.AgentAttendance.Where(x => x.Id == req.Id).FirstOrDefault();
+
+                // undo the changes that were done at the time of login becuase of being late
+                if (AgentAttendance.Agent.ConsecutiveLateCounter % 3 == 0)
+                {
+                    if (AgentAttendance.Agent.DeductionInDays == 0)
+                    {
+                        AgentAttendance.Agent.RemainingLeaves++;
+                        AgentAttendance.Agent.AnnualLeaves++;
+                    }
+                    else
+                        AgentAttendance.Agent.DeductionInDays--;
+                }
+
+                AgentAttendance.IsExcused = true;
+                AgentAttendance.IsLate = false;
+                AgentAttendance.Agent.ConsecutiveLateCounter--;
+                AgentAttendance.Remarks = req.Remarks;
+
+                _dbContext.SaveChanges();
+                return response;
             }
-
-            AgentAttendance.IsExcused = true;
-            AgentAttendance.IsLate = false;
-            AgentAttendance.Agent.ConsecutiveLateCounter--;
-            AgentAttendance.Remarks = req.Remarks;
-
-            _dbContext.SaveChanges();
-            return response;
+            catch (Exception e) {
+                response.ValidationErrors.Add(e.Message);
+                return response;
+            }
         }
     }
 }

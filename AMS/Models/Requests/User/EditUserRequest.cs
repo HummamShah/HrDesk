@@ -25,7 +25,10 @@ namespace AMS.Models.Requests.User
         public bool? HasSupervisor { get; set; }
         public int? SupervisorId { get; set; }
         public int RemainingLeaves { get; set; }
+        public int MedicalLeaves { get; set; }
+        public int AnnualLeaves { get; set; }
         public string ImageUrl { get; set; }
+        public string Gender { get; set; }
 
     }
 }

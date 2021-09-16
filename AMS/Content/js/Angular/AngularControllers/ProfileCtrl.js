@@ -37,7 +37,7 @@
                     toaster.pop('error', "error", "Please Enter Primary Contact!");
                     return;
                 }
-                $scope.AjaxPost("/api/UserApi/EditUser", User).then(
+                $scope.AjaxPost("/api/UserApi/EditUserByUser", User).then(
                     function (response) {
                         if (response.status == 200) {
                             toaster.pop('success', "success", "Profile Has Been Updated Successfully!");
