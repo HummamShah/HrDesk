@@ -1,16 +1,13 @@
 ﻿using AMS.Model.Model;
 using FluentScheduler;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace AMS.Models.Jobs
 {
     public class GenerateDailyAgentAttendance : IJob
     {
         private AMSEntities _dbContext = new AMSEntities();
-        //Generate List of Agent Attendance.
         void IJob.Execute()
         {
             var today = DateTime.Today;
@@ -22,7 +19,6 @@ namespace AMS.Models.Jobs
                 {
                     foreach (var row in Agent)
                     {
-
                         var Data = new AMS.Model.Model.AgentAttendance();
                         Data.AgentId = row.Id;
                         Data.CreatedAt = DateTime.Now.AddDays(3);
@@ -31,10 +27,8 @@ namespace AMS.Models.Jobs
                         Data.IsAttendanceMarked = false;
                         Data.IsAbsent = true;
                         Data.IsLate = false;
-                        var result = _dbContext.AgentAttendance.Add(Data);
+                        _dbContext.AgentAttendance.Add(Data);
                         _dbContext.SaveChanges();
-
-
                     }
                 }
             }
@@ -46,7 +40,6 @@ namespace AMS.Models.Jobs
                 {
                     foreach (var row in Agent)
                     {
-
                         var Data = new AMS.Model.Model.AgentAttendance();
                         Data.AgentId = row.Id;
                         Data.CreatedAt = DateTime.Now.AddDays(1);
@@ -55,14 +48,40 @@ namespace AMS.Models.Jobs
                         Data.IsAttendanceMarked = false;
                         Data.IsAbsent = true;
                         Data.IsLate = false;
-                        var result = _dbContext.AgentAttendance.Add(Data);
+                        _dbContext.AgentAttendance.Add(Data);
                         _dbContext.SaveChanges();
-
-
                     }
                 }
             }
-        }
 
+            if (today.DayOfWeek != DayOfWeek.Sunday && today.DayOfWeek != DayOfWeek.Monday)
+            {
+                var yesterday = DateTime.Today.AddDays(-1);
+                var Attendance = _dbContext.AgentAttendance.Where(x => x.Date == yesterday).ToList();
+
+                // deducting leave for yesterday's absentees
+                var Absents = Attendance.Where(x => x.IsAbsent == true && x.IsAttendanceMarked == false).ToList();
+                foreach (var absentAgent in Absents)
+                {
+                    if (absentAgent.Agent.RemainingLeaves > 0 && absentAgent.Agent.AnnualLeaves > 0)
+                    {
+                        absentAgent.Agent.RemainingLeaves--;
+                        absentAgent.Agent.AnnualLeaves--;
+                        _dbContext.SaveChanges();
+                    }
+                    else
+                        absentAgent.Agent.DeductionInDays++;
+                }
+
+                // setting clock out time 5:30pm for non-marked
+                var AttEndTime = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
+                TimeSpan ts = new TimeSpan(17, 30, 0);
+                foreach (var attendance in AttEndTime)
+                {
+                    attendance.EndDateTime = attendance.StartDateTime.Value.Date + ts;
+                    _dbContext.SaveChanges();
+                }
+            }
+        }
     }
 }
