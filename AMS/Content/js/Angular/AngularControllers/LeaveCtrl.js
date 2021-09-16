@@ -126,7 +126,6 @@
                     toaster.pop('error', "error", "Please choose weekdays");
                     return;
                 }
-
                 $scope.LeaveTemp = {};
                 $scope.LeaveTemp.Type = $scope.Leave.Type;
                 $scope.LeaveTemp.Reason = $scope.Leave.Reason;
@@ -139,9 +138,8 @@
                         if (response.status == 200) {
                             console.log(response);
                             if (response.data.IsSuccessful) {
-                                toaster.pop('success', "success", "HR will check your request soon!");
+                                toaster.pop('success', "success", "HR will respond to your request soon!");
                                 $timeout(function () { window.location.href = '/Leave'; }, 2000);
-
                             }
                             else if (!response.data.IsSuccessful)
                             {
