@@ -373,7 +373,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CardStyle.css" />
     <Content Include="Content\Clock.css" />
-    <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\Image\image003.jpg" />
     <Content Include="Content\Image\image008.jpg" />
     <Content Include="Content\Image\image010.jpg" />
@@ -395,11 +394,14 @@
     <Content Include="Content\js\Angular\AngularControllers\UserCtrl.js" />
     <Content Include="Content\js\Angular\app.js" />
     <Content Include="Content\js\Clock.js" />
+    <Content Include="Content\js\daterangepicker.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\moment.min.js" />
+    <Content Include="Content\js\package.js" />
     <Content Include="Content\js\toaster.js" />
     <Content Include="Content\SubDashboard.css" />
     <Content Include="Content\toaster.css" />
+    <Content Include="Content\UiSelect2\daterangepicker.css" />
     <Content Include="Content\UiSelect2\Select.css" />
     <Content Include="Content\UiSelect2\Select.js" />
     <Content Include="favicon.ico" />

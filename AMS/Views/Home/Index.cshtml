@@ -2,10 +2,11 @@
 @using UserRoles = AMS.Models.Enums.Roles;
 @{
     ViewBag.Title = "Home Page";
-    
+
 }
 <link href="~/Content/CardStyle.css" rel="stylesheet" />
 <link href="~/Content/Clock.css" rel="stylesheet" />
+
 <div class="container-fluid" ng-controller="ProfileCtrl" ng-init="InitIndex()">
     <div class="clearfix">
         <h3 class="pull-left"></h3>
@@ -13,35 +14,35 @@
     <div>
         @*<div class="row">
 
-            <img src="~/Content/Image/SharptelLogo.png" class="image-fit" />
-        </div>*@
+                <img src="~/Content/Image/SharptelLogo.png" class="image-fit" />
+            </div>*@
 
         @*@if (User.IsInRole(UserRoles.Employee) || User.IsInRole(UserRoles.HR))
-        {
-            <div class="row">
-                <div class="col-md-4">
-                    <label>First Name: {{UserInfo.FirstName}}</label>
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>First Name: {{UserInfo.FirstName}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Last Name: {{UserInfo.LastName}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Attendance Marked: {{UserInfo.IsAttendanceMarked}}</label>
+                    </div>
+
+
+
                 </div>
-                <div class="col-md-4">
-                    <label>Last Name: {{UserInfo.LastName}}</label>
-                </div>
-                <div class="col-md-4">
-                    <label>Attendance Marked: {{UserInfo.IsAttendanceMarked}}</label>
-                </div>
 
+            }*@
 
-
-            </div>
-
-        }*@
-        
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-xl-3">
                     <div class="card bg-c-blue order-card">
                         <div class="card-block">
-                            <h6 class="m-b-20">Orders Received</h6>
+                            <h6 class="m-b-20">Present</h6>
                             <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
                             <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
                         </div>
@@ -51,7 +52,7 @@
                 <div class="col-md-4 col-xl-3">
                     <div class="card bg-c-green order-card">
                         <div class="card-block">
-                            <h6 class="m-b-20">Orders Received</h6>
+                            <h6 class="m-b-20">Leave</h6>
                             <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>486</span></h2>
                             <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
                         </div>
@@ -61,7 +62,7 @@
                 <div class="col-md-4 col-xl-3">
                     <div class="card bg-c-yellow order-card">
                         <div class="card-block">
-                            <h6 class="m-b-20">Orders Received</h6>
+                            <h6 class="m-b-20">Late</h6>
                             <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h2>
                             <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
                         </div>
@@ -78,8 +79,9 @@
                     </div>
                 </div>
             </div>
+            
+
             <div class="row">
-                
 
 
                 <div class="col-lg-4 mb-3">
@@ -141,16 +143,128 @@
                         </div>
                     </div>
                 </div>
+                <style>
+                    .clock-day:before {
+  content: var(--timer-day);
+}
+.clock-hours:before {
+  content: var(--timer-hours);
+}
+.clock-minutes:before {
+  content: var(--timer-minutes);
+}
+.clock-seconds:before {
+  content: var(--timer-seconds);
+}
+
+
+
+                    .clock-container {
+                        margin-top: 1px;
+                        margin-bottom: 248px;
+                        background-color: #547394;
+                        border-radius: 5px;
+                        padding: 60px 20px;
+                        box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.15), 0 15px 90px 30px rgba(0, 0, 0, 0.25);
+                        display: flex;
+                    }
+.clock-col {
+  text-align: center;
+  margin-right: 40px;
+  margin-left: 40px;
+  min-width: 10px;
+  position: relative;
+}
+.clock-col:not(:last-child):before, .clock-col:not(:last-child):after {
+  content: "";
+  background-color: rgba(255, 255, 255, 0.3);
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  right: -42px;
+}
+.clock-col:not(:last-child):before {
+  top: 35%;
+}
+.clock-col:not(:last-child):after {
+  top: 50%;
+}
+.clock-timer:before {
+  color: #fff;
+  font-size: 4.2rem;
+  text-transform: uppercase;
+}
+.clock-label {
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  margin-top: 10px;
+}
+
+@@media (max-width: 825px) {
+  .clock-container {
+    flex-direction: column;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .clock-col + .clock-col {
+    margin-top: 20px;
+  }
+  .clock-col:before, .clock-col:after {
+    display: none !important;
+  }
+}
+                </style>
+                <div class="clock-container">
+                    <div class="clock-col">
+                        <p class="clock-day clock-timer">
+                        </p>
+                        <p class="clock-label">
+                            Day
+                        </p>
+                    </div>
+                    <div class="clock-col">
+                        <p class="clock-hours clock-timer">
+                        </p>
+                        <p class="clock-label">
+                            Hours
+                        </p>
+                    </div>
+                    <div class="clock-col">
+                        <p class="clock-minutes clock-timer">
+                        </p>
+                        <p class="clock-label">
+                            Minutes
+                        </p>
+                    </div>
+                    <div class="clock-col">
+                        <p class="clock-seconds clock-timer">
+                        </p>
+                        <p class="clock-label">
+                            Seconds
+                        </p>
+                    </div>
+                </div>
+
+
+
+
+
+
+                @*<div id="chartContainer" style="height: 577px; width: 745px;">*@
             </div>
         </div>
+    </div>
+    <script src="~/Content/js/Clock.js"></script>
 
 
 
-
-
-        @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.PreSale) || User.IsInRole(UserRoles.Lead_Sales) || User.IsInRole(UserRoles.Pmd_Feasibility))
-        {
-            <!--<div class="jumbotron">
+    @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.PreSale) || User.IsInRole(UserRoles.Lead_Sales) || User.IsInRole(UserRoles.Pmd_Feasibility))
+    {
+        <!--<div class="jumbotron">
         <div class="row">
             <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
                 <div class="panel hvr-glow">
@@ -173,8 +287,8 @@
                     <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
                 </div>
             </div>-->
-            @*Card 2*@
-            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+        @*Card 2*@
+        <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
             <div class="panel hvr-glow">
                 <div class="panel-heading crd-heading-bg-color">
                     <h3 class="panel-title text-uppercase"><b>Leads Feasibility</b></h3>
@@ -193,8 +307,8 @@
                 <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
             </div>
         </div>-->
-            @* Card 03 *@
-            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+        @* Card 03 *@
+        <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
             <div class="panel hvr-glow">
                 <div class="panel-heading crd-heading-bg-color">
                     <h3 class="panel-title text-uppercase"><b>Quotation Status</b></h3>
@@ -213,8 +327,8 @@
                 <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
             </div>
         </div>-->
-            @*Card 04*@
-            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+        @*Card 04*@
+        <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
                     <div class="panel hvr-glow">
                         <div class="panel-heading crd-heading-bg-color">
                             <h3 class="panel-title text-uppercase"><b>Leads Approval</b></h3>
@@ -305,10 +419,10 @@
                 </div>
             </div>
         </div>-->
-        }
-        @if (User.IsInRole(UserRoles.Accounts))
-        {
-            <!--<div class="jumbotron">
+    }
+    @if (User.IsInRole(UserRoles.Accounts))
+    {
+        <!--<div class="jumbotron">
         <div class="row">
             <div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
                 <div class="panel hvr-glow">
@@ -331,8 +445,8 @@
                     <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
                 </div>
             </div>-->
-            @*Card 2*@
-            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+        @*Card 2*@
+        <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
             <div class="panel hvr-glow">
                 <div class="panel-heading crd-heading-bg-color">
                     <h3 class="panel-title text-uppercase"><b>Account</b></h3>
@@ -351,8 +465,8 @@
                 <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
             </div>
         </div>-->
-            @* Card 03 *@
-            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+        @* Card 03 *@
+        <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
             <div class="panel hvr-glow">
                 <div class="panel-heading crd-heading-bg-color">
                     <h3 class="panel-title text-uppercase"><b>Payment</b></h3>
@@ -371,8 +485,8 @@
                 <div class="panel-footer text-center text-capitalize" style="padding: 0;">See More <span class="fa fa-chevron-circle-right"></span></div>
             </div>
         </div>-->
-            @*Card 04*@
-            <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
+        @*Card 04*@
+        <!--<div class="col-lg-3 col-sm-12 col-md-6 col-xs-12">
                     <div class="panel hvr-glow">
                         <div class="panel-heading crd-heading-bg-color">
                             <h3 class="panel-title text-uppercase"><b>Company Billing</b></h3>
@@ -463,16 +577,15 @@
                 </div>
             </div>
         </div>-->
-        }
+    }
 
 
-    </div>
+</div>
     <!-- Modal -->
     <!--<div id="DateModel" class="modal fade" role="dialog">
         <div class="modal-dialog">-->
-
-            <!-- Modal content-->
-            <!--<div class="modal-content">
+    <!-- Modal content-->
+    <!--<div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Select Date</h4>
@@ -494,4 +607,4 @@
             </div>
         </div>
     </div>-->
-</div>
+
