@@ -99,7 +99,11 @@ namespace AMS.Controllers
                                 TimeSpan LateTime = new TimeSpan(10, 1, 0); //10 o'clock
                                 TimeSpan now = DateTime.Now.TimeOfDay;
                                 TimeSpan MarkAbsentTime = new TimeSpan(12, 1, 0);
-                                if (now > LateTime)
+                                if (now >= MarkAbsentTime)
+                                {
+                                    Attendance.IsAbsent = true;
+                                }
+                                else if (now > LateTime)
                                 {
                                     Attendance.IsLate = true;
                                     Attendance.IsAbsent = false;
@@ -115,10 +119,7 @@ namespace AMS.Controllers
                                             Agent.DeductionInDays++;
                                     }
                                 }
-                                else if (now >= MarkAbsentTime)
-                                {
-                                    Attendance.IsAbsent = true;
-                                }
+                                
                                 else
                                 {
                                     Attendance.IsPresent = true;
@@ -139,7 +140,11 @@ namespace AMS.Controllers
                                 TimeSpan now = DateTime.Now.TimeOfDay;
                                 TimeSpan MarkAbsentTime = new TimeSpan(12, 1, 0);
                                 Attendance = TodayAttendance.FirstOrDefault();
-                                if (now > LateTime)
+                                if (now >= MarkAbsentTime)
+                                {
+                                    Attendance.IsAbsent = true;
+                                }
+                                else if (now > LateTime)
                                 {
                                     Attendance.IsLate = true;
                                     Attendance.IsAbsent = false;
@@ -154,10 +159,6 @@ namespace AMS.Controllers
                                         else
                                             Agent.DeductionInDays++;
                                     }
-                                }
-                                else if (now >= MarkAbsentTime)
-                                {
-                                    Attendance.IsAbsent = true;
                                 }
                                 else
                                 {
