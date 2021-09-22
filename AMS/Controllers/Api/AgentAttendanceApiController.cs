@@ -18,7 +18,14 @@ namespace AMS.Controllers.Api
             var result = req.RunRequest(req);
             return result;
         }
+
         [HttpGet]
+        public object GetEmployessList([FromUri] GetEmployessListRequest req)
+        {
+            var result = req.RunRequest(req);
+            return result;
+        }
+        //[HttpGet]
         //public object GetAgentAttendance([FromUri] GetAgentAttendanceRequest req)
         //{
         //    req.UserId = User.Identity.GetUserId();
@@ -52,7 +59,7 @@ namespace AMS.Controllers.Api
         [HttpPost]
         public object GetSummary([FromBody] GetAttendanceSummaryRequest req)
         {
-            req.UserId = User.Identity.GetUserId();
+            req.CurrentUserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);
             return result;
         }

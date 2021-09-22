@@ -19,18 +19,36 @@
             $scope.DateFrom = new Date(date.getFullYear(), date.getMonth(), 1);
             $scope.DateTo = new Date();
             //$scope.GetAgentAttendanceRecord($scope.DateFrom, $scope.DateTo);
-            $scope.GetSummary($scope.selectedYear, $scope.selectedMonth,);
+            $scope.GetSummary(null, $scope.selectedYear, $scope.selectedMonth,);
             $scope.searchedMonth = $scope.selectedMonth;
         }
 
-        // ================================================== INIT INDEX (HR: All Employess) ==========================================================
+        // ================================================== INIT INDEX (HR: All Employees) ==========================================================
 
-        $scope.initIndexHR = function () {
+        $scope.initIndexHRstaff = function () {
             var date = new Date();
             /* $scope.Date = new Date();*/
             $scope.DateFrom = new Date(date.getFullYear(), date.getMonth(), 1);
             $scope.DateTo = new Date();
             $scope.GetAllEmployeesAttendance($scope.DateFrom, $scope.DateTo);
+        }
+
+        // ================================================== INIT INDEX (HR: Single Employee) ==========================================================
+
+        $scope.initIndexHRagent = function () {
+            $scope.GetAllEmployeesList();
+        }
+
+        // ================================================== GET All EMPLOYESS LIST ==========================================================
+
+        $scope.GetAllEmployeesList = function () {
+            $scope.AjaxGet("/api/AgentAttendanceApi/GetEmployessList").then(
+                function (response) {
+                    console.log(response);
+                    $scope.EmployeesList = response.data.EmployeesList;
+                    console.log($scope.EmployeesList);
+                }
+            );
         }
 
         // ================================================== GET All STAFF ATTENDANCE ==========================================================
@@ -87,9 +105,9 @@
         }
 
         // ================================================= GET MONTH SUMMARY ============================================================
-        $scope.GetSummary = function (Year, Month) {
-            console.log(Year, Month);
-            $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { Year: Year, Month: Month }).then(
+        $scope.GetSummary = function (AgentId, Year, Month) {
+            console.log(AgentId, Year, Month);
+            $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { AgentId: AgentId , Year: Year, Month: Month }).then(
                 function (response) {
                     if (response.status == 200) {
                         $scope.Summary = response.data;
@@ -129,6 +147,7 @@
         $scope.selectedYear = date.getFullYear();
         $scope.months = [{ id: 0, name: "January" }, { id: 1, name: "February" }, { id: 2, name: "March" }, { id: 3, name: "April" }, { id: 4, name: "May" }, { id: 5, name: "June" }, { id: 6, name: "July" }, { id: 7, name: "August" }, { id: 8, name: "September" }, { id: 9, name: "October" }, { id: 10, name: "November" }, { id: 11, name: "December" }];
         $scope.years = ["2021"];    //["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"];
+        $scope.selectedEmployee;
         }
     ]
 );

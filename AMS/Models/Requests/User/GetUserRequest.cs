@@ -36,6 +36,7 @@ namespace AMS.Models.Requests.User
 		public int? ExcusedCount { get; set; }
 		public int? PresentCount { get; set; }
 		public int? LateCount { get; set; }
+		public int? ShiftId { get; set; }
 	}
 
 	public class GetUserRequest
@@ -67,21 +68,26 @@ namespace AMS.Models.Requests.User
 				response.AnnualLeaves = Data.AnnualLeaves;
 				response.MedicalLeaves = Data.MedicalLeaves;
                 response.Gender = Data.Gender;
+				response.ShiftId = Data.ShiftId;
 				var MonthAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date.Month == DateTime.Today.Month && x.IsAttendanceMarked == true).ToList();
 				response.AbsentCount = MonthAttendance.Where(x => x.IsAbsent == true).Count();
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
 				response.LateCount = MonthAttendance.Where(x => x.IsLate == true).Count();
 				response.ExcusedCount = MonthAttendance.Where(x => x.IsExcused == true).Count();
 ;				var TodaysAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date == DateTime.Today.Date).FirstOrDefault();
-				if (TodaysAttendance.IsAbsent == false)
-					response.TodayClockIn = TodaysAttendance.StartDateTime;
-				if (response.DepartmentId.HasValue) {
-					response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+				if (TodaysAttendance != null)
+				{
+					if (TodaysAttendance.IsAbsent == false)
+						response.TodayClockIn = TodaysAttendance.StartDateTime;
+					if (response.DepartmentId.HasValue)
+					{
+						response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+					}
+					response.IsLate = TodaysAttendance.IsLate;
+					response.IsPresent = TodaysAttendance.IsPresent;
+					response.IsAbsent = TodaysAttendance.IsAbsent;
+					response.IsExcused = TodaysAttendance.IsExcused;
 				}
-				response.IsLate = TodaysAttendance.IsLate;
-				response.IsPresent = TodaysAttendance.IsPresent;
-				response.IsAbsent = TodaysAttendance.IsAbsent;
-				response.IsExcused = TodaysAttendance.IsExcused;
 			}
             else
             {
@@ -102,24 +108,27 @@ namespace AMS.Models.Requests.User
 				response.AnnualLeaves = Data.AnnualLeaves;
 				response.MedicalLeaves = Data.MedicalLeaves;
 				response.Gender = Data.Gender;
+				response.ShiftId = Data.ShiftId;
 				var MonthAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date.Month == DateTime.Today.Month && x.IsAttendanceMarked == true).ToList();
 				response.AbsentCount = MonthAttendance.Where(x => x.IsAbsent == true).Count();
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
 				response.LateCount = MonthAttendance.Where(x => x.IsLate == true).Count();
 				response.ExcusedCount = MonthAttendance.Where(x => x.IsExcused == true).Count();
 				var TodaysAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date == DateTime.Today.Date).FirstOrDefault();
-				if (TodaysAttendance.IsAbsent == false)
-					response.TodayClockIn = Data.AgentAttendance.Where(x => x.StartDateTime.Value.Date == DateTime.Today.Date).FirstOrDefault().StartDateTime;
-				if (response.DepartmentId.HasValue)
+				if (TodaysAttendance != null)
 				{
-					response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+					if (TodaysAttendance.IsAbsent == false)
+						response.TodayClockIn = TodaysAttendance.StartDateTime;
+					if (response.DepartmentId.HasValue)
+					{
+						response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+					}
+					response.IsLate = TodaysAttendance.IsLate;
+					response.IsPresent = TodaysAttendance.IsPresent;
+					response.IsAbsent = TodaysAttendance.IsAbsent;
+					response.IsExcused = TodaysAttendance.IsExcused;
 				}
-				response.IsLate = TodaysAttendance.IsLate;
-				response.IsPresent = TodaysAttendance.IsPresent;
-				response.IsAbsent = TodaysAttendance.IsAbsent;
-				response.IsExcused = TodaysAttendance.IsExcused;
 			}
-
 			return response;
 		}
 	}

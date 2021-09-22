@@ -15,9 +15,16 @@ namespace AMS.Controllers
             return View();
         }
 
-        // GET AllEmployeesAttendance
+        // GET Individual Agent Attendance
         [Authorize(Roles = "HR,SuperAdmin")]
-        public ActionResult EmployeeAttendance()
+        public ActionResult AgentAttendance()
+        {
+            return View();
+        }
+
+        // GET All Agents Attendance
+        [Authorize(Roles = "HR,SuperAdmin")]
+        public ActionResult StaffAttendance()
         {
             return View();
         }

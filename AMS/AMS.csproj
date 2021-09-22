@@ -4,8 +4,8 @@
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-  <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>
@@ -206,6 +206,7 @@
     <Compile Include="Controllers\Api\LeaveApiController.cs" />
     <Compile Include="Controllers\Api\PayApiContoller.cs" />
     <Compile Include="Controllers\Api\ReportApiController.cs" />
+    <Compile Include="Controllers\Api\ShiftApiController.cs" />
     <Compile Include="Controllers\Api\UserApiController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Requests\AgentAttendance\AddAgentExcuseRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetAgentAttendanceRequest.cs" />
+    <Compile Include="Models\Requests\AgentAttendance\GetEmployessListRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetListingRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetAttendanceSummaryRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\SignOffAttendanceRequest.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Models\Requests\Pay\AddPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Pay\GetPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />
+    <Compile Include="Models\Requests\Shifts\GetShiftsRequest.cs" />
     <Compile Include="Models\Requests\User\EditAdminRequest.cs" />
     <Compile Include="Models\Requests\User\EditUserRequest.cs" />
     <Compile Include="Models\Requests\User\GetAgentsForAssignmentRequest.cs" />
@@ -514,9 +517,10 @@
     <Content Include="Views\Hiring\Edit.cshtml" />
     <Content Include="Views\Leave\Index.cshtml" />
     <Content Include="Views\PayRecord\Index.cshtml" />
-    <Content Include="Views\AgentAttendance\EmployeeAttendance.cshtml" />
+    <Content Include="Views\AgentAttendance\StaffAttendance.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Leave\Requests.cshtml" />
+    <Content Include="Views\AgentAttendance\AgentAttendance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

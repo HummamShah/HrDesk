@@ -10,6 +10,7 @@
 	[Address] nvarchar(max),
 	[Designation] int,
 	[DepartmentId] int,
+	[ShiftId] int default(1),
 	[Email] nvarchar(max),
 	[ImageUrl] nvarchar(max),
 	[IsActive] bit,
@@ -37,5 +38,6 @@
 	[ExitEmployeeFormImageUrl] nvarchar(max),
     Constraint [FK_Agent_User] foreign key ([UserId]) References [dbo].[AspNetUsers] ([Id]),
 	Constraint [FK_Agent_Agent] foreign key ([SuperVisorId]) References [dbo].[Agent] ([Id]),
+	Constraint [FK_Agent_Shifts] foreign key ([ShiftId]) References [dbo].[Shifts] ([Id])
 	--Constraint [FK_Agent_Department] foreign key ([DepartmentId]) References [dbo].[Department] ([Id])
 )

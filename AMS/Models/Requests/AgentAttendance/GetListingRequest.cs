@@ -39,8 +39,10 @@ namespace AMS.Model.Requests.AgentAttendance
 		public double? Latitude { get; set; }
 		public double? Longitude { get; set; }
         public string WorkingHours { get; set; }
+		public int ShiftId { get; set; }
+		public string ShiftName { get; set; }
 
-    }
+	}
 	public class GetListingRequest
 	{
 		private AMSEntities _dbContext = new AMSEntities();
@@ -77,6 +79,8 @@ namespace AMS.Model.Requests.AgentAttendance
 				AgentAttendance.IsAbsent = attendance.IsAbsent;
 				AgentAttendance.StartDate = attendance.StartDateTime;
 				AgentAttendance.StartDateTime = attendance.StartDateTime;
+				AgentAttendance.ShiftId = attendance.ShiftId;
+				AgentAttendance.ShiftName = attendance.Shifts.Name;
 				if (attendance.StartDateTime.HasValue) {
 					if (attendance.EndDateTime != null)
 					{
@@ -84,7 +88,7 @@ namespace AMS.Model.Requests.AgentAttendance
 						TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
 						AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
 					}
-					else if (attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < new TimeSpan(17, 30, 0))
+					else if (attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < attendance.Shifts.EndTime.Value.TimeOfDay)
 					{
 						AgentAttendance.WorkingHours = "Currently Working";
 					}

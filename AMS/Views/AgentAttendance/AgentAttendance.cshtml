@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "AgentAttendance";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+@if (User.IsInRole("SuperAdmin") || User.IsInRole("HR"))
+{
+    <div class="container-fluid" ng-controller="AgentAttendanceCtrl" ng-init="initIndexHRagent()">
+        <div class="row" style="margin-top: 20px;">
+            @*<div class="col-xl-5 col-md-12 col-lg-12">
+                    <canvas id="bar" class="chart-bar"
+                            chart-data="data" chart-labels="labels">
+                        chart-series="series"
+                    </canvas>
+                </div>*@
+            <div class="col-xl-5 col-md-12 col-lg-auto">
+                <div class="card">
+                    <div class="card-header  border-0">
+                        <h4 class="card-title">Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
+                    </div>
+                    <div class="card-body pt-0 pb-0">
+                        <div class="row mb-0 pb-0">
+                            <div class="row mb-0 pb-0 ml-4">
+                                <div class="col-md-1 col-xl-auto text-center py-3">
+                                    <select ng-model="selectedEmployee">
+                                        <option disabled ng-selected value="">Select Agent</option>
+                                        <option ng-repeat="employee in EmployeesList" value={{employee.Id}} ng-selected="employee.Id == selectedEmployee">{{employee.Name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-xl-auto text-center py-3">
+                                    <select ng-model="selectedMonth">
+                                        <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-xl-auto text-center py-3">
+                                    <select ng-model="selectedYear">
+                                        <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-xl-auto text-center py-3">
+                                    <button class="btn btn-primary btn-block col-md-1 col-xl-auto" ng-disabled ="selectedEmployee== null" style="margin-top: -5px;" ng-click="GetSummary(selectedEmployee, selectedYear, selectedMonth)">GET SUMMARY</button>
+                                </div>
+
+                                <div style="margin-top: 11px;">
+                                    <button class="btn btn-primary pull-right" ng-disabled="AttendanceList.length == 0 || AttendanceList == null" ng-click="Export('AgentAttendanceReport', 'agentAttendanceTable')"><i class="fas fa-file-excel"></i></button>
+                                </div>
+
+                                <div class="col-md-1 col-xl-auto text-center py-3 ml-5" ng-if="Summary.AttendanceIsEmpty">
+                                    <div>
+                                        There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
+                                <div style="color: chartreuse" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.PresentCount}}</h6>
+                                    <h6 class="mb-0 mt-3">On Time</h6>
+                                </div>
+                                <div style="color: red" class="col-md-1 col-xl-auto text-center py-3 ">
+                                    <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{Summary.LateCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Late</h6>
+                                </div>
+                                <div style="color: blueviolet" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.ExcuseCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Excused</h6>
+                                </div>
+                                <div style="color: black" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Absent</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-md-12 col-lg-12">
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-header  border-0">
+                        <h4 class="card-title">Attendance Overview</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <table class="table table-bordered table-responsive-xs" id="agentAttendanceTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr style="overflow:hidden;">
+                                        <th>
+                                            Date <a href="" class="sort-icon" ng-click="SetSortingColoumn('Date')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Status <a href="" class="sort-icon" ng-click="SetSortingColoumn('Status')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Clock-In <a href="" class="sort-icon" ng-click="SetSortingColoumn('Clock-In')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Clock-Out <a href="" class="sort-icon" ng-click="SetSortingColoumn('Clock-Out')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Hours <a href="" class="sort-icon" ng-click="SetSortingColoumn('Hours')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                        <th>
+                                            Shift <a href="" class="sort-icon" ng-click="SetSortingColoumn('Shifts')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="Attendance in AttendanceList  | orderBy:Sorting.Field:Sorting.IsAscending">
+                                        <td>
+                                            {{Attendance.Date  | date:'MMM d, y'}}
+                                        </td>
+                                        <td>
+                                            <span ng-if="Attendance.IsLate == true" style="color:red">Late</span>
+                                            <span ng-if="Attendance.IsPresent == true" style="color: forestgreen">On Time</span>
+                                            <span ng-if="Attendance.IsExcused == true" style="color: blueviolet">Excused</span>
+                                            <span ng-if="Attendance.IsAbsent == true" style="color:black">Absent</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.WorkingHours}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                        </td>
+                                        <td>
+                                            {{Attendance.ShiftName}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

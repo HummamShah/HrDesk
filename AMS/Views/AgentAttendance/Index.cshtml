@@ -4,7 +4,6 @@
 }
 <div class="container-fluid" ng-controller="AgentAttendanceCtrl" ng-init="initIndex()">
     <div class="row" style="margin-top: 20px;">
-
         @*<div class="col-xl-5 col-md-12 col-lg-12">
             <canvas id="bar" class="chart-bar"
                     chart-data="data" chart-labels="labels">
@@ -30,7 +29,7 @@
                                 </select>
                             </div>
                             <div class="col-md-1 col-xl-auto text-center py-3">
-                                <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="GetSummary(selectedYear, selectedMonth)">GET SUMMARY</button>
+                                <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="GetSummary(null, selectedYear, selectedMonth)">GET SUMMARY</button>
                             </div>
 
                             <div class="col-md-1 col-xl-auto text-center py-3 ml-5" ng-if="Summary.AttendanceIsEmpty">
@@ -123,6 +122,9 @@
                                     <th>
                                         Hours <a href="" class="sort-icon" ng-click="SetSortingColoumn('Hours')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
                                     </th>
+                                    <th>
+                                        Shift <a href="" class="sort-icon" ng-click="SetSortingColoumn('Shift')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -139,7 +141,7 @@
                                     <td>
                                         <span ng-if="Attendance.IsAbsent == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
                                         <span ng-if="Attendance.IsAbsent == true">NA</span>
-                                    </td>                                    
+                                    </td>
                                     <td>
                                         <span ng-if="Attendance.IsAbsent == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
                                         <span ng-if="Attendance.IsAbsent == true">NA</span>
@@ -147,6 +149,9 @@
                                     <td>
                                         <span ng-if="Attendance.IsAbsent == false">{{Attendance.WorkingHours}}</span>
                                         <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                    </td>
+                                    <td>
+                                        {{Attendance.ShiftName}}
                                     </td>
                                 </tr>
                             </tbody>

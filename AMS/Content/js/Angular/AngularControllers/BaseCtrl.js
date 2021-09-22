@@ -492,8 +492,8 @@ app.controller('baseCtrl',
                  }*/
 
                 //Excel Export
-                $scope.Export = function (fileName) {
-                    var wb = XLSX.utils.table_to_book(document.getElementById('mytable'));
+                $scope.Export = function (fileName, tableId) {
+                    var wb = XLSX.utils.table_to_book(document.getElementById(tableId));
                     var sheet = wb.Sheets.Sheet1;
                     var wscols = [{ wch: 10 }, { wch: 15 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 12 }]
                     sheet["!cols"] = wscols;

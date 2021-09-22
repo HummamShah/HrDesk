@@ -171,6 +171,7 @@ namespace AMS.Controllers.Api
                     AgentData.MedicalLeaves = model.MedicalLeaves;
                     AgentData.AnnualLeaves = model.AnnualLeaves;
                     AgentData.Gender = model.Gender;
+                    AgentData.ShiftId = model.ShiftId;
                     if (model.HasSupervisor.HasValue)
                     {
                         AgentData.HasSupervisor = model.HasSupervisor;
@@ -234,6 +235,7 @@ namespace AMS.Controllers.Api
             AgentData.MedicalLeaves = request.MedicalLeaves;
             AgentData.Gender = request.Gender;
             AgentData.ImageUrl = request.ImageUrl;
+            AgentData.ShiftId = request.ShiftId;
             if (request.HasSupervisor.HasValue)
             {
                 AgentData.HasSupervisor = request.HasSupervisor;
