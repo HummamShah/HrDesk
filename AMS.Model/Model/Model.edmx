@@ -19,6 +19,7 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Designation" Type="int" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="ShiftId" Type="int" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="ImageUrl" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
@@ -70,6 +71,7 @@
           <Property Name="Latitude" Type="float" />
           <Property Name="Longitude" Type="float" />
           <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="ShiftId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -159,6 +161,22 @@
           <Property Name="Reason" Type="nvarchar(max)" />
           <Property Name="DaysCount" Type="int" />
         </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar(max)" />
+          <Property Name="UpdatedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="Pay">
           <Key>
             <PropertyRef Name="Id" />
@@ -171,6 +189,15 @@
           <Property Name="GeneratedOn" Type="datetime" />
           <Property Name="Salary" Type="int" />
         </EntityType>
+        <EntityType Name="Shifts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+        </EntityType>
         <Association Name="FK_Agent_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="Agent1" Type="Self.Agent" Multiplicity="*" />
@@ -180,6 +207,18 @@
             </Principal>
             <Dependent Role="Agent1">
               <PropertyRef Name="SuperVisorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agent_Shifts">
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="ShiftId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -204,6 +243,18 @@
             </Principal>
             <Dependent Role="AgentAttendance">
               <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentAttendace_Shifts">
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="1" />
+          <End Role="AgentAttendance" Type="Self.AgentAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentAttendance">
+              <PropertyRef Name="ShiftId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -310,10 +361,16 @@
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Agent1" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agent_Shifts" Association="Self.FK_Agent_Shifts">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="Agent" EntitySet="Agent" />
           </AssociationSet>
           <AssociationSet Name="FK_Agent_User" Association="Self.FK_Agent_User">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -321,6 +378,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_AgentAttendace_Agent" Association="Self.FK_AgentAttendace_Agent">
             <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentAttendance" EntitySet="AgentAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentAttendace_Shifts" Association="Self.FK_AgentAttendace_Shifts">
+            <End Role="Shifts" EntitySet="Shifts" />
             <End Role="AgentAttendance" EntitySet="AgentAttendance" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -401,6 +462,8 @@
           <Property Name="AnnualLeaves" Type="Int32" Nullable="false" />
           <Property Name="MedicalLeaves" Type="Int32" Nullable="false" />
           <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShiftId" Type="Int32" />
+          <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_Agent_Shifts" FromRole="Agent" ToRole="Shifts" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -428,6 +491,8 @@
           <Property Name="Longitude" Type="Double" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Agent" Relationship="Self.FK_AgentAttendace_Agent" FromRole="AgentAttendance" ToRole="Agent" />
+          <Property Name="ShiftId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_AgentAttendace_Shifts" FromRole="AgentAttendance" ToRole="Shifts" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -608,6 +673,16 @@
             <End Role="Leaves" EntitySet="Leaves" />
             <End Role="LeaveDates" EntitySet="LeaveDates" />
           </AssociationSet>
+          <EntitySet Name="Notification" EntityType="AMSModel.Notification" />
+          <EntitySet Name="Shifts" EntityType="AMSModel.Shifts" />
+          <AssociationSet Name="FK_Agent_Shifts" Association="AMSModel.FK_Agent_Shifts">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentAttendace_Shifts" Association="AMSModel.FK_AgentAttendace_Shifts">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="AgentAttendance" EntitySet="AgentAttendance" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
           <Key>
@@ -684,6 +759,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Shifts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Agent_Shifts" FromRole="Shifts" ToRole="Agent" />
+          <NavigationProperty Name="AgentAttendance" Relationship="AMSModel.FK_AgentAttendace_Shifts" FromRole="Shifts" ToRole="AgentAttendance" />
+        </EntityType>
+        <Association Name="FK_Agent_Shifts">
+          <End Type="AMSModel.Shifts" Role="Shifts" Multiplicity="0..1" />
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentAttendace_Shifts">
+          <End Type="AMSModel.Shifts" Role="Shifts" Multiplicity="1" />
+          <End Type="AMSModel.AgentAttendance" Role="AgentAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentAttendance">
+              <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -693,6 +819,7 @@
           <EntitySetMapping Name="Agent">
             <EntityTypeMapping TypeName="AMSModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="MedicalLeaves" ColumnName="MedicalLeaves" />
                 <ScalarProperty Name="AnnualLeaves" ColumnName="AnnualLeaves" />
@@ -734,6 +861,7 @@
           <EntitySetMapping Name="AgentAttendance">
             <EntityTypeMapping TypeName="AMSModel.AgentAttendance">
               <MappingFragment StoreEntitySet="AgentAttendance">
+                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
@@ -860,6 +988,33 @@
               <MappingFragment StoreEntitySet="LeaveDates">
                 <ScalarProperty Name="Dates" ColumnName="Dates" />
                 <ScalarProperty Name="LeaveId" ColumnName="LeaveId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notification">
+            <EntityTypeMapping TypeName="AMSModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shifts">
+            <EntityTypeMapping TypeName="AMSModel.Shifts">
+              <MappingFragment StoreEntitySet="Shifts">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -13,7 +13,6 @@
 
             // ==================================================== INIT INDEX ==========================================================
             $scope.InitIndex = function () {
-                $scope.charts();
                 $scope.User = {};
                 var Id = $scope.GetUrlParameter("Id");
                 $scope.AjaxGet("/api/UserApi/GetUser", { Id: Id }).then(

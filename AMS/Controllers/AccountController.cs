@@ -88,18 +88,26 @@ namespace AMS.Controllers
                         //Mark Agent Present;
                         var Attendance = new Model.Model.AgentAttendance();
                         var today = DateTime.Now.Date;
+                        var yesterday = today.AddDays(-1);
                         var Agent = db.Agent.Where(x => x.Email == model.Email).FirstOrDefault();
-
                         if (Agent != null)
                         {
                             int AgentId = Agent.Id;
                             var TodayAttendance = db.AgentAttendance.Where(x => x.Date == today && x.AgentId == AgentId);
+                            if (Agent.ShiftId == 4)
+                            {
+                                TodayAttendance = db.AgentAttendance.Where(x => x.Date == yesterday && x.AgentId == AgentId);
+                            }
                             if (TodayAttendance.Count() < 1)
                             {
-                                TimeSpan LateTime = new TimeSpan(10, 1, 0); //10 o'clock
+                                TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).TimeOfDay;
+                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(3).TimeOfDay;
                                 TimeSpan now = DateTime.Now.TimeOfDay;
-                                TimeSpan MarkAbsentTime = new TimeSpan(12, 1, 0);
-                                if (now > LateTime)
+                                if (now >= MarkAbsentTime)
+                                {
+                                    Attendance.IsAbsent = true;
+                                }
+                                else if (now > LateTime)
                                 {
                                     Attendance.IsLate = true;
                                     Attendance.IsAbsent = false;
@@ -115,10 +123,7 @@ namespace AMS.Controllers
                                             Agent.DeductionInDays++;
                                     }
                                 }
-                                else if (now >= MarkAbsentTime)
-                                {
-                                    Attendance.IsAbsent = true;
-                                }
+                                
                                 else
                                 {
                                     Attendance.IsPresent = true;
@@ -126,20 +131,26 @@ namespace AMS.Controllers
                                 }
                                 Attendance.AgentId = AgentId;
                                 Attendance.CreatedAt = DateTime.Now;
+
                                 Attendance.StartDateTime = DateTime.Now;
                                 Attendance.Date = DateTime.Now.Date;
                                 Attendance.Type = (int)AttendanceType.Premises;
                                 Attendance.IsAttendanceMarked = true;
+                                Attendance.ShiftId = Agent.ShiftId??0;
                                 var Attendanceresult = db.AgentAttendance.Add(Attendance);
                                 db.SaveChanges();
                             }
                             else if (TodayAttendance.FirstOrDefault() != null && TodayAttendance.FirstOrDefault().IsAttendanceMarked == false)
                             {
-                                TimeSpan LateTime = new TimeSpan(10, 1, 0); //10 o'clock
                                 TimeSpan now = DateTime.Now.TimeOfDay;
-                                TimeSpan MarkAbsentTime = new TimeSpan(12, 1, 0);
+                                TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).TimeOfDay;
+                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(3).TimeOfDay;
                                 Attendance = TodayAttendance.FirstOrDefault();
-                                if (now > LateTime)
+                                if (now >= MarkAbsentTime)
+                                {
+                                    Attendance.IsAbsent = true;
+                                }
+                                else if (now > LateTime)
                                 {
                                     Attendance.IsLate = true;
                                     Attendance.IsAbsent = false;
@@ -155,10 +166,6 @@ namespace AMS.Controllers
                                             Agent.DeductionInDays++;
                                     }
                                 }
-                                else if (now >= MarkAbsentTime)
-                                {
-                                    Attendance.IsAbsent = true;
-                                }
                                 else
                                 {
                                     Attendance.IsPresent = true;
@@ -170,6 +177,7 @@ namespace AMS.Controllers
                                 Attendance.Date = DateTime.Now.Date;
                                 Attendance.Type = (int)AttendanceType.Premises;
                                 Attendance.IsAttendanceMarked = true;
+                                Attendance.ShiftId = Agent.ShiftId ?? 0;
                                 //var Attendanceresult = db.AgentAttendance.Add(Attendance);
                                 db.SaveChanges();
 

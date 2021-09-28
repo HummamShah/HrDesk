@@ -39,12 +39,35 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <div class="container">
             <div class="row">
+                @*<div class="col-md-4 col-xl-3">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Present</h6>
+                    <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
+                    <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                </div>
+            </div>
+        </div>*@
                 <div class="col-md-4 col-xl-3">
-                    <div class="card bg-c-blue order-card">
+                    <div class="card bg-c-pink order-card">
                         <div class="card-block">
-                            <h6 class="m-b-20">Present</h6>
-                            <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
-                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                            <h6 class="m-b-20" ng-if="!User.IsAbsent">Today's Sign In Time </h6>
+                            <h2 class="text-right" ng-if="!User.IsAbsent"><i class="fa fa-clock f-left"></i><span>{{User.TodayClockIn | date:'hh:mm a'}}</span></h2>
+                            <p class="m-b-0" ng-if="User.IsLate">You are late today</p>
+                            <p class="m-b-0" ng-if="User.IsAbsent">You are absent today</p>
+                            <p class="m-b-0" ng-if="User.IsExcused">You are excused today</p>
+                            <p class="m-b-0" ng-if="User.IsPresent">You are on time today</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-3">
+                    <div class="card bg-c-yellow order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20"></h6>
+                            <h6 class="m-b-20">Leaves</h6>
+                            <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}</span></p>
+                            <p class="m-b-0">Annual Leaves <span class="f-right">{{User.AnnualLeaves}}</span></p>
+                            <p class="m-b-0">Medical Leaves <span class="f-right">{{User.MedicalLeaves}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -52,38 +75,17 @@
                 <div class="col-md-4 col-xl-3">
                     <div class="card bg-c-green order-card">
                         <div class="card-block">
-                            <h6 class="m-b-20">Leave</h6>
-                            <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>486</span></h2>
-                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-xl-3">
-                    <div class="card bg-c-yellow order-card">
-                        <div class="card-block">
-                            <h6 class="m-b-20">Late</h6>
-                            <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h2>
-                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-xl-3">
-                    <div class="card bg-c-pink order-card">
-                        <div class="card-block">
-                            <h6 class="m-b-20">Orders Received</h6>
-                            <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span>486</span></h2>
-                            <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                            <h6 class="m-b-20"><b>This Month</b></h6>
+                            @*<h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>000</span></h2>*@
+                            <p class="m-b-0">On Time<span class="f-right">{{User.PresentCount}}</span></p>
+                            <p class="m-b-0">Late<span class="f-right">{{User.LateCount}}</span></p>
+                            <p class="m-b-0">Excused<span class="f-right">{{User.ExcusedCount}}</span></p>
+                            <p class="m-b-0">Absent<span class="f-right">{{User.AbsentCount}}</span></p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-
             <div class="row">
-
-
                 <div class="col-lg-4 mb-3">
                     <div class="profile-card-4 z-depth-3">
                         <div class="card">

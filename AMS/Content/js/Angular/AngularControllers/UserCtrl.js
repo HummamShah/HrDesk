@@ -60,17 +60,32 @@
                     toaster.pop('error', "error", "Please Enter Password!");
                     return;
                 }
-                if (user.Password != user.ConfirmPassword) {
-                    //alert("Password and Confirm Password shoul match");
-                    toaster.pop('error', "error", "Password and Confirm Password should match!");
+                if (user.RemainingLeaves == null) {
+                    toaster.pop('error', "error", "Please Select Remaining Leaves!");
+                    return;
+                }
+                if (user.AnnualLeaves == null) {
+                    toaster.pop('error', "error", "Please Select Annual Leaves!");
+                    return;
+                }
+                if (user.MedicalLeaves == null) {
+                    toaster.pop('error', "error", "Please Select Medical Leaves!");
                     return;
                 }
                 if ((user.AnnualLeaves + user.MedicalLeaves) != user.RemainingLeaves) {
                     toaster.pop('error', "error", "The total of Annual & Medical Leaves should be equal to Remaining Leaves!");
                     return;
                 }
-
-                //Loader need to make it generic so we could use this in a function
+                if (user.ShiftId == null) {
+                    toaster.pop('error', "error", "Please select shift");
+                    return;
+                }
+                if (user.Password != user.ConfirmPassword) {
+                    //alert("Password and Confirm Password shoul match");
+                    toaster.pop('error', "error", "Password and Confirm Password should match!");
+                    return;
+                }
+                    //Loader need to make it generic so we could use this in a function
                 $scope.IsServiceRunning = true;
 
                 $scope.AjaxPost("/api/UserApi/RegisterUser", user).then(
@@ -159,6 +174,12 @@
                         $scope.GetUsersByDepartmentId($scope.User.DepartmentId);
                     }
                 );
+                $scope.AjaxGet("/api/ShiftApi/GetShifts", null).then(
+                    function (response) {
+                        console.log(response);
+                        $scope.ShiftsList = response.data.ShiftsList;
+                    }
+                );
             }
 
             // ====================================================== ADD INIT ============================================================
@@ -169,6 +190,12 @@
                     function (response) {
                         console.log(response);
                         $scope.Departments = response.data.Data;
+                    }
+                );
+                $scope.AjaxGet("/api/ShiftApi/GetShifts", null).then(
+                    function (response) {
+                        console.log(response);
+                        $scope.ShiftsList = response.data.ShiftsList;
                     }
                 );
             }

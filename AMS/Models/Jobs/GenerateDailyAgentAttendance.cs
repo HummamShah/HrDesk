@@ -60,8 +60,8 @@ namespace AMS.Models.Jobs
                 var Attendance = _dbContext.AgentAttendance.Where(x => x.Date == yesterday).ToList();
 
                 // deducting leave for yesterday's absentees
-                var Absents = Attendance.Where(x => x.IsAbsent == true && x.IsAttendanceMarked == false).ToList();
-                foreach (var absentAgent in Absents)
+                var Absentees = Attendance.Where(x => x.IsAbsent == true && x.IsAttendanceMarked == false).ToList();
+                foreach (var absentAgent in Absentees)
                 {
                     if (absentAgent.Agent.RemainingLeaves > 0 && absentAgent.Agent.AnnualLeaves > 0)
                     {
@@ -74,14 +74,24 @@ namespace AMS.Models.Jobs
                 }
 
                 // setting clock out time 5:30pm for non-marked
-                var AttEndTime = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
-                TimeSpan ts = new TimeSpan(17, 30, 0);
-                foreach (var attendance in AttEndTime)
+                var NonMarkedEndTimeAttendance = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
+                foreach (var attendance in NonMarkedEndTimeAttendance)
                 {
-                    attendance.EndDateTime = attendance.StartDateTime.Value.Date + ts;
+                    attendance.EndDateTime = attendance.Agent.Shifts.EndTime;
                     _dbContext.SaveChanges();
                 }
             }
         }
     }
 }
+
+
+
+// setting clock out time 5:30pm for non-marked
+//var NonMarkedEndTimeAttendance = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
+//TimeSpan ts = new TimeSpan(17, 30, 0);
+//foreach (var attendance in NonMarkedEndTimeAttendance)
+//{
+//    attendance.EndDateTime = attendance.StartDateTime.Value.Date + ts;
+//    _dbContext.SaveChanges();
+//}

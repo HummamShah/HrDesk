@@ -110,6 +110,7 @@ namespace AMS.Models
         public int RemainingLeaves { get; set; }
         public int AnnualLeaves { get; set; }
         public int MedicalLeaves { get; set; }
+        public int ShiftId { get; set; }
     }
     public class ResetPasswordViewModel
     {

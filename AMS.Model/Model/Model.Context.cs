@@ -35,5 +35,7 @@ namespace AMS.Model.Model
         public virtual DbSet<Leaves> Leaves { get; set; }
         public virtual DbSet<Pay> Pay { get; set; }
         public virtual DbSet<LeaveDates> LeaveDates { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
+        public virtual DbSet<Shifts> Shifts { get; set; }
     }
 }
