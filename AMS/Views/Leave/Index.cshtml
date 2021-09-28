@@ -13,10 +13,9 @@
                     chart-series="series"
                 </canvas>
             </div>*@
-        <div class="col-xl-5 col-md-12 col-lg-auto">
-            <div>
-                <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#applyleaves">APPLY LEAVE</button>
-            </div>
+
+        <div class="col-xl-7 col-md-12 col-lg-auto">
+
             <div class="card">
                 <div class="card-header  border-0">
                     <h4 class="card-title">Summary of Leaves for the year {{selectedYear}}</h4>
@@ -43,6 +42,9 @@
                 </div>
             </div>
         </div>
+        <div class="mt-5">
+            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#applyleaves">APPLY LEAVE</button>
+        </div>
     </div>
     <div class="row" style="margin-top: 20px;">
         @*<div class="col-xl-5 col-md-12 col-lg-12 barmt">
@@ -51,14 +53,36 @@
                     chart-series="series"
                 </canvas>
             </div>*@
-        <div class="col-xl-7 col-md-12 col-lg-12">
+        <div class="col-xl-9 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header  border-0">
                     <h4 class="card-title">Leaves Taken in {{months[searchedMonth].name}} {{selectedYear}}</h4>
                 </div>
                 <div class="card-body pt-0 pb-3">
                     <div class="row mb-0 pb-0">
-                        <div ng-if="!Summary.LeaveIsEmpty">
+                        <div class="row mb-0 pb-0 ml-4">
+                            <div class="col-md-1 col-xl-auto text-center py-3 ml-5" ng-if="Summary.LeaveIsEmpty">
+                                <div>
+                                    You don't have any leaves for {{months[searchedMonth].name}} {{selectedYear}}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <select ng-model="selectedMonth">
+                                    <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <select ng-model="selectedYear">
+                                    <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 col-xl-auto text-center py-3">
+                                <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="getLeaveSummary(selectedYear, selectedMonth)">GET</button>
+                            </div>
+                        </div>
+                        <div class="row mb-0 pb-0 ml-3" ng-if="!Summary.LeaveIsEmpty">
+
                             <div class="col-md-1 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">{{Summary.AcceptedAnnualLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Accepted Annual Leaves</h6>
@@ -75,28 +99,15 @@
                                 <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">{{Summary.PendingMedicalLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Pending Medical Leaves</h6>
                             </div>
+
                         </div>
-                        <div ng-if="Summary.LeaveIsEmpty">
-                            You don't have any leaves for {{months[searchedMonth].name}}' {{selectedYear}}
-                        </div>
-                        <div style="width:15%;float:right;margin-left:5px;">
-                            <select ng-model="selectedMonth">
-                                <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
-                            </select>
-                        </div>
-                        <div style="width:15%;float:right;margin-left:5px;">
-                            <select ng-model="selectedYear">
-                                <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <button class="btn btn-primary btn-block" ng-click="getLeaveSummary(selectedYear, selectedMonth)">GET</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row" ng-if="!Summary.LeaveIsEmpty">
         <div class="col-xl-12 col-md-12 col-lg-12">
             <div class="card" style="margin-top: 10px;">
