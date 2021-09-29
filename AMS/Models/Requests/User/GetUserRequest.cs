@@ -1,5 +1,6 @@
 ﻿using AMS.Model.Model;
 using AMS.Models.Enums;
+using AMS.Models.Requests.FileUpload;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,10 @@ namespace AMS.Models.Requests.User
 		public int? PresentCount { get; set; }
 		public int? LateCount { get; set; }
 		public int? ShiftId { get; set; }
+		public List<Document> Docs { get; set; }
+		public List<Document> EducationalDocs { get; set; }
+		public List<Document> Certificates { get; set; }
+
 	}
 
 	public class GetUserRequest
@@ -69,6 +74,52 @@ namespace AMS.Models.Requests.User
 				response.MedicalLeaves = Data.MedicalLeaves;
                 response.Gender = Data.Gender;
 				response.ShiftId = Data.ShiftId;
+				response.Docs = new List<Document>();
+				var Docs = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Resume" || x.Title == "CNIC front" || x.Title == "CNIC back" || x.Title == "Appointment Letter").ToList();
+				
+				AddEmptyDocRowInDb(Docs, "Resume", Data.Id);
+				AddEmptyDocRowInDb(Docs, "CNIC front", Data.Id);
+				AddEmptyDocRowInDb(Docs, "CNIC back", Data.Id);
+				AddEmptyDocRowInDb(Docs, "Appointment Letter", Data.Id);
+
+				Docs = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Resume" || x.Title == "CNIC front" || x.Title == "CNIC back" || x.Title == "Appointment Letter").OrderBy(x => x.Title).ToList();
+				foreach (var doc in Docs) {
+					var row = new Document();
+					row.Id = doc.Id;
+					row.Title = doc.Title;
+					row.SubTitle = doc.SubTitle;
+					row.Url = doc.DocumentUrl;
+					row.UploadedOn = doc.UploadedOn;
+					row.UploadedBy = doc.UploadedBy;
+					response.Docs.Add(row);
+				}
+				response.EducationalDocs = new List<Document>();
+				var EducationalDocs = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Educational").ToList();
+				foreach (var doc in EducationalDocs)
+				{
+					var row = new Document();
+					row.Id = doc.Id;
+					row.Title = doc.Title;
+					row.SubTitle = doc.SubTitle;
+					row.Url = doc.DocumentUrl;
+					row.UploadedOn = doc.UploadedOn;
+					row.UploadedBy = doc.UploadedBy;
+					response.EducationalDocs.Add(row);
+				}
+				response.Certificates = new List<Document>();
+				var Certifications = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Certifications").ToList();
+				foreach (var doc in Certifications)
+				{
+					var row = new Document();
+					row.Id = doc.Id;
+					row.Title = doc.Title;
+					row.SubTitle = doc.SubTitle;
+					row.Url = doc.DocumentUrl;
+					row.UploadedOn = doc.UploadedOn;
+					row.UploadedBy = doc.UploadedBy;
+					response.Certificates.Add(row);
+				}
+
 				var MonthAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date.Month == DateTime.Today.Month && x.IsAttendanceMarked == true).ToList();
 				response.AbsentCount = MonthAttendance.Where(x => x.IsAbsent == true).Count();
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
@@ -109,6 +160,50 @@ namespace AMS.Models.Requests.User
 				response.MedicalLeaves = Data.MedicalLeaves;
 				response.Gender = Data.Gender;
 				response.ShiftId = Data.ShiftId;
+
+				// uncomment all the below liens of codes if we need the documents when an employee himslef needs it. For now, the above line of codes work only for HR when he/she provieds the AgentId through query string
+
+
+				//response.Docs = new List<Document>();
+				//var Docs = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Resume" || x.Title == "'CNIC front" || x.Title == "CNIC back" || x.Title == "Appointment Letter").ToList();
+				//foreach (var doc in Docs)
+				//{
+				//	var row = new Document();
+				//	row.Id = doc.Id;
+				//	row.Title = doc.Title;
+				//	row.SubTitle = doc.SubTitle;
+				//	row.Url = doc.DocumentUrl;
+				//	row.UploadedOn = doc.UploadedOn;
+				//	row.UploadedBy = doc.UploadedBy;
+				//	response.Docs.Add(row);
+				//}
+				//response.EducationalDocs = new List<Document>();
+				//var EducationalDocs = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Educational").ToList();
+				//foreach (var doc in EducationalDocs)
+				//{
+				//	var row = new Document();
+				//	row.Id = doc.Id;
+				//	row.Title = doc.Title;
+				//	row.SubTitle = doc.SubTitle;
+				//	row.Url = doc.DocumentUrl;
+				//	row.UploadedOn = doc.UploadedOn;
+				//	row.UploadedBy = doc.UploadedBy;
+				//	response.EducationalDocs.Add(row);
+				//}
+				//response.Certificates = new List<Document>();
+				//var Certifications = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Certifications").ToList();
+				//foreach (var doc in Certifications)
+				//{
+				//	var row = new Document();
+				//	row.Id = doc.Id;
+				//	row.Title = doc.Title;
+				//	row.SubTitle = doc.SubTitle;
+				//	row.Url = doc.DocumentUrl;
+				//	row.UploadedOn = doc.UploadedOn;
+				//	row.UploadedBy = doc.UploadedBy;
+				//	response.Certificates.Add(row);
+				//}
+
 				var MonthAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date.Month == DateTime.Today.Month && x.IsAttendanceMarked == true).ToList();
 				response.AbsentCount = MonthAttendance.Where(x => x.IsAbsent == true).Count();
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
@@ -130,6 +225,27 @@ namespace AMS.Models.Requests.User
 				}
 			}
 			return response;
+		}
+
+		public bool AddEmptyDocRowInDb(List<Documents> Docs, string Title, int AgentId) {
+			var flag = false;
+			foreach (var doc in Docs)
+			{
+				if (doc.Title == Title)
+				{
+					flag = true;
+					break;
+				}
+			}
+			if (!flag) {
+				var doc = new Documents();
+				doc.AgentId = AgentId;
+				doc.Title = Title;
+				_dbContext.Documents.Add(doc);
+				_dbContext.SaveChanges();
+				flag = true;
+			}
+			return flag;
 		}
 	}
 }

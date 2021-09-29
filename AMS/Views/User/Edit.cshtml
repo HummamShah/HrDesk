@@ -1,6 +1,176 @@
 ﻿@{
     ViewBag.Title = "Edit";
 }
+
+<div class="container-fluid" ng-controller="UserCtrl" ng-init="EditInit()">
+    <h3 class="mt-4">Edit User</h3>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card z-depth-3">
+                <div class="card-body">
+
+                    <div class="tab-content p-3">
+
+
+                        <div class="tab-pane active" id="edit">
+                            <form class="p-3">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" ng-model="User.FirstName" readonly />
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" ng-model="User.LastName" readonly />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" ng-model="User.Address" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" ng-model="User.Email" readonly />
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="form-group col-md-3">
+                                        <label>Primary Contact</label>
+                                        <input type="text" class="form-control" ng-model="User.Contact1" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Alternate Contact</label>
+                                        <input type="text" class="form-control" ng-model="User.Contact2" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Remaining Leaves</label>
+                                        <input type="number" class="form-control" min="0" max="30" onkeydown="return false" ng-model="User.RemainingLeaves" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Annual Leaves</label>
+                                        <input type="number" class="form-control" min="0" max="20" onkeydown="return false" ng-model="User.AnnualLeaves" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Medical Leaves</label>
+                                        <input type="number" class="form-control" min="0" max="10" onkeydown="return false" ng-model="User.MedicalLeaves" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="">
+                                            <label>Department</label>
+                                            <select ng-model="User.DepartmentId" class="form-control" ng-change="GetUsersByDepartmentId(User.DepartmentId)">
+                                                <option disabled selected value="">Select Department</option>
+                                                <option ng-repeat="Department in Departments" ng-selected="Department.Id == User.DepartmentId" value="{{Department.Id}}">{{Department.Name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="">
+                                            <label>Shift</label>
+                                            <select ng-model="User.ShiftId" class="form-control">
+                                                <option disabled selected value="">Select Shift</option>
+                                                <option ng-repeat="Shift in ShiftsList" ng-selected="Shift.Id == User.ShiftId" value="{{Shift.Id}}">{{Shift.Name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3" ng-if="User.HasSupervisor">
+                                        <select ng-model="User.SupervisorId" class="form-control">
+                                            <option selected value="">Select Supervisor</option>
+                                            <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Has Supervisor</label>
+                                        <input type="checkbox" class="" ng-model="User.HasSupervisor" ng-change="CheckForDepartment(User.DepartmentId)" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" ng-model="User.Password" />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Confirm Password</label>
+                                        <input type="password" class="form-control" ng-model="User.ConfirmPassword" />
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Profile Photo</label>
+                                        <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <img style="  max-height: 413px;max-width:200px" src="{{User.ImageUrl}}" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>Documents</label>
+                                </div>
+                                <div class="row">
+
+
+                                    <div ng-repeat="doc in User.Docs">
+                                        <div ng-if="doc.Url && doc.Url != ''" class="form-group col-md-6">
+                                            <a ng-if="!doc.ChooseInput" href="{{doc.Url}}">{{doc.Title}} | {{doc.SubTitle}}</a>
+                                            <label ng-if="doc.ChooseInput">{{doc.Title}}</label>
+                                            <span>
+                                                <input ng-if="doc.ChooseInput" type="file" ngf-select="UploadFile($files, doc.Title)" class="form-control" />
+                                                <a ng-if="doc.ChooseInput" href="" ng-click="DisableInputField(doc)"><i class="fas fa-times"></i></a>
+                                                <a ng-if="!doc.ChooseInput" href="" ng-click="EnableInputField(doc)"><i class="fas fa-pencil-alt"></i></a>
+                                            </span>
+                                            <span>
+                                                <a ng-if="!doc.ChooseInput" href="" ng-click="RemoveUploadedFile(doc.Title)"><i class="fas fa-trash-alt"></i></a>
+                                            </span>
+                                        </div>
+                                        <div ng-if="!doc.Url || doc.Url == ''" class="form-group col-md-6">
+                                            <label>{{doc.Title}}</label>
+                                            <input type="file" ngf-select="UploadFile($files, doc.Title)" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--<div class="row">
+        <div>
+            <label>Educational Documents</label>
+        </div>
+        <div ng-repeat="doc in User.EducationalDocs">
+            <div class="form-group col-md-6">
+                <label>{{doc.SubTitle}}</label>-->
+                                <!--<input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <label>Certificates</label>
+        </div>
+        <div ng-repeat="doc in User.Certificates">
+            <div class="form-group col-md-6">
+                <label>{{doc.SubTitle}}</label>-->
+                                <!--<input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
+            </div>
+        </div>
+    </div>-->
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-success float-right" ng-click="EditUser(User)">Edit User</button>
+                                        <a href="/User/" title="Cancel" class="btn btn-danger float-right">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/Content/CardStyle.css" rel="stylesheet" />
+
 <!--<div ng-controller="UserCtrl" ng-init="EditInit()">
     <div class="jumbotron PageHeading">
         <div class="row"><div class="col-md-3"><h2>Edit User</h2></div></div>
@@ -95,119 +265,3 @@
     </div>
 
 </div>-->
-<div class="container-fluid" ng-controller="UserCtrl" ng-init="EditInit()">
-    <h3 class="mt-4">Edit User</h3>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card z-depth-3">
-                <div class="card-body">
-
-                    <div class="tab-content p-3">
-
-
-                        <div class="tab-pane active" id="edit">
-                            <form class="p-3">
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control" ng-model="User.FirstName" readonly />
-                                    </div>
-
-                                    <div class="form-group col-md-3">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control" ng-model="User.LastName" readonly/>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control" ng-model="User.Address" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" ng-model="User.Email" readonly/>
-                                    </div>
-                                </div>
-                                <div class="row">
-
-                                    <div class="form-group col-md-3">
-                                        <label>Primary Contact</label>
-                                        <input type="text" class="form-control" ng-model="User.Contact1" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Alternate Contact</label>
-                                        <input type="text" class="form-control" ng-model="User.Contact2" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Remaining Leaves</label>
-                                        <input type="number" class="form-control" min="0" max="30" onkeydown="return false" ng-model="User.RemainingLeaves" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Annual Leaves</label>
-                                        <input type="number" class="form-control" min="0" max="20" onkeydown="return false" ng-model="User.AnnualLeaves" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Medical Leaves</label>
-                                        <input type="number" class="form-control" min="0" max="10" onkeydown="return false" ng-model="User.MedicalLeaves" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <div class="">
-                                            <label>Department</label>
-                                            <select ng-model="User.DepartmentId" class="form-control" ng-change="GetUsersByDepartmentId(User.DepartmentId)">
-                                                <option disabled selected value="">Select Department</option>
-                                                <option ng-repeat="Department in Departments" ng-selected="Department.Id == User.DepartmentId" value="{{Department.Id}}">{{Department.Name}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <div class="">
-                                            <label>Shift</label>
-                                            <select ng-model="User.ShiftId" class="form-control">
-                                                <option disabled selected value="">Select Shift</option>
-                                                <option ng-repeat="Shift in ShiftsList" ng-selected="Shift.Id == User.ShiftId" value="{{Shift.Id}}">{{Shift.Name}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3" ng-if="User.HasSupervisor">
-                                        <select ng-model="User.SupervisorId" class="form-control">
-                                            <option selected value="">Select Supervisor</option>
-                                            <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Has Supervisor</label>
-                                        <input type="checkbox" class="" ng-model="User.HasSupervisor" ng-change="CheckForDepartment(User.DepartmentId)" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" ng-model="User.Password" />
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Confirm Password</label>
-                                        <input type="password" class="form-control" ng-model="User.ConfirmPassword" />
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label>Profile Photo</label>
-                                        <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <img style="  max-height: 413px;max-width:200px" src="{{User.ImageUrl}}" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-success float-right" ng-click="EditUser(User)">Edit User</button>
-                                        <a href="/User/" title="Cancel" class="btn btn-danger float-right">Cancel</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<link href="~/Content/CardStyle.css" rel="stylesheet" />

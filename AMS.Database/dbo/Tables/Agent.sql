@@ -10,7 +10,7 @@
 	[Address] nvarchar(max),
 	[Designation] int,
 	[DepartmentId] int,
-	[ShiftId] int default(1),
+	[ShiftId] int not null default(1),
 	[Email] nvarchar(max),
 	[ImageUrl] nvarchar(max),
 	[IsActive] bit,

@@ -80,6 +80,11 @@
                             <div class="collapse" id="attend" aria-labelledby="headingthree">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/AgentAttendance/Index">My Attendence</a>
+                                    @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.HR))
+                                    {
+                                        <a class="nav-link" href="/AgentAttendance/AgentAttendance">Agent Attendance</a>
+                                        <a class="nav-link" href="/AgentAttendance/StaffAttendance">Staff Attendance</a>
+                                    }
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
@@ -89,24 +94,10 @@
                             <div class="collapse" id="leave" aria-labelledby="headingthree">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="/Leave/Index">My Leaves</a>
-                                </nav>
-                            </div>
-                            @*<a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#payrcd" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                Pay Record
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="payrcd" aria-labelledby="headingthree">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="/PayRecord/Index">Pay Record</a>
-                </nav>
-            </div>*@
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#marksignoff" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                Mark Sign Off
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="marksignoff" aria-labelledby="headingthree">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a href="#" data-toggle="modal" data-target="#SignOffModal"><i class="fas fa-sign-out-alt"></i> Mark Sign Off Time<i class="fas fa-caret-right NavbarLink"></i></a>
+                                    @if (User.IsInRole(UserRoles.HR))
+                                    {
+                                        <a class="nav-link" href="/Leave/Requests">Leave Requests</a>
+                                    }
                                 </nav>
                             </div>
                         }
@@ -148,7 +139,8 @@
                                     <a class="nav-link" href="/Department/Add">Add Department</a>
                                     <a class="nav-link" href="/Department/">Departments</a>
                                 </nav>
-                            </div>}
+                            </div>
+                        }
                         @if (User.IsInRole(UserRoles.HR))
                         {
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseTickets" aria-expanded="false" aria-controls="pagesCollapseTickets">
@@ -161,59 +153,31 @@
                                 </nav>
                             </div>
                         }
-                        @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.HR))
-                            {
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAttendance" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                    Attendance
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAttendance" aria-labelledby="headingthree">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="/AgentAttendance">My Attendance</a>
-                                        <a class="nav-link" href="/AgentAttendance/AgentAttendance">Agent Attendance</a>
-                                        <a class="nav-link" href="/AgentAttendance/StaffAttendance">Staff Attendance</a>
-                                    </nav>
-                                </div>
-                            }
-                            @if (User.IsInRole(UserRoles.HR))
-                            {
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                    Leave
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="leave" aria-labelledby="headingthree">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="/Leave/Index">My Leaves</a>
-                                        <a class="nav-link" href="/Leave/Requests">Leave Requests</a>
-                                    </nav>
-                                </div>
-                            }
-                            @if (User.IsInRole(UserRoles.HR))
-                            {
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseUpload" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                    Upload
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseUpload" aria-labelledby="headingthree">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="/Hiring/">Hiring Process/Approvals</a>
-                                        <a class="nav-link" href="/AgentAttendance/">Profile/Documents</a>
-                                        <a class="nav-link" href="/AgentAttendance/">Performance Review/Achievement</a>
-                                        <a class="nav-link" href="/AgentAttendance/">Exit Employee/Final Settlement</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#marksignoff" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                    Mark Sign Off
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="marksignoff" aria-labelledby="headingthree">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a href="#" data-toggle="modal" data-target="#SignOffModal"><i class="fas fa-sign-out-alt"></i> Mark Sign Off Time<i class="fas fa-caret-right NavbarLink"></i></a>
-                                    </nav>
-                                </div>
-                            }
-
+                        @if (User.IsInRole(UserRoles.HR))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseUpload" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                                Upload
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseUpload" aria-labelledby="headingthree">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Hiring/">Hiring Process/Approvals</a>
+                                    <a class="nav-link" href="/AgentAttendance/">Profile/Documents</a>
+                                    <a class="nav-link" href="/AgentAttendance/">Performance Review/Achievement</a>
+                                    <a class="nav-link" href="/AgentAttendance/">Exit Employee/Final Settlement</a>
+                                </nav>
+                            </div>
+                        }
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#marksignoff" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            Mark Sign Off
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="marksignoff" aria-labelledby="headingthree">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a href="#" data-toggle="modal" data-target="#SignOffModal"><i class="fas fa-sign-out-alt"></i> Mark Sign Off Time<i class="fas fa-caret-right NavbarLink"></i></a>
+                            </nav>
                         </div>
+                    </div>
                 </div>
             </nav>
         </div>

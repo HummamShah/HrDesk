@@ -40,15 +40,15 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Remaining Leaves</label>
-                                        <input type="number" class="form-control" min="0" max="30" value ="30" onkeydown="return false" ng-model="User.RemainingLeaves" />
+                                        <input type="number" class="form-control" min="0" max="30" value="30" onkeydown="return false" ng-model="User.RemainingLeaves" />
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Annual Leaves</label>
-                                        <input type="number" class="form-control" min="0" max="20" value ="20" onkeydown="return false" ng-model="User.AnnualLeaves" />
+                                        <input type="number" class="form-control" min="0" max="20" value="20" onkeydown="return false" ng-model="User.AnnualLeaves" />
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Medical Leaves</label>
-                                        <input type="number" class="form-control" min="0" max="10" value ="10" onkeydown="return false" ng-model="User.MedicalLeaves" />
+                                        <input type="number" class="form-control" min="0" max="10" value="10" onkeydown="return false" ng-model="User.MedicalLeaves" />
                                     </div>
                                     <div class="form-group col-md-3">
                                         <div class="">
@@ -62,7 +62,8 @@
                                     <div class="form-group col-md-3">
                                         <div class="">
                                             <label>Shift</label>
-                                            <select ng-model="User.ShiftId" class="form-control"> @*ng-change="GetUsersByDepartmentId(User.DepartmentId)">*@
+                                            <select ng-model="User.ShiftId" class="form-control">
+                                                @*ng-change="GetUsersByDepartmentId(User.DepartmentId)">*@
                                                 <option selected value="">Select Shift</option>
                                                 <option ng-repeat="Shift in ShiftsList" ng-selected="Shift.Id == User.ShiftId" value="{{Shift.Id}}">{{Shift.Name}}</option>
                                             </select>
@@ -92,10 +93,79 @@
                                         <label>Profile Photo</label>
                                         <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <img style="  max-height: 413px;max-width:200px" src="{{User.ImageUrl}}" />
-                                    </div>
+                                    @*<div class="form-group col-md-6">
+                                        <img style="max-height: 413px;max-width:200px" src="{{User.ImageUrl}}" />
+                                    </div>*@
                                 </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Resume</label>
+                                        <input type="file" ngf-select="UploadFile($files, 'Resume')" class="form-control" />
+                                    </div>
+                                    <span>
+                                        <a href="" ng-click="RemoveUploadedFile('Resume')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>CNIC front</label>
+                                        <input type="file" ngf-select="UploadFile($files, 'CNIC front')" class="form-control" />
+                                    </div>
+                                    <span>
+                                        <a href="" ng-click="RemoveUploadedFile('CNIC front')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>CNIC back</label>
+                                        <input type="file" ngf-select="UploadFile($files, 'CNIC back')" class="form-control" />
+                                    </div>
+                                    <span>
+                                        <a href="" ng-click="RemoveUploadedFile('CNIC back')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Appointment Letter</label>
+                                        <input type="file" ngf-select="UploadFile($files, 'Appointment Letter')" class="form-control" />
+                                    </div>
+                                    <span>
+                                        <a href="" ng-click="RemoveUploadedFile('Appointment Letter')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                                <div>
+                                    <label>Educational Documents</label>
+                                    <div class="col-md-9" ng-repeat="row in User.EductaionalDocs">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+
+                                                <input type="file" ngf-select="UploadEducationalFile($files, 'Educational', $index)" class="form-control" />
+                                            </div>
+                                            <span>
+                                                <a href="" ng-click="RemoveUploadedEducationalFile($index)"><i class="fas fa-trash-alt"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button ng-click="AddEdcuationalDocRow()">Add Row</button>
+                                </div>
+                                <div>
+                                    <label>Certifications & Courses</label>
+                                    <div class="col-md-9" ng-repeat="row in User.Certificates">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+
+                                                <input type="file" ngf-select="UploadCertificate($files, 'Certifications', $index)" class="form-control" />
+                                            </div>
+                                            <span>
+                                                <a href="" ng-click="RemoveUploadedCertificate($index)"><i class="fas fa-trash-alt"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button ng-click="AddCertificateRow()">Add Row</button>
+                                </div>
+
+
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <button type="button" class="btn btn-success float-right" ng-click="AddUser(User)">Add User</button>
@@ -104,6 +174,7 @@
                                 </div>
                             </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -112,121 +183,3 @@
 </div>
 
 <link href="~/Content/CardStyle.css" rel="stylesheet" />
-<!--<div class="container-fluid" ng-controller="UserCtrl" ng-init="AddInit()">
-    <div class="jumbotron PageHeading">
-        <div class="row"><div class="col-md-3"><h2>Add User</h2></div></div>
-    </div>
-
-    <div class="jumbotron PageHeading">
-        <div class="row">
-            <form id="VendorAddForm ">
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" ng-model="User.FirstName" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" ng-model="User.LastName" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>Address</label>
-                        <input type="text" class="form-control" ng-model="User.Address" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>Email</label>
-                        <input type="email" class="form-control" ng-model="User.Email" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>Primary Contact</label>
-                        <input type="text" class="form-control" ng-model="User.Contact1" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>Alternate Contact</label>
-                        <input type="text" class="form-control" ng-model="User.Contact2" />
-                    </div>
-                </div>-->
-@*<div class="form-group">
-        <div class="col-md-3">
-            <label>Designation Or Role</label>
-            <select ng-model="User.Designation" class="form-control">
-                <option value="0">Sales Lead</option>
-                <option value="1">Sales Closer</option>
-                <option value="2">Pmd</option>
-                <option value="3">Pre Sale</option>
-            </select>
-        </div>
-    </div>*@
-@*<div class="form-group">
-        <div class="col-md-3">
-            <label>Department</label>
-            <select ng-model="User.DepartmentId" class="form-control" ng-change="GetUsersByDepartmentId(User.DepartmentId)">
-                <option selected value="">Select Department</option>
-                <option ng-repeat="Department in Departments" value="{{Department.Id}}">{{Department.Name}}</option>
-            </select>
-        </div>
-    </div>*@
-
-
-<!--<div class="form-group">
-    <div class="col-md-3">
-        <label>Password</label>
-        <input type="password" class="form-control" ng-model="User.Password" />
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-md-3">
-        <label>Confirm Password</label>
-        <input type="password" class="form-control" ng-model="User.ConfirmPassword" />
-    </div>
-</div>
-
-<div class="form-group" ng-if="User.HasSupervisor">
-    <div class="col-md-3">
-        <label>User</label>
-        <select ng-model="User.SupervisorId" class="form-control">
-            <option selected value="">Select Supervisor</option>
-            <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
-        </select>
-    </div>
-</div>-->
-@* <div class="form-group">
-        <div class="col-md-3">
-            <label>Has Supervisor</label>
-            <input type="checkbox" class="" ng-model="User.HasSupervisor" ng-change="CheckForDepartment(User.DepartmentId)" />
-        </div>
-    </div>*@
-
-<!--<div class="row">
-                    <div class="form-group col-md-6">
-                        <label>Profile/Logo Photo</label>
-                        <input type="file" accept="image/*" ngf-select="UploadNationCover($files,'ProfileImageUrl')" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-6">
-                        <img style="  max-height: 413px;max-width:200px" src="{{User.ProfileImageUrl}}" />
-                    </div>
-                </div>
-
-
-            </form>
-            <div class="row">
-                <div class="row float-right">
-                    <button class="btn btn-primary" ng-click="AddUser(User)">Add</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-</div>-->

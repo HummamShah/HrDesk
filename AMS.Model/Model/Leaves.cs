@@ -31,8 +31,8 @@ namespace AMS.Model.Model
         public string Reason { get; set; }
         public Nullable<int> DaysCount { get; set; }
     
-        public virtual Agent Agent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeaveDates> LeaveDates { get; set; }
+        public virtual Agent Agent { get; set; }
     }
 }

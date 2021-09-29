@@ -5,30 +5,33 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a33e63a315db4cd0b2b87ddede707bff" Name="Diagram1" ZoomLevel="85">
-        <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AMSModel.AgentAttendance" Width="1.5" PointX="7.5" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.AspNetUsers" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AMSModel.Department" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="AMSModel.FK_Agent_Agent" ManuallyRouted="false" />
-        <AssociationConnector Association="AMSModel.FK_Agent_User" ManuallyRouted="false" />
-        <AssociationConnector Association="AMSModel.FK_AgentAttendace_Agent" ManuallyRouted="false" />
         <AssociationConnector Association="AMSModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="AMSModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="AMSModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="AMSModel.Leaves" Width="1.5" PointX="7.5" PointY="9" />
-        <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
         <EntityTypeShape EntityType="AMSModel.Pay" Width="1.5" PointX="7.5" PointY="13.25" />
-        <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <EntityTypeShape EntityType="AMSModel.LeaveDates" Width="1.5" PointX="9.75" PointY="9.625" />
         <AssociationConnector Association="AMSModel.FK_LeaveDates_Leaves" />
         <EntityTypeShape EntityType="AMSModel.Notification" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="AMSModel.Shifts" Width="1.5" PointX="3" PointY="1.875" />
+        <EntityTypeShape EntityType="AMSModel.Documents" Width="1.5" PointX="7.5" PointY="16.875" />
+        <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="AMSModel.AgentAttendance" Width="1.5" PointX="7.5" PointY="2.75" />
+        <AssociationConnector Association="AMSModel.FK_Agent_Agent" />
         <AssociationConnector Association="AMSModel.FK_Agent_Shifts" />
+        <AssociationConnector Association="AMSModel.FK_Agent_User" />
+        <AssociationConnector Association="AMSModel.FK_AgentAttendace_Agent" />
+        <AssociationConnector Association="AMSModel.FK_Documents_AgentId" />
+        <AssociationConnector Association="AMSModel.FK_Documents_UploadedBy" />
+        <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
+        <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentAttendace_Shifts" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -238,6 +238,7 @@
     <Compile Include="Models\Requests\Department\GetDepartmentDropdownRequest.cs" />
     <Compile Include="Models\Requests\Department\GetDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\GetListingRequest.cs" />
+    <Compile Include="Models\Requests\FileUpload\Document.cs" />
     <Compile Include="Models\Requests\FileUpload\FileUploadRequest.cs" />
     <Compile Include="Models\Requests\Hiring\AddHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\EditHiringRequest.cs" />
@@ -535,14 +536,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AMS.Model\AMS.Model.csproj">
-      <Project>{2EBF3CD9-0773-431D-9F71-E4FE8870DA07}</Project>
-      <Name>AMS.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AMS.Model\AMS.Model.csproj">
+      <Project>{2ebf3cd9-0773-431d-9f71-e4fe8870da07}</Project>
+      <Name>AMS.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,6 +6,7 @@ using AMS.Models.Enums;
 using AMS.Models.Requests.User;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using AMS.Models.Requests.FileUpload;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,6 +156,8 @@ namespace AMS.Controllers.Api
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    model.UserId = User.Identity.GetUserId();
+                    var uploadedBy = db.Agent.Where(x => x.UserId == model.UserId).FirstOrDefault().Id;
                     var CurrentUserName = User.Identity.Name;
                     var AgentData = new Agent();
                     AgentData.UserId = user.Id;
@@ -178,6 +181,52 @@ namespace AMS.Controllers.Api
                         AgentData.SuperVisorId = model.SupervisorId;
                     }
                     var AgentResult = db.Agent.Add(AgentData);
+                    db.SaveChanges();
+
+                    foreach (var Doc in model.Docs) {
+                        var docs = new Documents();
+                        docs.AgentId = AgentResult.Id;
+                        docs.Title = Doc.Title;
+                        docs.SubTitle = Doc.SubTitle;
+                        docs.UploadedBy = uploadedBy;
+                        docs.UploadedOn = DateTime.Now;
+                        docs.DocumentUrl = Doc.Url;
+                        AgentData.Documents.Add(docs);
+                        db.SaveChanges();
+                    }
+
+                    foreach (var Doc in model.EductaionalDocs)
+                    {
+                        if (Doc.Title != null && Doc.Title != "")
+                        {
+                            var docs = new Documents();
+                            docs.AgentId = AgentResult.Id;
+                            docs.Title = Doc.Title;
+                            docs.SubTitle = Doc.SubTitle;
+                            docs.UploadedBy = uploadedBy;
+                            docs.UploadedOn = DateTime.Now;
+                            docs.DocumentUrl = Doc.Url;
+                            AgentData.Documents.Add(docs);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    foreach (var Doc in model.Certificates)
+                    {
+                        if (Doc.Title != null && Doc.Title != "")
+                        {
+                            var docs = new Documents();
+                            docs.AgentId = AgentResult.Id;
+                            docs.Title = Doc.Title;
+                            docs.SubTitle = Doc.SubTitle;
+                            docs.UploadedBy = uploadedBy;
+                            docs.UploadedOn = DateTime.Now;
+                            docs.DocumentUrl = Doc.Url;
+                            AgentData.Documents.Add(docs);
+                            db.SaveChanges();
+                        }
+                    }
+
                     var RoleResult = await _userManager.AddToRoleAsync(user.Id, Roles.Employee);
                     if (RoleResult.Succeeded)
                     {
@@ -218,7 +267,8 @@ namespace AMS.Controllers.Api
         public async Task<object> EditUser(EditUserRequest request)
         {
             var response = new EditUserResponse();
-
+            var UserId = User.Identity.GetUserId();
+            var uploadedBy = db.Agent.Where(x => x.UserId == UserId).FirstOrDefault().Id;
             var AgentData = db.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
             var DepartId = AgentData.DepartmentId;
             AgentData.DepartmentId = request.DepartmentId;
@@ -236,11 +286,43 @@ namespace AMS.Controllers.Api
             AgentData.Gender = request.Gender;
             AgentData.ImageUrl = request.ImageUrl;
             AgentData.ShiftId = request.ShiftId;
+
+            UpdateDocumentInDB("Resume", AgentData.Id, uploadedBy, request.Docs, AgentData);
+            UpdateDocumentInDB("CNIC back", AgentData.Id, uploadedBy, request.Docs, AgentData);
+            UpdateDocumentInDB("CNIC front", AgentData.Id, uploadedBy, request.Docs, AgentData);
+            UpdateDocumentInDB("Appointment Letter", AgentData.Id, uploadedBy, request.Docs, AgentData);
+            
+
+            //var ResumeId = AgentData.Documents.Where(x => x.Title == "Resume" && x.AgentId == AgentData.Id).FirstOrDefault();
+            //ResumeId.SubTitle = request.Docs.Where(x => x.Title == "Resume").FirstOrDefault().SubTitle;
+            //ResumeId.DocumentUrl = request.Docs.Where(x => x.Title == "Resume").FirstOrDefault().Url;
+            //ResumeId.UploadedBy = uploadedBy;
+            //ResumeId.UploadedOn = DateTime.Now;
+            //db.SaveChanges();
+
+            //    foreach (var doc in Docs) {
+            //    db.Documents.Remove(doc);
+            //    db.SaveChanges();
+            //}
+
+            //foreach (var doc in request.Docs) {
+            //    var Doc = new Documents();
+            //    Doc.AgentId = AgentData.Id;
+            //    Doc.Title = doc.Title;
+            //    Doc.SubTitle = doc.SubTitle;
+            //    Doc.DocumentUrl = doc.Url;
+            //    Doc.UploadedBy = uploadedBy;
+            //    Doc.UploadedOn = DateTime.Now;
+            //    db.Documents.Add(Doc);
+            //    db.SaveChanges();
+            //}
+
             if (request.HasSupervisor.HasValue)
             {
                 AgentData.HasSupervisor = request.HasSupervisor;
                 AgentData.SuperVisorId = request.SupervisorId;
             }
+
             db.SaveChanges();
             /*if (request.DepartmentId != DepartId)
             {
@@ -308,6 +390,21 @@ namespace AMS.Controllers.Api
             AgentData.ImageUrl = request.ImageUrl;
             db.SaveChanges();
             return response;
+        }
+
+        public bool UpdateDocumentInDB(string Title, int AgentId, int uploadedBy, List<Document> Docs, Agent AgentData) {
+            var flag = false;
+            var DbRow = AgentData.Documents.Where(x => x.Title == Title && x.AgentId == AgentId).FirstOrDefault();
+            DbRow.SubTitle = Docs.Where(x => x.Title == Title).FirstOrDefault().SubTitle;
+            DbRow.DocumentUrl = Docs.Where(x => x.Title == Title).FirstOrDefault().Url;
+            if (DbRow.DocumentUrl != "" && DbRow.DocumentUrl != null)
+            {
+                DbRow.UploadedBy = uploadedBy;
+                DbRow.UploadedOn = DateTime.Now;
+            }
+            db.SaveChanges();
+            flag = true;
+            return flag;
         }
     }
 }
