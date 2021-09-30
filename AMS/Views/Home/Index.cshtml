@@ -48,11 +48,11 @@
                 </div>
             </div>
         </div>*@
-                <div class="col-md-4 col-xl-3">
-                    <div class="card bg-c-pink order-card">
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-pink order-card boxsize">
                         <div class="card-block">
-                            <h6 class="m-b-20" ng-if="!User.IsAbsent">Today's Sign In Time </h6>
-                            <h2 class="text-right" ng-if="!User.IsAbsent"><i class="fa fa-clock f-left"></i><span>{{User.TodayClockIn | date:'hh:mm a'}}</span></h2>
+                            <h4 class="m-b-20 mb-4 text-dark" ng-if="!User.IsAbsent">Today's Sign In Time </h4>
+                            <h2 class="text-right" ng-if="!User.IsAbsent"><i class="fa fa-clock f-left"></i><span class="mr-3">{{User.TodayClockIn | date:'hh:mm a'}}</span></h2>
                             <p class="m-b-0" ng-if="User.IsLate">You are late today</p>
                             <p class="m-b-0" ng-if="User.IsAbsent">You are absent today</p>
                             <p class="m-b-0" ng-if="User.IsExcused">You are excused today</p>
@@ -60,11 +60,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-xl-3">
-                    <div class="card bg-c-yellow order-card">
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-yellow order-card boxsize">
                         <div class="card-block">
-                            <h6 class="m-b-20"></h6>
-                            <h6 class="m-b-20">Leaves</h6>
+                            
+                            <h4 class="m-b-20 mb-4 text-dark">Leaves</h4>
                             <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}</span></p>
                             <p class="m-b-0">Annual Leaves <span class="f-right">{{User.AnnualLeaves}}</span></p>
                             <p class="m-b-0">Medical Leaves <span class="f-right">{{User.MedicalLeaves}}</span></p>
@@ -72,10 +72,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-xl-3">
-                    <div class="card bg-c-green order-card">
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-green order-card boxsize">
                         <div class="card-block">
-                            <h6 class="m-b-20"><b>This Month</b></h6>
+                            <h4 class="m-b-20 mb-2 text-dark"><b>This Month</b></h4>
                             @*<h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>000</span></h2>*@
                             <p class="m-b-0">On Time<span class="f-right">{{User.PresentCount}}</span></p>
                             <p class="m-b-0">Late<span class="f-right">{{User.LateCount}}</span></p>
@@ -146,109 +146,175 @@
                     </div>
                 </div>
                 <style>
-                    .clock-day:before {
-  content: var(--timer-day);
-}
-.clock-hours:before {
-  content: var(--timer-hours);
-}
-.clock-minutes:before {
-  content: var(--timer-minutes);
-}
-.clock-seconds:before {
-  content: var(--timer-seconds);
-}
-
-
-
-                    .clock-container {
-                        margin-top: 1px;
-                        margin-bottom: 248px;
-                        background-color: #547394;
-                        border-radius: 5px;
-                        padding: 60px 20px;
-                        box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.15), 0 15px 90px 30px rgba(0, 0, 0, 0.25);
-                        display: flex;
+                    .clock {
+                        background: #ececec;
+                        width: 300px;
+                        height: 300px;
+                        margin: 2% auto 0 5%;
+                        border-radius: 50%;
+                        border: 1px solid #333;
+                        position: relative;
+                        box-shadow: 0 2vw 4vw -1vw rgba(0,0,0,0.8);
                     }
-.clock-col {
-  text-align: center;
-  margin-right: 40px;
-  margin-left: 40px;
-  min-width: 10px;
-  position: relative;
-}
-.clock-col:not(:last-child):before, .clock-col:not(:last-child):after {
-  content: "";
-  background-color: rgba(255, 255, 255, 0.3);
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  display: block;
-  position: absolute;
-  right: -42px;
-}
-.clock-col:not(:last-child):before {
-  top: 35%;
-}
-.clock-col:not(:last-child):after {
-  top: 50%;
-}
-.clock-timer:before {
-  color: #fff;
-  font-size: 4.2rem;
-  text-transform: uppercase;
-}
-.clock-label {
-  color: white;
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  margin-top: 10px;
-}
 
-@@media (max-width: 825px) {
-  .clock-container {
-    flex-direction: column;
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
+                    .dot {
+                        width: 14px;
+                        height: 14px;
+                        border-radius: 50%;
+                        background: #ccc;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        margin: auto;
+                        position: absolute;
+                        z-index: 10;
+                        box-shadow: 0 2px 4px -1px black;
+                    }
 
-  .clock-col + .clock-col {
-    margin-top: 20px;
-  }
-  .clock-col:before, .clock-col:after {
-    display: none !important;
-  }
-}
+                    .hour-hand {
+                        position: absolute;
+                        z-index: 5;
+                        width: 4px;
+                        height: 65px;
+                        background: #333;
+                        top: 79px;
+                        transform-origin: 50% 72px;
+                        left: 50%;
+                        margin-left: -2px;
+                        border-top-left-radius: 50%;
+                        border-top-right-radius: 50%;
+                    }
+
+                    .minute-hand {
+                        position: absolute;
+                        z-index: 6;
+                        width: 4px;
+                        height: 100px;
+                        background: #666;
+                        top: 46px;
+                        left: 50%;
+                        margin-left: -2px;
+                        border-top-left-radius: 50%;
+                        border-top-right-radius: 50%;
+                        transform-origin: 50% 105px;
+                    }
+
+                    .second-hand {
+                        position: absolute;
+                        z-index: 7;
+                        width: 2px;
+                        height: 120px;
+                        background: gold;
+                        top: 26px;
+                        lefT: 50%;
+                        margin-left: -1px;
+                        border-top-left-radius: 50%;
+                        border-top-right-radius: 50%;
+                        transform-origin: 50% 125px;
+                    }
+
+                    .clk span {
+                        display: inline-block;
+                        position: absolute;
+                        color: #333;
+                        font-size: 22px;
+                        font-family: 'Poiret One';
+                        font-weight: 700;
+                        z-index: 4;
+                    }
+
+                    .h12 {
+                        top: 30px;
+                        left: 50%;
+                        margin-left: -9px;
+                    }
+
+                    .h3 {
+                        top: 140px;
+                        right: 30px;
+                    }
+
+                    .h6 {
+                        bottom: 30px;
+                        left: 50%;
+                        margin-left: -5px;
+                    }
+
+                    .h9 {
+                        left: 32px;
+                        top: 140px;
+                    }
+
+                    .diallines {
+                        position: absolute;
+                        z-index: 2;
+                        width: 2px;
+                        height: 15px;
+                        background: #666;
+                        left: 50%;
+                        margin-left: -1px;
+                        transform-origin: 50% 150px;
+                    }
+
+                        .diallines:nth-of-type(5n) {
+                            position: absolute;
+                            z-index: 2;
+                            width: 4px;
+                            height: 25px;
+                            background: #666;
+                            left: 50%;
+                            margin-left: -1px;
+                            transform-origin: 50% 150px;
+                        }
+
+                    .info {
+                        position: absolute;
+                        width: 120px;
+                        height: 20px;
+                        border-radius: 7px;
+                        background: #ccc;
+                        text-align: center;
+                        line-height: 20px;
+                        color: #000;
+                        font-size: 11px;
+                        top: 200px;
+                        left: 50%;
+                        margin-left: -60px;
+                        font-family: "Poiret One";
+                        font-weight: 700;
+                        z-index: 3;
+                        letter-spacing: 3px;
+                        margin-left: -60px;
+                        left: 50%;
+                    }
+
+                    .date {
+                        top: 80px;
+                    }
+
+                    .day {
+                        top: 200px;
+                    }
                 </style>
-                <div class="clock-container">
-                    <div class="clock-col">
-                        <p class="clock-day clock-timer">
-                        </p>
-                        <p class="clock-label">
-                            Day
-                        </p>
+                <div class="clock">
+                    <div>
+                        <div class="info date"></div>
+                        <div class="info day"></div>
                     </div>
-                    <div class="clock-col">
-                        <p class="clock-hours clock-timer">
-                        </p>
-                        <p class="clock-label">
-                            Hours
-                        </p>
+                    <div class="dot"></div>
+                    <div>
+                        <div class="hour-hand"></div>
+                        <div class="minute-hand"></div>
+                        <div class="second-hand"></div>
                     </div>
-                    <div class="clock-col">
-                        <p class="clock-minutes clock-timer">
-                        </p>
-                        <p class="clock-label">
-                            Minutes
-                        </p>
+                    <div class="clk">
+                        <span class="h3">3</span>
+                        <span class="h6">6</span>
+                        <span class="h9">9</span>
+                        <span class="h12">12</span>
                     </div>
-                    <div class="clock-col">
-                        <p class="clock-seconds clock-timer">
-                        </p>
-                        <p class="clock-label">
-                            Seconds
-                        </p>
-                    </div>
+                    <div class="diallines"></div>
                 </div>
 
 

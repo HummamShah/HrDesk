@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
 }
+<link href="~/Content/Badges.css" rel="stylesheet" />
 
 <div class="container-fluid" ng-controller="LeaveCtrl" ng-init="initIndex()">
     <div class="row" style="margin-top: 20px;">
@@ -13,28 +14,32 @@
                     chart-series="series"
                 </canvas>
             </div>*@
-        <div class="col-xl-5 col-md-12 col-lg-auto">
-            <div>
-                <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#applyleaves">APPLY LEAVE</button>
-            </div>
+
+
+
+        <div class="col-xl-6 col-md-12 col-lg-auto">
+
             <div class="card">
                 <div class="card-header  border-0">
                     <h4 class="card-title">Summary of Leaves for the year {{selectedYear}}</h4>
+
                 </div>
+
+
                 <div class="card-body pt-0 pb-0">
                     <div class="row mb-0 pb-0">
-                        <div class="row mb-0 pb-0 ml-4">
+                        <div class="row mb-0 pb-0 ml-2">
                         </div>
-                        <div class="row mb-0 pb-0 ml-5">
-                            <div style="color: chartreuse" class="col-md-1 col-xl-auto text-center py-3">
+                        <div class="row mb-0 pb-0 ml-2">
+                            <div style="color: chartreuse" class="col-md-3 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{UserIdentity.RemainingLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Total Remaining Leaves</h6>
                             </div>
-                            <div style="color: red" class="col-md-1 col-xl-auto text-center py-3 ">
+                            <div style="color: red" class="col-md-3 col-xl-auto text-center py-3 ">
                                 <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{UserIdentity.AnnualLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Annual Leaves Left</h6>
                             </div>
-                            <div style="color: blueviolet" class="col-md-1 col-xl-auto text-center py-3">
+                            <div style="color: blueviolet" class="col-md-3 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{UserIdentity.MedicalLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Medical Leaves Left</h6>
                             </div>
@@ -42,8 +47,60 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="col-md-3 text-center mt-5">
+            <!-- button classes -->
+            <button data-toggle="modal" data-target="#applyleaves" role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded">
+                <i class="typcn typcn-arrow-left"></i> <span class="spn">Apply Leave</span>
+            </button>
+
         </div>
     </div>
+
+
+
+    
+    @*<div class="container bootstrap snippets bootdey">
+        <div class="row margin-bottom-10">            
+            <div class="col-md-2 col-sm-6">
+                <div class="servive-block servive-block-yellow">
+                    <i class="icon-2x color-light fa fa-envelope"></i>
+                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{UserIdentity.RemainingLeaves}}</h6>
+                    <h6 class="mb-0 mt-1">Total Remaining Leaves</h6>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="servive-block servive-block-dark-blue">
+                    <i class="icon-2x color-light fa fa-gift"></i>
+                    <h2 class="heading-md">Dark Blue Box</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus id elit mi egetine. Fusce dapibus</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row margin-bottom-10">
+            <div class="col-sm-6">
+                <div class="servive-block servive-block-purple">
+                    <i class="icon-2x color-light fa fa-globe"></i>
+                    <h2 class="heading-md">Purple Box</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus id elit mi egetine. Fusce dapibus. At vero eos et accusamus et iusto odio dignissimos ducimus qui.</p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="servive-block rounded servive-block-aqua">
+                    <i class="icon-2x color-light fa fa-taxi"></i>
+                    <h2 class="heading-md">Aqua Box</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus id elit mi egetine. Fusce dapibus. At vero eos et accusamus et iusto odio dignissimos ducimus qui.</p>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+
+
     <div class="row" style="margin-top: 20px;">
         @*<div class="col-xl-5 col-md-12 col-lg-12 barmt">
                 <canvas id="bar" class="chart-bar"
@@ -51,51 +108,68 @@
                     chart-series="series"
                 </canvas>
             </div>*@
-        <div class="col-xl-7 col-md-12 col-lg-12">
+
+        <div class="col-xl-9 col-md-12 col-lg-auto">
             <div class="card">
                 <div class="card-header  border-0">
-                    <h4 class="card-title">Leaves Taken in {{months[searchedMonth].name}} {{selectedYear}}</h4>
+                    <h4 class="card-title">Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
                 </div>
-                <div class="card-body pt-0 pb-3">
+                <div class="card-body pt-0 pb-0">
                     <div class="row mb-0 pb-0">
-                        <div ng-if="!Summary.LeaveIsEmpty">
-                            <div class="col-md-1 col-xl-auto text-center py-3">
+                        <div class="row mb-0 pb-0" style=" margin-left: 200px; ">
+
+                            <div class="col-md-auto col-xl-auto text-center py-4 ">
+                                <select ng-model="selectedMonth" class="btnstyl">
+                                    <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-auto col-xl-auto text-center py-4">
+
+                                <select ng-model="selectedYear" class="btnstyl1">
+                                    <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-auto col-xl-auto text-center py-3">
+                                <!-- button classes -->
+                                <button role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded mt-2">
+                                    <i class="fa fa-chevron-left"></i> <span class="spn ml-1" ng-click="getLeaveSummary(selectedYear, selectedMonth)">GET</span>
+                                </button>
+                            </div>
+
+
+
+                            <div class="col-md-1 col-xl-auto text-center py-3" ng-if="Summary.LeaveIsEmpty">
+                                <div>
+                                    You have not applied any leaves in {{months[searchedMonth].name}}' {{selectedYear}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-0 pb-0 ml-3" ng-if="!Summary.LeaveIsEmpty">
+                            <div class="col-md-2 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">{{Summary.AcceptedAnnualLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Accepted Annual Leaves</h6>
                             </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3 ">
+                            <div class="col-md-2 col-xl-auto text-center py-3 ">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.AcceptedMedicalLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Accepted Medical Leaves</h6>
                             </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3">
+                            <div class="col-md-2 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">{{Summary.PendingAnnualLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Pending Annual Leaves</h6>
                             </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3">
+                            <div class="col-md-2 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-primary-transparent">{{Summary.PendingMedicalLeaves}}</h6>
                                 <h6 class="mb-0 mt-3">Pending Medical Leaves</h6>
                             </div>
-                        </div>
-                        <div ng-if="Summary.LeaveIsEmpty">
-                            You have not applied any leaves in {{months[searchedMonth].name}}' {{selectedYear}}
-                        </div>
-                        <div style="width:15%;float:right;margin-left:5px;">
-                            <select ng-model="selectedMonth">
-                                <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
-                            </select>
-                        </div>
-                        <div style="width:15%;float:right;margin-left:5px;">
-                            <select ng-model="selectedYear">
-                                <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <button class="btn btn-primary btn-block" ng-click="getLeaveSummary(selectedYear, selectedMonth)">GET</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
     </div>
     <div class="row" ng-if="!Summary.LeaveIsEmpty">
         <div class="col-xl-12 col-md-12 col-lg-12">
@@ -105,7 +179,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <table class="table table-bordered table-responsive-xs" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-responsive-sm table-responsive-xs" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr style="overflow:hidden;">
                                     <th>
@@ -198,10 +272,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="ml-auto">
-                        <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
+                    <div class="ml-auto mt-2">
                         <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="applyLeave()">Apply</button>
                     </div>
+                    <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
                 </div>
             </div>
         </div>
