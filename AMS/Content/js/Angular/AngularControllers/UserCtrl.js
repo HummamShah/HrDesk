@@ -194,11 +194,12 @@
             $scope.AddInit = function () {
                 $scope.User = {};
                 $scope.Document = {};
-                $scope.User.Docs = [{ "Title": "Resume" }, { "Title": "CNIC front" }, { "Title": "CNIC back" }, { "Title": "Appointment Letter" }];
-                $scope.User.EductaionalDocs = [];
+                $scope.User.Docs = [{ "Title": "Resume", "ChooseInput": false }, { "Title": "CNIC front", "ChooseInput": false }, { "Title": "CNIC back", "ChooseInput": false }, { "Title": "Appointment Letter", "ChooseInput": false }];
+                $scope.User.EducationalDocs = [];
                 $scope.User.Certificates = [];
-                $scope.AddEdcuationalDocRow();
+                $scope.AddEducationalDocRow();
                 $scope.AddCertificateRow();
+                console.log($scope.User.EducationalDocs);
                 $scope.AjaxGet("/api/DepartmentApi/GetDepartmentsDropdown", null).then(
                     function (response) {
                         console.log(response);
@@ -214,9 +215,10 @@
             }
 
             // =================================================== ADD EDUCATIONAL DOC ROW ===================================================
-            $scope.AddEdcuationalDocRow = function () {
+            $scope.AddEducationalDocRow = function () {
                 var row = {Id: 0, Title: "", SubTitle: "", Url : ""};
-                $scope.User.EductaionalDocs.push(row);
+                $scope.User.EducationalDocs.push(row);
+                console.log($scope.User.EducationalDocs);
             }
 
             // =================================================== ADD CERTIFICATE ROW ===================================================
@@ -295,8 +297,8 @@
                             $scope.Document.Title = Title;
                             $scope.Document.SubTitle = files[0].name;
                             $scope.Document.Url = response.data.Urls[0];
-                            $scope.User.EductaionalDocs.splice(index, 1, $scope.Document);
-                            console.log($scope.User.EductaionalDocs);
+                            $scope.User.EducationalDocs.splice(index, 1, $scope.Document);
+                            console.log($scope.User.EducationalDocs);
                         } else {
 
                         }
@@ -338,8 +340,8 @@
             // ========================================================== REMOVE UPLOADED EDUCATIONAL FILE ============================================================
             $scope.RemoveUploadedEducationalFile = function (index) {
                 console.log("inside edu doc delete")
-                $scope.User.EductaionalDocs.splice(index, 1);
-                console.log($scope.User.EductaionalDocs);
+                $scope.User.EducationalDocs.splice(index, 1);
+                console.log($scope.User.EducationalDocs);
             }
 
             // ========================================================== REMOVE UPLOADED CERTIFICATE ============================================================

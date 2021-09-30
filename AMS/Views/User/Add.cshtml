@@ -93,79 +93,77 @@
                                         <label>Profile Photo</label>
                                         <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
                                     </div>
-                                    @*<div class="form-group col-md-6">
-                                        <img style="max-height: 413px;max-width:200px" src="{{User.ImageUrl}}" />
-                                    </div>*@
                                 </div>
-
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Resume</label>
-                                        <input type="file" ngf-select="UploadFile($files, 'Resume')" class="form-control" />
+                                        <a ng-if="User.Docs[0].Url && User.Docs[0].Url != ''" href="{{User.Docs[0].Url}}">{{User.Docs[0].SubTitle}}</a>
+                                        <input ng-if="!User.Docs[0].Url || User.Docs[0].Url == ''" type="file" ngf-select="UploadFile($files, 'Resume')" class="form-control" />
                                     </div>
                                     <span>
-                                        <a href="" ng-click="RemoveUploadedFile('Resume')"><i class="fas fa-trash-alt"></i></a>
+                                        <a ng-if="User.Docs[0].Url && User.Docs[0].Url != ''" href="" ng-click="RemoveUploadedFile('Resume')"><i class="fas fa-trash-alt"></i></a>
                                     </span>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>CNIC front</label>
-                                        <input type="file" ngf-select="UploadFile($files, 'CNIC front')" class="form-control" />
+                                        <a ng-if="User.Docs[1].Url && User.Docs[1].Url != ''" href="{{User.Docs[1].Url}}">{{User.Docs[1].SubTitle}}</a>
+                                        <input ng-if="!User.Docs[1].Url || User.Docs[1].Url == ''" type="file" ngf-select="UploadFile($files, 'CNIC front')" class="form-control" />
                                     </div>
                                     <span>
-                                        <a href="" ng-click="RemoveUploadedFile('CNIC front')"><i class="fas fa-trash-alt"></i></a>
+                                        <a ng-if="User.Docs[1].Url && User.Docs[1].Url != ''" href="" ng-click="RemoveUploadedFile('CNIC front')"><i class="fas fa-trash-alt"></i></a>
                                     </span>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>CNIC back</label>
-                                        <input type="file" ngf-select="UploadFile($files, 'CNIC back')" class="form-control" />
+                                        <a ng-if="User.Docs[2].Url && User.Docs[2].Url != ''" href="{{User.Docs[2].Url}}">{{User.Docs[2].SubTitle}}</a>
+                                        <input ng-if="!User.Docs[2].Url || User.Docs[2].Url == ''" type="file" ngf-select="UploadFile($files, 'CNIC back')" class="form-control" />
                                     </div>
                                     <span>
-                                        <a href="" ng-click="RemoveUploadedFile('CNIC back')"><i class="fas fa-trash-alt"></i></a>
+                                        <a ng-if="User.Docs[2].Url && User.Docs[2].Url != ''" href="" ng-click="RemoveUploadedFile('CNIC back')"><i class="fas fa-trash-alt"></i></a>
                                     </span>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Appointment Letter</label>
-                                        <input type="file" ngf-select="UploadFile($files, 'Appointment Letter')" class="form-control" />
+                                        <a ng-if="User.Docs[3].Url && User.Docs[3].Url != ''" href="{{User.Docs[3].Url}}">{{User.Docs[3].SubTitle}}</a>
+                                        <input ng-if="!User.Docs[3].Url || User.Docs[3].Url == ''" type="file" ngf-select="UploadFile($files, 'Appointment Letter')" class="form-control" />
                                     </div>
                                     <span>
-                                        <a href="" ng-click="RemoveUploadedFile('Appointment Letter')"><i class="fas fa-trash-alt"></i></a>
+                                        <a ng-if="User.Docs[3].Url && User.Docs[3].Url != ''" href="" ng-click="RemoveUploadedFile('Appointment Letter')"><i class="fas fa-trash-alt"></i></a>
                                     </span>
                                 </div>
                                 <div>
                                     <label>Educational Documents</label>
-                                    <div class="col-md-9" ng-repeat="row in User.EductaionalDocs">
+                                    <div class="col-md-9" ng-repeat="row in User.EducationalDocs">
                                         <div class="row">
                                             <div class="form-group col-md-6">
-
-                                                <input type="file" ngf-select="UploadEducationalFile($files, 'Educational', $index)" class="form-control" />
+                                                <a ng-if="row.Url && row.Url != ''" href="{{row.Url}}">{{row.SubTitle}}</a>
+                                                <input ng-if="!row.Url || row.Url == ''" type="file" ngf-select="UploadEducationalFile($files, 'Educational', $index)" class="form-control" />
                                             </div>
                                             <span>
-                                                <a href="" ng-click="RemoveUploadedEducationalFile($index)"><i class="fas fa-trash-alt"></i></a>
+                                                <a ng-if="row.Url && row.Url != ''" href="" ng-click="RemoveUploadedEducationalFile($index)"><i class="fas fa-trash-alt"></i></a>
                                             </span>
                                         </div>
                                     </div>
-                                    <button ng-click="AddEdcuationalDocRow()">Add Row</button>
+                                    <button ng-click="AddEducationalDocRow()"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                                 <div>
                                     <label>Certifications & Courses</label>
                                     <div class="col-md-9" ng-repeat="row in User.Certificates">
                                         <div class="row">
                                             <div class="form-group col-md-6">
-
-                                                <input type="file" ngf-select="UploadCertificate($files, 'Certifications', $index)" class="form-control" />
+                                                <a ng-if="row.Url && row.Url != ''" href="{{row.Url}}">{{row.SubTitle}}</a>
+                                                <input ng-if="!row.Url || row.Url == ''" type="file" ngf-select="UploadCertificate($files, 'Certifications', $index)" class="form-control" />
                                             </div>
                                             <span>
-                                                <a href="" ng-click="RemoveUploadedCertificate($index)"><i class="fas fa-trash-alt"></i></a>
+                                                <a ng-if="row.Url && row.Url != ''" href="" ng-click="RemoveUploadedCertificate($index)"><i class="fas fa-trash-alt"></i></a>
                                             </span>
                                         </div>
                                     </div>
-                                    <button ng-click="AddCertificateRow()">Add Row</button>
+                                    <button ng-click="AddCertificateRow()"><i class="fas fa-plus"></i> Add</button>
                                 </div>
-
-
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <button type="button" class="btn btn-success float-right" ng-click="AddUser(User)">Add User</button>
@@ -174,7 +172,6 @@
                                 </div>
                             </form>
                         </div>
-                        
                     </div>
                 </div>
             </div>

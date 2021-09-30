@@ -111,7 +111,7 @@ namespace AMS.Models
         public int MedicalLeaves { get; set; }
         public int ShiftId { get; set; }
         public List<Document> Docs{ get; set; }
-        public List<Document> EductaionalDocs { get; set; }
+        public List<Document> EducationalDocs { get; set; }
         public List<Document> Certificates { get; set; }
         public string UserId{ get; set; }
     }

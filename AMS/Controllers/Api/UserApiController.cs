@@ -195,7 +195,7 @@ namespace AMS.Controllers.Api
                         db.SaveChanges();
                     }
 
-                    foreach (var Doc in model.EductaionalDocs)
+                    foreach (var Doc in model.EducationalDocs)
                     {
                         if (Doc.Title != null && Doc.Title != "")
                         {
@@ -291,31 +291,50 @@ namespace AMS.Controllers.Api
             UpdateDocumentInDB("CNIC back", AgentData.Id, uploadedBy, request.Docs, AgentData);
             UpdateDocumentInDB("CNIC front", AgentData.Id, uploadedBy, request.Docs, AgentData);
             UpdateDocumentInDB("Appointment Letter", AgentData.Id, uploadedBy, request.Docs, AgentData);
-            
 
-            //var ResumeId = AgentData.Documents.Where(x => x.Title == "Resume" && x.AgentId == AgentData.Id).FirstOrDefault();
-            //ResumeId.SubTitle = request.Docs.Where(x => x.Title == "Resume").FirstOrDefault().SubTitle;
-            //ResumeId.DocumentUrl = request.Docs.Where(x => x.Title == "Resume").FirstOrDefault().Url;
-            //ResumeId.UploadedBy = uploadedBy;
-            //ResumeId.UploadedOn = DateTime.Now;
-            //db.SaveChanges();
+            var EducationalDocs = AgentData.Documents.Where(x => x.Title == "Educational").ToList();
+            foreach (var doc in EducationalDocs) {
+                db.Documents.Remove(doc);
+                db.SaveChanges();
+            }
 
-            //    foreach (var doc in Docs) {
-            //    db.Documents.Remove(doc);
-            //    db.SaveChanges();
-            //}
+            foreach (var doc in request.EducationalDocs) {
+                if (doc.Title != null && doc.Title != "")
+                {
+                    var Doc = new Documents();
+                    Doc.AgentId = AgentData.Id;
+                    Doc.UploadedBy = uploadedBy;
+                    Doc.UploadedOn = DateTime.Now;
+                    Doc.DocumentUrl = doc.Url;
+                    Doc.Title = doc.Title;
+                    Doc.SubTitle = doc.SubTitle;
+                    db.Documents.Add(Doc);
+                    db.SaveChanges();
+                }
+            }
 
-            //foreach (var doc in request.Docs) {
-            //    var Doc = new Documents();
-            //    Doc.AgentId = AgentData.Id;
-            //    Doc.Title = doc.Title;
-            //    Doc.SubTitle = doc.SubTitle;
-            //    Doc.DocumentUrl = doc.Url;
-            //    Doc.UploadedBy = uploadedBy;
-            //    Doc.UploadedOn = DateTime.Now;
-            //    db.Documents.Add(Doc);
-            //    db.SaveChanges();
-            //}
+            var Certificates = AgentData.Documents.Where(x => x.Title == "Certifications").ToList();
+            foreach (var doc in Certificates)
+            {
+                db.Documents.Remove(doc);
+                db.SaveChanges();
+            }
+
+            foreach (var doc in request.Certificates)
+            {
+                if (doc.Title != null && doc.Title != "")
+                {
+                    var Doc = new Documents();
+                    Doc.AgentId = AgentData.Id;
+                    Doc.Title = doc.Title;
+                    Doc.SubTitle = doc.SubTitle;
+                    Doc.UploadedBy = uploadedBy;
+                    Doc.UploadedOn = DateTime.Now;
+                    Doc.DocumentUrl = doc.Url;
+                    AgentData.Documents.Add(Doc);
+                    db.SaveChanges();
+                }
+            }
 
             if (request.HasSupervisor.HasValue)
             {
@@ -372,8 +391,6 @@ namespace AMS.Controllers.Api
                 }
             }*/
             return response;
-
-
         }
 
         [System.Web.Http.HttpPost]

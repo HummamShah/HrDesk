@@ -76,8 +76,8 @@ namespace AMS.Models.Jobs
                 }
 
                 // setting clock out time for non-marked according to their shift's timing
-                var NonMarkedEndTimeAttendance = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
-                foreach (var attendance in NonMarkedEndTimeAttendance)
+                var UnMarkedEndTimeAttendance = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
+                foreach (var attendance in UnMarkedEndTimeAttendance)
                 {
                     attendance.EndDateTime = attendance.Agent.Shifts.EndTime;
                     _dbContext.SaveChanges();
