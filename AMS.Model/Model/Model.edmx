@@ -19,7 +19,7 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Designation" Type="int" />
           <Property Name="DepartmentId" Type="int" />
-          <Property Name="ShiftId" Type="int" />
+          <Property Name="ShiftId" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="ImageUrl" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
@@ -138,6 +138,18 @@
           <Property Name="UpdatedAt" Type="datetime" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="UploadedBy" Type="int" />
+          <Property Name="UploadedOn" Type="datetime" />
+          <Property Name="DocumentUrl" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="SubTitle" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="LeaveDates">
           <Key>
             <PropertyRef Name="Id" />
@@ -211,7 +223,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Agent_Shifts">
-          <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="1" />
           <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Shifts">
@@ -314,6 +326,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Documents_AgentId">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_UploadedBy">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="UploadedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LeaveDates_Leaves">
           <End Role="Leaves" Type="Self.Leaves" Multiplicity="1" />
           <End Role="LeaveDates" Type="Self.LeaveDates" Multiplicity="*" />
@@ -359,6 +395,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
@@ -400,6 +437,14 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_Documents_AgentId" Association="Self.FK_Documents_AgentId">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_UploadedBy" Association="Self.FK_Documents_UploadedBy">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
           <AssociationSet Name="FK_LeaveDates_Leaves" Association="Self.FK_LeaveDates_Leaves">
             <End Role="Leaves" EntitySet="Leaves" />
             <End Role="LeaveDates" EntitySet="LeaveDates" />
@@ -417,83 +462,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Agent">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FisrtName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Contact1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Contact2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Designation" Type="Int32" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="SuperVisorId" Type="Int32" />
-          <Property Name="IsSupervisor" Type="Boolean" />
-          <Property Name="HasSupervisor" Type="Boolean" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="DeductionInDays" Type="Int32" Nullable="false" />
-          <Property Name="ConsecutiveLateCounter" Type="Int32" Nullable="false" />
-          <Property Name="RemainingLeaves" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Agent1" Relationship="Self.FK_Agent_Agent" FromRole="Agent" ToRole="Agent1" />
-          <NavigationProperty Name="Agent2" Relationship="Self.FK_Agent_Agent" FromRole="Agent1" ToRole="Agent" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Agent_User" FromRole="Agent" ToRole="AspNetUsers" />
-          <NavigationProperty Name="AgentAttendance" Relationship="Self.FK_AgentAttendace_Agent" FromRole="Agent" ToRole="AgentAttendance" />
-          <Property Name="FirstInterviewBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecondInterviewBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovalImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DocumentsImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyBelonging" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ExitEmployeeFormImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
-          <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
-          <Property Name="AnnualLeaves" Type="Int32" Nullable="false" />
-          <Property Name="MedicalLeaves" Type="Int32" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ShiftId" Type="Int32" />
-          <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_Agent_Shifts" FromRole="Agent" ToRole="Shifts" />
-        </EntityType>
-        <EntityType Name="AgentAttendance">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentId" Type="Int32" Nullable="false" />
-          <Property Name="IsPresent" Type="Boolean" Nullable="false" />
-          <Property Name="IsLate" Type="Boolean" Nullable="false" />
-          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="IsExcused" Type="Boolean" Nullable="false" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsAttendanceMarked" Type="Boolean" Nullable="false" />
-          <Property Name="IsAbsent" Type="Boolean" Nullable="false" />
-          <Property Name="Latitude" Type="Double" />
-          <Property Name="Longitude" Type="Double" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Agent" Relationship="Self.FK_AgentAttendace_Agent" FromRole="AgentAttendance" ToRole="Agent" />
-          <Property Name="ShiftId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_AgentAttendace_Shifts" FromRole="AgentAttendance" ToRole="Shifts" />
-        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -540,10 +508,10 @@
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsCustomer" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Agent" Relationship="Self.FK_Agent_User" FromRole="AspNetUsers" ToRole="Agent" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Agent_User" FromRole="AspNetUsers" ToRole="Agent" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -558,42 +526,6 @@
           <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK_Agent_Agent">
-          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
-          <End Role="Agent1" Type="Self.Agent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agent1">
-              <PropertyRef Name="SuperVisorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Agent_User">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agent">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AgentAttendace_Agent">
-          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
-          <End Role="AgentAttendance" Type="Self.AgentAttendance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AgentAttendance">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -627,25 +559,11 @@
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
         <EntityContainer Name="AMSEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Agent" EntityType="Self.Agent" />
-          <EntitySet Name="AgentAttendance" EntityType="Self.AgentAttendance" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Department" EntityType="Self.Department" />
-          <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="Agent1" EntitySet="Agent" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Agent_User" Association="Self.FK_Agent_User">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Agent" EntitySet="Agent" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AgentAttendace_Agent" Association="Self.FK_AgentAttendace_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="AgentAttendance" EntitySet="AgentAttendance" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -659,15 +577,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Leaves" EntityType="AMSModel.Leaves" />
-          <AssociationSet Name="FK_Leaves_Agent" Association="AMSModel.FK_Leaves_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="Leaves" EntitySet="Leaves" />
-          </AssociationSet>
           <EntitySet Name="Pay" EntityType="AMSModel.Pay" />
-          <AssociationSet Name="FK_Pay_Agent" Association="AMSModel.FK_Pay_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="Pay" EntitySet="Pay" />
-          </AssociationSet>
           <EntitySet Name="LeaveDates" EntityType="AMSModel.LeaveDates" />
           <AssociationSet Name="FK_LeaveDates_Leaves" Association="AMSModel.FK_LeaveDates_Leaves">
             <End Role="Leaves" EntitySet="Leaves" />
@@ -675,9 +585,40 @@
           </AssociationSet>
           <EntitySet Name="Notification" EntityType="AMSModel.Notification" />
           <EntitySet Name="Shifts" EntityType="AMSModel.Shifts" />
+          <EntitySet Name="Documents" EntityType="AMSModel.Documents" />
+          <EntitySet Name="Agent" EntityType="AMSModel.Agent" />
+          <EntitySet Name="AgentAttendance" EntityType="AMSModel.AgentAttendance" />
+          <AssociationSet Name="FK_Agent_Agent" Association="AMSModel.FK_Agent_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Agent1" EntitySet="Agent" />
+          </AssociationSet>
           <AssociationSet Name="FK_Agent_Shifts" Association="AMSModel.FK_Agent_Shifts">
             <End Role="Shifts" EntitySet="Shifts" />
             <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agent_User" Association="AMSModel.FK_Agent_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentAttendace_Agent" Association="AMSModel.FK_AgentAttendace_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentAttendance" EntitySet="AgentAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_AgentId" Association="AMSModel.FK_Documents_AgentId">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_UploadedBy" Association="AMSModel.FK_Documents_UploadedBy">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leaves_Agent" Association="AMSModel.FK_Leaves_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Leaves" EntitySet="Leaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pay_Agent" Association="AMSModel.FK_Pay_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Pay" EntitySet="Pay" />
           </AssociationSet>
           <AssociationSet Name="FK_AgentAttendace_Shifts" Association="AMSModel.FK_AgentAttendace_Shifts">
             <End Role="Shifts" EntitySet="Shifts" />
@@ -697,22 +638,10 @@
           <Property Name="Status" Type="Int32" />
           <Property Name="Type" Type="Int32" />
           <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Leaves" ToRole="Agent" />
           <NavigationProperty Name="LeaveDates" Relationship="AMSModel.FK_LeaveDates_Leaves" FromRole="Leaves" ToRole="LeaveDates" />
           <Property Name="DaysCount" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Leaves" ToRole="Agent" />
         </EntityType>
-        <Association Name="FK_Leaves_Agent">
-          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
-          <End Type="AMSModel.Leaves" Role="Leaves" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Leaves">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Pay">
           <Key>
             <PropertyRef Name="Id" />
@@ -726,18 +655,6 @@
           <Property Name="Salary" Type="Int32" />
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Pay_Agent" FromRole="Pay" ToRole="Agent" />
         </EntityType>
-        <Association Name="FK_Pay_Agent">
-          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
-          <End Type="AMSModel.Pay" Role="Pay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Pay">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="LeaveDates">
           <Key>
             <PropertyRef Name="Id" />
@@ -786,8 +703,113 @@
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Agent_Shifts" FromRole="Shifts" ToRole="Agent" />
           <NavigationProperty Name="AgentAttendance" Relationship="AMSModel.FK_AgentAttendace_Shifts" FromRole="Shifts" ToRole="AgentAttendance" />
         </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="UploadedBy" Type="Int32" />
+          <Property Name="UploadedOn" Type="DateTime" Precision="3" />
+          <Property Name="DocumentUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Documents_AgentId" FromRole="Documents" ToRole="Agent" />
+          <NavigationProperty Name="Agent1" Relationship="AMSModel.FK_Documents_UploadedBy" FromRole="Documents" ToRole="Agent" />
+        </EntityType>
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FisrtName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Designation" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="ShiftId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="SuperVisorId" Type="Int32" />
+          <Property Name="IsSupervisor" Type="Boolean" />
+          <Property Name="HasSupervisor" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="DeductionInDays" Type="Int32" Nullable="false" />
+          <Property Name="ConsecutiveLateCounter" Type="Int32" Nullable="false" />
+          <Property Name="RemainingLeaves" Type="Int32" Nullable="false" />
+          <Property Name="AnnualLeaves" Type="Int32" Nullable="false" />
+          <Property Name="MedicalLeaves" Type="Int32" Nullable="false" />
+          <Property Name="FirstInterviewBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecondInterviewBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentsImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyBelonging" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExitEmployeeFormImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent1" Relationship="AMSModel.FK_Agent_Agent" FromRole="Agent" ToRole="Agent1" />
+          <NavigationProperty Name="Agent2" Relationship="AMSModel.FK_Agent_Agent" FromRole="Agent1" ToRole="Agent" />
+          <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_Agent_Shifts" FromRole="Agent" ToRole="Shifts" />
+          <NavigationProperty Name="AspNetUsers" Relationship="AMSModel.FK_Agent_User" FromRole="Agent" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AgentAttendance" Relationship="AMSModel.FK_AgentAttendace_Agent" FromRole="Agent" ToRole="AgentAttendance" />
+          <NavigationProperty Name="Documents" Relationship="AMSModel.FK_Documents_AgentId" FromRole="Agent" ToRole="Documents" />
+          <NavigationProperty Name="Documents1" Relationship="AMSModel.FK_Documents_UploadedBy" FromRole="Agent" ToRole="Documents" />
+          <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
+          <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
+        </EntityType>
+        <EntityType Name="AgentAttendance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="IsPresent" Type="Boolean" Nullable="false" />
+          <Property Name="IsLate" Type="Boolean" Nullable="false" />
+          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="IsExcused" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsAttendanceMarked" Type="Boolean" Nullable="false" />
+          <Property Name="IsAbsent" Type="Boolean" Nullable="false" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="ShiftId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_AgentAttendace_Agent" FromRole="AgentAttendance" ToRole="Agent" />
+          <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_AgentAttendace_Shifts" FromRole="AgentAttendance" ToRole="Shifts" />
+        </EntityType>
+        <Association Name="FK_Agent_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Agent" Role="Agent1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agent1">
+              <PropertyRef Name="SuperVisorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Agent_Shifts">
-          <End Type="AMSModel.Shifts" Role="Shifts" Multiplicity="0..1" />
+          <End Type="AMSModel.Shifts" Role="Shifts" Multiplicity="1" />
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Shifts">
@@ -795,6 +817,78 @@
             </Principal>
             <Dependent Role="Agent">
               <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agent_User">
+          <End Type="AMSModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentAttendace_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="1" />
+          <End Type="AMSModel.AgentAttendance" Role="AgentAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentAttendance">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_AgentId">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Documents" Role="Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_UploadedBy">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Documents" Role="Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="UploadedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Leaves_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Leaves" Role="Leaves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leaves">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pay_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Pay" Role="Pay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pay">
+              <PropertyRef Name="AgentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -816,76 +910,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AMSModelStoreContainer" CdmEntityContainer="AMSEntities">
-          <EntitySetMapping Name="Agent">
-            <EntityTypeMapping TypeName="AMSModel.Agent">
-              <MappingFragment StoreEntitySet="Agent">
-                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="MedicalLeaves" ColumnName="MedicalLeaves" />
-                <ScalarProperty Name="AnnualLeaves" ColumnName="AnnualLeaves" />
-                <ScalarProperty Name="ExitEmployeeFormImageUrl" ColumnName="ExitEmployeeFormImageUrl" />
-                <ScalarProperty Name="CompanyBelonging" ColumnName="CompanyBelonging" />
-                <ScalarProperty Name="DocumentsImageUrl" ColumnName="DocumentsImageUrl" />
-                <ScalarProperty Name="ApprovalImageUrl" ColumnName="ApprovalImageUrl" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
-                <ScalarProperty Name="SecondInterviewBy" ColumnName="SecondInterviewBy" />
-                <ScalarProperty Name="FirstInterviewBy" ColumnName="FirstInterviewBy" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="FisrtName" ColumnName="FisrtName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Contact1" ColumnName="Contact1" />
-                <ScalarProperty Name="Contact2" ColumnName="Contact2" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="SuperVisorId" ColumnName="SuperVisorId" />
-                <ScalarProperty Name="IsSupervisor" ColumnName="IsSupervisor" />
-                <ScalarProperty Name="HasSupervisor" ColumnName="HasSupervisor" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="DeductionInDays" ColumnName="DeductionInDays" />
-                <ScalarProperty Name="ConsecutiveLateCounter" ColumnName="ConsecutiveLateCounter" />
-                <ScalarProperty Name="RemainingLeaves" ColumnName="RemainingLeaves" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AgentAttendance">
-            <EntityTypeMapping TypeName="AMSModel.AgentAttendance">
-              <MappingFragment StoreEntitySet="AgentAttendance">
-                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-                <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
-                <ScalarProperty Name="IsLate" ColumnName="IsLate" />
-                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="IsExcused" ColumnName="IsExcused" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="IsAttendanceMarked" ColumnName="IsAttendanceMarked" />
-                <ScalarProperty Name="IsAbsent" ColumnName="IsAbsent" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="AMSModel.AspNetRoles">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -1015,6 +1039,89 @@
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="AMSModel.Documents">
+              <MappingFragment StoreEntitySet="Documents">
+                <ScalarProperty Name="SubTitle" ColumnName="SubTitle" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DocumentUrl" ColumnName="DocumentUrl" />
+                <ScalarProperty Name="UploadedOn" ColumnName="UploadedOn" />
+                <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agent">
+            <EntityTypeMapping TypeName="AMSModel.Agent">
+              <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="ExitEmployeeFormImageUrl" ColumnName="ExitEmployeeFormImageUrl" />
+                <ScalarProperty Name="CompanyBelonging" ColumnName="CompanyBelonging" />
+                <ScalarProperty Name="DocumentsImageUrl" ColumnName="DocumentsImageUrl" />
+                <ScalarProperty Name="ApprovalImageUrl" ColumnName="ApprovalImageUrl" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="SecondInterviewBy" ColumnName="SecondInterviewBy" />
+                <ScalarProperty Name="FirstInterviewBy" ColumnName="FirstInterviewBy" />
+                <ScalarProperty Name="MedicalLeaves" ColumnName="MedicalLeaves" />
+                <ScalarProperty Name="AnnualLeaves" ColumnName="AnnualLeaves" />
+                <ScalarProperty Name="RemainingLeaves" ColumnName="RemainingLeaves" />
+                <ScalarProperty Name="ConsecutiveLateCounter" ColumnName="ConsecutiveLateCounter" />
+                <ScalarProperty Name="DeductionInDays" ColumnName="DeductionInDays" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="HasSupervisor" ColumnName="HasSupervisor" />
+                <ScalarProperty Name="IsSupervisor" ColumnName="IsSupervisor" />
+                <ScalarProperty Name="SuperVisorId" ColumnName="SuperVisorId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Contact2" ColumnName="Contact2" />
+                <ScalarProperty Name="Contact1" ColumnName="Contact1" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FisrtName" ColumnName="FisrtName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentAttendance">
+            <EntityTypeMapping TypeName="AMSModel.AgentAttendance">
+              <MappingFragment StoreEntitySet="AgentAttendance">
+                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="IsAbsent" ColumnName="IsAbsent" />
+                <ScalarProperty Name="IsAttendanceMarked" ColumnName="IsAttendanceMarked" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsExcused" ColumnName="IsExcused" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="IsLate" ColumnName="IsLate" />
+                <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMS.Models.Requests.FileUpload;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -30,6 +31,9 @@ namespace AMS.Models.Requests.User
         public int ShiftId { get; set; }
         public string ImageUrl { get; set; }
         public string Gender { get; set; }
+        public List<Document> Docs { get; set; }
+        public List<Document> EducationalDocs { get; set; }
+        public List<Document> Certificates { get; set; }
 
     }
 }

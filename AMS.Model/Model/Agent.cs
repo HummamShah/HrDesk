@@ -19,6 +19,8 @@ namespace AMS.Model.Model
         {
             this.Agent1 = new HashSet<Agent>();
             this.AgentAttendance = new HashSet<AgentAttendance>();
+            this.Documents = new HashSet<Documents>();
+            this.Documents1 = new HashSet<Documents>();
             this.Leaves = new HashSet<Leaves>();
             this.Pay = new HashSet<Pay>();
         }
@@ -33,6 +35,7 @@ namespace AMS.Model.Model
         public string Address { get; set; }
         public Nullable<int> Designation { get; set; }
         public Nullable<int> DepartmentId { get; set; }
+        public int ShiftId { get; set; }
         public string Email { get; set; }
         public string ImageUrl { get; set; }
         public Nullable<bool> IsActive { get; set; }
@@ -47,29 +50,32 @@ namespace AMS.Model.Model
         public int DeductionInDays { get; set; }
         public int ConsecutiveLateCounter { get; set; }
         public int RemainingLeaves { get; set; }
+        public int AnnualLeaves { get; set; }
+        public int MedicalLeaves { get; set; }
         public string FirstInterviewBy { get; set; }
         public string SecondInterviewBy { get; set; }
         public string ApprovedBy { get; set; }
         public string Remarks { get; set; }
+        public string Gender { get; set; }
         public string ApprovalImageUrl { get; set; }
         public string DocumentsImageUrl { get; set; }
         public string CompanyBelonging { get; set; }
         public string ExitEmployeeFormImageUrl { get; set; }
-        public int AnnualLeaves { get; set; }
-        public int MedicalLeaves { get; set; }
-        public string Gender { get; set; }
-        public Nullable<int> ShiftId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agent> Agent1 { get; set; }
         public virtual Agent Agent2 { get; set; }
+        public virtual Shifts Shifts { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentAttendance> AgentAttendance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documents> Documents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documents> Documents1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Leaves> Leaves { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pay> Pay { get; set; }
-        public virtual Shifts Shifts { get; set; }
     }
 }

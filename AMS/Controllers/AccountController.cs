@@ -101,7 +101,7 @@ namespace AMS.Controllers
                             if (TodayAttendance.Count() < 1)
                             {
                                 TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).TimeOfDay;
-                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(3).TimeOfDay;
+                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
                                 TimeSpan now = DateTime.Now.TimeOfDay;
                                 if (now >= MarkAbsentTime)
                                 {
@@ -136,7 +136,7 @@ namespace AMS.Controllers
                                 Attendance.Date = DateTime.Now.Date;
                                 Attendance.Type = (int)AttendanceType.Premises;
                                 Attendance.IsAttendanceMarked = true;
-                                Attendance.ShiftId = Agent.ShiftId??0;
+                                Attendance.ShiftId = Agent.ShiftId;
                                 var Attendanceresult = db.AgentAttendance.Add(Attendance);
                                 db.SaveChanges();
                             }
@@ -144,7 +144,7 @@ namespace AMS.Controllers
                             {
                                 TimeSpan now = DateTime.Now.TimeOfDay;
                                 TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).TimeOfDay;
-                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(3).TimeOfDay;
+                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
                                 Attendance = TodayAttendance.FirstOrDefault();
                                 if (now >= MarkAbsentTime)
                                 {
@@ -177,7 +177,7 @@ namespace AMS.Controllers
                                 Attendance.Date = DateTime.Now.Date;
                                 Attendance.Type = (int)AttendanceType.Premises;
                                 Attendance.IsAttendanceMarked = true;
-                                Attendance.ShiftId = Agent.ShiftId ?? 0;
+                                Attendance.ShiftId = Agent.ShiftId;
                                 //var Attendanceresult = db.AgentAttendance.Add(Attendance);
                                 db.SaveChanges();
 

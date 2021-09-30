@@ -27,6 +27,7 @@ namespace AMS.Models.Jobs
                         Data.IsAttendanceMarked = false;
                         Data.IsAbsent = true;
                         Data.IsLate = false;
+                        Data.ShiftId = row.ShiftId;
                         _dbContext.AgentAttendance.Add(Data);
                         _dbContext.SaveChanges();
                     }
@@ -48,6 +49,7 @@ namespace AMS.Models.Jobs
                         Data.IsAttendanceMarked = false;
                         Data.IsAbsent = true;
                         Data.IsLate = false;
+                        Data.ShiftId = row.ShiftId;
                         _dbContext.AgentAttendance.Add(Data);
                         _dbContext.SaveChanges();
                     }
@@ -60,7 +62,7 @@ namespace AMS.Models.Jobs
                 var Attendance = _dbContext.AgentAttendance.Where(x => x.Date == yesterday).ToList();
 
                 // deducting leave for yesterday's absentees
-                var Absentees = Attendance.Where(x => x.IsAbsent == true && x.IsAttendanceMarked == false).ToList();
+                var Absentees = Attendance.Where(x => x.IsAbsent == true).ToList();             // && x.IsAttendanceMarked == false
                 foreach (var absentAgent in Absentees)
                 {
                     if (absentAgent.Agent.RemainingLeaves > 0 && absentAgent.Agent.AnnualLeaves > 0)
@@ -73,9 +75,9 @@ namespace AMS.Models.Jobs
                         absentAgent.Agent.DeductionInDays++;
                 }
 
-                // setting clock out time 5:30pm for non-marked
-                var NonMarkedEndTimeAttendance = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
-                foreach (var attendance in NonMarkedEndTimeAttendance)
+                // setting clock out time for non-marked according to their shift's timing
+                var UnMarkedEndTimeAttendance = Attendance.Where(x => x.IsAbsent == false && x.IsAttendanceMarked == true && x.EndDateTime == null).ToList();
+                foreach (var attendance in UnMarkedEndTimeAttendance)
                 {
                     attendance.EndDateTime = attendance.Agent.Shifts.EndTime;
                     _dbContext.SaveChanges();

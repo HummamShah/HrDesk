@@ -115,6 +115,9 @@
     <Compile Include="Model\Department.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Documents.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\LeaveDates.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

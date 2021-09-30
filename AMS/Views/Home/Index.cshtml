@@ -55,7 +55,7 @@
                             <h2 class="text-right" ng-if="!User.IsAbsent"><i class="fa fa-clock f-left"></i><span class="mr-3">{{User.TodayClockIn | date:'hh:mm a'}}</span></h2>
                             <p class="m-b-0" ng-if="User.IsLate">You are late today</p>
                             <p class="m-b-0" ng-if="User.IsAbsent">You are absent today</p>
-                            <p class="m-b-0" ng-if="User.IsExcused">You are excused today</p>
+                            <p class="m-b-0" ng-if="User.IsExcused">You are excused today for being late</p>
                             <p class="m-b-0" ng-if="User.IsPresent">You are on time today</p>
                         </div>
                     </div>
@@ -63,6 +63,11 @@
                 <div class="col-md-4 col-xl-4">
                     <div class="card bg-c-yellow order-card boxsize">
                         <div class="card-block">
+                            <h6 class="m-b-20"></h6>
+                            <h6 class="m-b-20">Leaves</h6>
+                            <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}/30</span></p>
+                            <p class="m-b-0">Annual Leaves <span class="f-right">{{User.AnnualLeaves}}/20</span></p>
+                            <p class="m-b-0">Medical Leaves <span class="f-right">{{User.MedicalLeaves}}/10</span></p>
                             
                             <h4 class="m-b-20 mb-4 text-dark">Leaves</h4>
                             <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}</span></p>

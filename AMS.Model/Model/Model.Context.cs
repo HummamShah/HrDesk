@@ -25,8 +25,6 @@ namespace AMS.Model.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Agent> Agent { get; set; }
-        public virtual DbSet<AgentAttendance> AgentAttendance { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
@@ -37,5 +35,8 @@ namespace AMS.Model.Model
         public virtual DbSet<LeaveDates> LeaveDates { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<Shifts> Shifts { get; set; }
+        public virtual DbSet<Documents> Documents { get; set; }
+        public virtual DbSet<Agent> Agent { get; set; }
+        public virtual DbSet<AgentAttendance> AgentAttendance { get; set; }
     }
 }

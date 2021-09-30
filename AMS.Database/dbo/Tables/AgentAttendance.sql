@@ -21,7 +21,7 @@
 	[Latitude] float ,
 	[Longitude] float ,
 	[Type] int not null default(0),
-	[ShiftId] INT NOT NULL DEFAULT 1,
+	[ShiftId] INT NOT NULL,
     Constraint [FK_AgentAttendace_Agent] foreign key (AgentId) References [dbo].Agent ([Id]),
 	Constraint [FK_AgentAttendace_Shifts] foreign key (ShiftId) References [dbo].Shifts ([Id])
 )
