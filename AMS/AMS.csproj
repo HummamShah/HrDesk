@@ -203,20 +203,24 @@
     <Compile Include="Controllers\Api\DepartmentApiController.cs" />
     <Compile Include="Controllers\Api\FileUploadApiController.cs" />
     <Compile Include="Controllers\Api\HiringApiController.cs" />
+    <Compile Include="Controllers\Api\InsentiveApiController.cs" />
     <Compile Include="Controllers\Api\LeaveApiController.cs" />
     <Compile Include="Controllers\Api\PayApiContoller.cs" />
     <Compile Include="Controllers\Api\ReportApiController.cs" />
     <Compile Include="Controllers\Api\ShiftApiController.cs" />
+    <Compile Include="Controllers\Api\TaxApiController.cs" />
     <Compile Include="Controllers\Api\UserApiController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HiringController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InsentiveController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PayRecordController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\TaxController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -233,6 +237,7 @@
     <Compile Include="Models\Requests\AgentAttendance\GetListingRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetAttendanceSummaryRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\SignOffAttendanceRequest.cs" />
+    <Compile Include="Models\Requests\AgentTaxes\GetAgentTaxesRequest.cs" />
     <Compile Include="Models\Requests\Department\AddDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\EditDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\GetDepartmentDropdownRequest.cs" />
@@ -243,6 +248,10 @@
     <Compile Include="Models\Requests\Hiring\AddHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\EditHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\GetHiringRequest.cs" />
+    <Compile Include="Models\Requests\Insentive\AddIntensiveRequest.cs" />
+    <Compile Include="Models\Requests\Insentive\EditIntensiveRequest.cs" />
+    <Compile Include="Models\Requests\Insentive\GetIntensiveListRequest.CS" />
+    <Compile Include="Models\Requests\Insentive\GetIntensiveRequest.cs" />
     <Compile Include="Models\Requests\Leave\AccpetLeaveRequest.cs" />
     <Compile Include="Models\Requests\Leave\ApplyLeaveRequest.cs" />
     <Compile Include="Models\Requests\Leave\GetLeaveRecordRequest.cs" />
@@ -253,6 +262,10 @@
     <Compile Include="Models\Requests\Pay\GetPayRecordRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />
     <Compile Include="Models\Requests\Shifts\GetShiftsRequest.cs" />
+    <Compile Include="Models\Requests\Tax\AddTaxRequest.cs" />
+    <Compile Include="Models\Requests\Tax\EditTaxRequest.cs" />
+    <Compile Include="Models\Requests\Tax\GetTaxListRequest.cs" />
+    <Compile Include="Models\Requests\Tax\GetTaxRequest.cs" />
     <Compile Include="Models\Requests\User\EditAdminRequest.cs" />
     <Compile Include="Models\Requests\User\EditUserRequest.cs" />
     <Compile Include="Models\Requests\User\GetAgentsForAssignmentRequest.cs" />
@@ -400,8 +413,10 @@
     <Content Include="Content\js\Angular\AngularControllers\AgentAttendanceReportCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\BaseCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\DepartmentCtrl.js" />
+    <Content Include="Content\js\Angular\AngularControllers\InsentiveCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\ProfileCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\LeaveCtrl.js" />
+    <Content Include="Content\js\Angular\AngularControllers\TaxCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\UserCtrl.js" />
     <Content Include="Content\js\Angular\app.js" />
     <Content Include="Content\js\Clock.js" />
@@ -553,6 +568,12 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Leave\Requests.cshtml" />
     <Content Include="Views\AgentAttendance\AgentAttendance.cshtml" />
+    <Content Include="Views\Insentive\Index.cshtml" />
+    <Content Include="Views\Insentive\Add.cshtml" />
+    <Content Include="Views\Tax\Index.cshtml" />
+    <Content Include="Views\Tax\Add.cshtml" />
+    <Content Include="Views\Tax\Edit.cshtml" />
+    <Content Include="Views\Insentive\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

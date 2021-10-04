@@ -32,6 +32,7 @@
 	[ApprovedBy] nvarchar(max),
 	[Remarks] nvarchar(max),
 	[Gender] nvarchar(max),
+	[Salary] decimal(18,3) not null default(0),
 	[ApprovalImageUrl] nvarchar(max),
 	[DocumentsImageUrl] nvarchar(max),
 	[CompanyBelonging] nvarchar(max),

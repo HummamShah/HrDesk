@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-
+using AMS.Models.Requests.Tax;
 
 namespace AMS.Controllers.Api
 {
@@ -157,7 +157,7 @@ namespace AMS.Controllers.Api
                 if (result.Succeeded)
                 {
                     model.UserId = User.Identity.GetUserId();
-                    var uploadedBy = db.Agent.Where(x => x.UserId == model.UserId).FirstOrDefault().Id;
+                    var CurrentUserAgentId = db.Agent.Where(x => x.UserId == model.UserId).FirstOrDefault().Id;
                     var CurrentUserName = User.Identity.Name;
                     var AgentData = new Agent();
                     AgentData.UserId = user.Id;
@@ -175,6 +175,7 @@ namespace AMS.Controllers.Api
                     AgentData.AnnualLeaves = model.AnnualLeaves;
                     AgentData.Gender = model.Gender;
                     AgentData.ShiftId = model.ShiftId;
+                    AgentData.Salary = model.Salary;
                     if (model.HasSupervisor.HasValue)
                     {
                         AgentData.HasSupervisor = model.HasSupervisor;
@@ -183,12 +184,42 @@ namespace AMS.Controllers.Api
                     var AgentResult = db.Agent.Add(AgentData);
                     db.SaveChanges();
 
+                    if (model.Taxes.Count > 0)
+                    {
+                        var AgentTaxes = db.AgentTaxes;
+                        foreach (var tax in model.Taxes)
+                        {
+                            var agentTax = new AgentTaxes();
+                            agentTax.AgentId = AgentData.Id;
+                            agentTax.AgentName = AgentData.FisrtName + " " + AgentData.LastName;
+                            agentTax.TaxId = tax.Id;
+                            agentTax.TaxName = tax.Name;
+                            AgentTaxes.Add(agentTax);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    if (model.Incentives.Count > 0)
+                    {
+                        var AgentIncentives = db.AgentIncentives;
+                        foreach (var incentive in model.Incentives)
+                        {
+                            var agentIncentive = new AgentIncentives();
+                            agentIncentive.AgentId = AgentData.Id;
+                            agentIncentive.AgentName = AgentData.FisrtName + " " + AgentData.LastName; ;
+                            agentIncentive.IncentiveId = incentive.Id;
+                            agentIncentive.IncentiveName = incentive.Name;
+                            AgentIncentives.Add(agentIncentive);
+                            db.SaveChanges();
+                        }
+                    }
+
                     foreach (var Doc in model.Docs) {
                         var docs = new Documents();
                         docs.AgentId = AgentResult.Id;
                         docs.Title = Doc.Title;
                         docs.SubTitle = Doc.SubTitle;
-                        docs.UploadedBy = uploadedBy;
+                        docs.UploadedBy = CurrentUserAgentId;
                         docs.UploadedOn = DateTime.Now;
                         docs.DocumentUrl = Doc.Url;
                         AgentData.Documents.Add(docs);
@@ -203,7 +234,7 @@ namespace AMS.Controllers.Api
                             docs.AgentId = AgentResult.Id;
                             docs.Title = Doc.Title;
                             docs.SubTitle = Doc.SubTitle;
-                            docs.UploadedBy = uploadedBy;
+                            docs.UploadedBy = CurrentUserAgentId;
                             docs.UploadedOn = DateTime.Now;
                             docs.DocumentUrl = Doc.Url;
                             AgentData.Documents.Add(docs);
@@ -219,7 +250,7 @@ namespace AMS.Controllers.Api
                             docs.AgentId = AgentResult.Id;
                             docs.Title = Doc.Title;
                             docs.SubTitle = Doc.SubTitle;
-                            docs.UploadedBy = uploadedBy;
+                            docs.UploadedBy = CurrentUserAgentId;
                             docs.UploadedOn = DateTime.Now;
                             docs.DocumentUrl = Doc.Url;
                             AgentData.Documents.Add(docs);

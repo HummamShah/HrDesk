@@ -41,7 +41,6 @@ namespace AMS.Models.Requests.User
 		public List<Document> Docs { get; set; }
 		public List<Document> EducationalDocs { get; set; }
 		public List<Document> Certificates { get; set; }
-
 	}
 
 	public class GetUserRequest

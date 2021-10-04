@@ -38,5 +38,9 @@ namespace AMS.Model.Model
         public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<Agent> Agent { get; set; }
         public virtual DbSet<AgentAttendance> AgentAttendance { get; set; }
+        public virtual DbSet<Tax> Tax { get; set; }
+        public virtual DbSet<AgentIncentives> AgentIncentives { get; set; }
+        public virtual DbSet<AgentTaxes> AgentTaxes { get; set; }
+        public virtual DbSet<Incentives> Incentives { get; set; }
     }
 }

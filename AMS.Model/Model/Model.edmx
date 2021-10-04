@@ -41,6 +41,7 @@
           <Property Name="ApprovedBy" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="Gender" Type="nvarchar(max)" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="ApprovalImageUrl" Type="nvarchar(max)" />
           <Property Name="DocumentsImageUrl" Type="nvarchar(max)" />
           <Property Name="CompanyBelonging" Type="nvarchar(max)" />
@@ -72,6 +73,26 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ShiftId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AgentIncentives">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" Nullable="false" />
+          <Property Name="IncentiveId" Type="int" Nullable="false" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
+          <Property Name="IncentiveName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AgentTaxes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" Nullable="false" />
+          <Property Name="TaxId" Type="int" Nullable="false" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
+          <Property Name="TaxName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -150,6 +171,17 @@
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="SubTitle" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Incentives">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="LeaveDates">
           <Key>
             <PropertyRef Name="Id" />
@@ -210,6 +242,17 @@
           <Property Name="StartTime" Type="datetime" />
           <Property Name="EndTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="Tax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
         <Association Name="FK_Agent_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="Agent1" Type="Self.Agent" Multiplicity="*" />
@@ -267,6 +310,54 @@
             </Principal>
             <Dependent Role="AgentAttendance">
               <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentIncentives_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="AgentIncentives" Type="Self.AgentIncentives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentIncentives">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentIncentives_Incentive">
+          <End Role="Incentives" Type="Self.Incentives" Multiplicity="1" />
+          <End Role="AgentIncentives" Type="Self.AgentIncentives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incentives">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentIncentives">
+              <PropertyRef Name="IncentiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentTaxes_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="AgentTaxes" Type="Self.AgentTaxes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentTaxes">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentTaxes_Tax">
+          <End Role="Tax" Type="Self.Tax" Multiplicity="1" />
+          <End Role="AgentTaxes" Type="Self.AgentTaxes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tax">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentTaxes">
+              <PropertyRef Name="TaxId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -389,6 +480,8 @@
         <EntityContainer Name="AMSModelStoreContainer">
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentAttendance" EntityType="Self.AgentAttendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AgentIncentives" EntityType="Self.AgentIncentives" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AgentTaxes" EntityType="Self.AgentTaxes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -396,11 +489,13 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incentives" EntityType="Self.Incentives" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tax" EntityType="Self.Tax" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Agent1" EntitySet="Agent" />
@@ -420,6 +515,22 @@
           <AssociationSet Name="FK_AgentAttendace_Shifts" Association="Self.FK_AgentAttendace_Shifts">
             <End Role="Shifts" EntitySet="Shifts" />
             <End Role="AgentAttendance" EntitySet="AgentAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentIncentives_Agent" Association="Self.FK_AgentIncentives_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentIncentives" EntitySet="AgentIncentives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentIncentives_Incentive" Association="Self.FK_AgentIncentives_Incentive">
+            <End Role="Incentives" EntitySet="Incentives" />
+            <End Role="AgentIncentives" EntitySet="AgentIncentives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentTaxes_Agent" Association="Self.FK_AgentTaxes_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentTaxes" EntitySet="AgentTaxes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentTaxes_Tax" Association="Self.FK_AgentTaxes_Tax">
+            <End Role="Tax" EntitySet="Tax" />
+            <End Role="AgentTaxes" EntitySet="AgentTaxes" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -624,6 +735,26 @@
             <End Role="Shifts" EntitySet="Shifts" />
             <End Role="AgentAttendance" EntitySet="AgentAttendance" />
           </AssociationSet>
+          <EntitySet Name="Tax" EntityType="AMSModel.Tax" />
+          <EntitySet Name="AgentIncentives" EntityType="AMSModel.AgentIncentives" />
+          <EntitySet Name="AgentTaxes" EntityType="AMSModel.AgentTaxes" />
+          <EntitySet Name="Incentives" EntityType="AMSModel.Incentives" />
+          <AssociationSet Name="FK_AgentIncentives_Agent" Association="AMSModel.FK_AgentIncentives_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentIncentives" EntitySet="AgentIncentives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentTaxes_Agent" Association="AMSModel.FK_AgentTaxes_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentTaxes" EntitySet="AgentTaxes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentIncentives_Incentive" Association="AMSModel.FK_AgentIncentives_Incentive">
+            <End Role="Incentives" EntitySet="Incentives" />
+            <End Role="AgentIncentives" EntitySet="AgentIncentives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentTaxes_Tax" Association="AMSModel.FK_AgentTaxes_Tax">
+            <End Role="Tax" EntitySet="Tax" />
+            <End Role="AgentTaxes" EntitySet="AgentTaxes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
           <Key>
@@ -766,6 +897,9 @@
           <NavigationProperty Name="Documents1" Relationship="AMSModel.FK_Documents_UploadedBy" FromRole="Agent" ToRole="Documents" />
           <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
           <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
+          <Property Name="Salary" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <NavigationProperty Name="AgentIncentives" Relationship="AMSModel.FK_AgentIncentives_Agent" FromRole="Agent" ToRole="AgentIncentives" />
+          <NavigationProperty Name="AgentTaxes" Relationship="AMSModel.FK_AgentTaxes_Agent" FromRole="Agent" ToRole="AgentTaxes" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -901,6 +1035,102 @@
             </Principal>
             <Dependent Role="AgentAttendance">
               <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AgentTaxes" Relationship="AMSModel.FK_AgentTaxes_Tax" FromRole="Tax" ToRole="AgentTaxes" />
+        </EntityType>
+        <EntityType Name="AgentIncentives">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="IncentiveId" Type="Int32" Nullable="false" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IncentiveName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_AgentIncentives_Agent" FromRole="AgentIncentives" ToRole="Agent" />
+          <NavigationProperty Name="Incentives" Relationship="AMSModel.FK_AgentIncentives_Incentive" FromRole="AgentIncentives" ToRole="Incentives" />
+        </EntityType>
+        <EntityType Name="AgentTaxes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="TaxId" Type="Int32" Nullable="false" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TaxName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_AgentTaxes_Agent" FromRole="AgentTaxes" ToRole="Agent" />
+          <NavigationProperty Name="Tax" Relationship="AMSModel.FK_AgentTaxes_Tax" FromRole="AgentTaxes" ToRole="Tax" />
+        </EntityType>
+        <EntityType Name="Incentives">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AgentIncentives" Relationship="AMSModel.FK_AgentIncentives_Incentive" FromRole="Incentives" ToRole="AgentIncentives" />
+        </EntityType>
+        <Association Name="FK_AgentIncentives_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="1" />
+          <End Type="AMSModel.AgentIncentives" Role="AgentIncentives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentIncentives">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentTaxes_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="1" />
+          <End Type="AMSModel.AgentTaxes" Role="AgentTaxes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentTaxes">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentIncentives_Incentive">
+          <End Type="AMSModel.Incentives" Role="Incentives" Multiplicity="1" />
+          <End Type="AMSModel.AgentIncentives" Role="AgentIncentives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incentives">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentIncentives">
+              <PropertyRef Name="IncentiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentTaxes_Tax">
+          <End Type="AMSModel.Tax" Role="Tax" Multiplicity="1" />
+          <End Type="AMSModel.AgentTaxes" Role="AgentTaxes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tax">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentTaxes">
+              <PropertyRef Name="TaxId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1059,6 +1289,7 @@
           <EntitySetMapping Name="Agent">
             <EntityTypeMapping TypeName="AMSModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
                 <ScalarProperty Name="ExitEmployeeFormImageUrl" ColumnName="ExitEmployeeFormImageUrl" />
                 <ScalarProperty Name="CompanyBelonging" ColumnName="CompanyBelonging" />
                 <ScalarProperty Name="DocumentsImageUrl" ColumnName="DocumentsImageUrl" />
@@ -1122,6 +1353,52 @@
                 <ScalarProperty Name="IsLate" ColumnName="IsLate" />
                 <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tax">
+            <EntityTypeMapping TypeName="AMSModel.Tax">
+              <MappingFragment StoreEntitySet="Tax">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentIncentives">
+            <EntityTypeMapping TypeName="AMSModel.AgentIncentives">
+              <MappingFragment StoreEntitySet="AgentIncentives">
+                <ScalarProperty Name="IncentiveName" ColumnName="IncentiveName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="IncentiveId" ColumnName="IncentiveId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentTaxes">
+            <EntityTypeMapping TypeName="AMSModel.AgentTaxes">
+              <MappingFragment StoreEntitySet="AgentTaxes">
+                <ScalarProperty Name="TaxName" ColumnName="TaxName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="TaxId" ColumnName="TaxId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Incentives">
+            <EntityTypeMapping TypeName="AMSModel.Incentives">
+              <MappingFragment StoreEntitySet="Incentives">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
