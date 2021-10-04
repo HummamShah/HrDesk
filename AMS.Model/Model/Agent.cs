@@ -61,6 +61,7 @@ namespace AMS.Model.Model
         public string DocumentsImageUrl { get; set; }
         public string CompanyBelonging { get; set; }
         public string ExitEmployeeFormImageUrl { get; set; }
+        public decimal Salary { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agent> Agent1 { get; set; }

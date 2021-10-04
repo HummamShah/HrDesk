@@ -31,6 +31,8 @@
         <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
         <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentAttendace_Shifts" />
+        <EntityTypeShape EntityType="AMSModel.Insentives" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AMSModel.Tax" Width="1.5" PointX="2.75" PointY="10.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -73,5 +73,7 @@
     <Build Include="dbo\Tables\LeaveDates.sql" />
     <Build Include="dbo\Tables\Shifts.sql" />
     <Build Include="dbo\Tables\Documents.sql" />
+    <Build Include="dbo\Tables\Tax.sql" />
+    <Build Include="dbo\Tables\Insentives.sql" />
   </ItemGroup>
 </Project>

@@ -12,16 +12,13 @@ namespace AMS.Model.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Documents
+    public partial class Insentives
     {
         public int Id { get; set; }
-        public Nullable<int> AgentId { get; set; }
-        public Nullable<int> UploadedBy { get; set; }
-        public Nullable<System.DateTime> UploadedOn { get; set; }
-        public string DocumentUrl { get; set; }
-        public string Title { get; set; }
-        public string SubTitle { get; set; }   
-        public virtual Agent Agent { get; set; }
-        public virtual Agent Agent1 { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public decimal Amount { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
     }
 }
