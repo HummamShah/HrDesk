@@ -12,13 +12,15 @@ namespace AMS.Model.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Insentives
+    public partial class AgentTaxes
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public decimal Amount { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedAt { get; set; }
+        public int AgentId { get; set; }
+        public int TaxId { get; set; }
+        public string AgentName { get; set; }
+        public string TaxName { get; set; }
+    
+        public virtual Agent Agent { get; set; }
+        public virtual Tax Tax { get; set; }
     }
 }

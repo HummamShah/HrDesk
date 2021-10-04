@@ -21,7 +21,7 @@ namespace AMS.Models.Requests.Intensive
             var response = new EditIntensiveResponse();
             try
             {
-                var Intensive = _dbContext.Insentives.Where(x => x.Id == request.Id).FirstOrDefault();
+                var Intensive = _dbContext.Incentives.Where(x => x.Id == request.Id).FirstOrDefault();
                 Intensive.Name = request.Name;
                 Intensive.Type = request.Type;
                 Intensive.Amount = request.Amount;

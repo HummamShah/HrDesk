@@ -20,13 +20,13 @@ namespace AMS.Models.Requests.Intensive
             var response = new AddIntensiveResponse();
             try
             {
-                var Intensive = new Model.Model.Insentives();
+                var Intensive = new Model.Model.Incentives();
                 Intensive.Name = request.Name;
                 Intensive.Type = request.Type;
                 Intensive.Amount = request.Amount;
                 Intensive.CreatedBy = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().FisrtName + " " + _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().LastName;
                 Intensive.CreatedAt = DateTime.Now;
-                _dbContext.Insentives.Add(Intensive);
+                _dbContext.Incentives.Add(Intensive);
                 _dbContext.SaveChanges();
                 response.IsSuccessful = true;
             }

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Insentives]
+﻿CREATE TABLE [dbo].[Incentives]
 (
 	[Id] INT NOT NULL PRIMARY KEY Identity(1,1),
 	[Name] nvarchar(max),

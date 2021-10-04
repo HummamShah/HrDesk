@@ -16,7 +16,7 @@ namespace AMS.Models.Requests.Intensive
             var response = new GetIntensiveResponse();
             try
             {
-                var Intensive = _dbContext.Insentives.Where(x => x.Id == request.Id).FirstOrDefault();
+                var Intensive = _dbContext.Incentives.Where(x => x.Id == request.Id).FirstOrDefault();
                 response.Id = Intensive.Id;
                 response.Name = Intensive.Name;
                 response.Type = Intensive.Type;

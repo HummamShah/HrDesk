@@ -164,6 +164,9 @@
             // ====================================================== EDIT INIT ============================================================
 
             $scope.EditInit = function () {
+                $scope.GetIntensiveList();
+                $scope.GetTaxList();
+                $scope.GetShiftList();
                 $scope.User = {};
                 GetDepartments();
                 var Id = $scope.GetUrlParameter("Id");
@@ -181,17 +184,14 @@
                         //$scope.GetUsersByDepartmentId($scope.User.DepartmentId);                        
                     }
                 );
-                $scope.AjaxGet("/api/ShiftApi/GetShifts", null).then(
-                    function (response) {
-                        console.log(response);
-                        $scope.ShiftsList = response.data.ShiftsList;
-                    }
-                );
             }
 
             // ====================================================== ADD INIT ============================================================
 
             $scope.AddInit = function () {
+                $scope.GetIntensiveList();
+                $scope.GetTaxList();
+                $scope.GetShiftList();
                 $scope.User = {};
                 $scope.Document = {};
                 $scope.User.Docs = [{ "Title": "Resume", "ChooseInput": false }, { "Title": "CNIC front", "ChooseInput": false }, { "Title": "CNIC back", "ChooseInput": false }, { "Title": "Appointment Letter", "ChooseInput": false }];
@@ -206,10 +206,44 @@
                         $scope.Departments = response.data.Data;
                     }
                 );
+            }
+
+            // =================================================== GET SHIFTS LIST =========================================================
+            $scope.GetShiftList = function () {
                 $scope.AjaxGet("/api/ShiftApi/GetShifts", null).then(
                     function (response) {
                         console.log(response);
                         $scope.ShiftsList = response.data.ShiftsList;
+                    }
+                );
+            }
+
+            // =================================================== GET TAXES LIST =========================================================
+            $scope.GetTaxList = function () {
+                $scope.AjaxGet("/api/TaxApi/GetTaxList").then(
+                    function (response) {
+                        if (response.status == 200) {
+                            console.log(response);
+                            $scope.TaxesList = response.data.TaxesList;
+                            console.log($scope.TaxesList);
+                        } else {
+                            toaster.pop('error', "error", "Could Not Find Tax List, try again!");
+                        }
+                    }
+                );
+            }
+
+            // =================================================== GET INTENSIVES LIST =========================================================
+            $scope.GetIntensiveList = function () {
+                $scope.AjaxGet("/api/IntensiveApi/GetIntensiveList").then(
+                    function (response) {
+                        if (response.status == 200) {
+                            console.log(response);
+                            $scope.IntensivesList = response.data.IntensivesList;
+                            console.log($scope.IntensivesList);
+                        } else {
+                            toaster.pop('error', "error", "Could Not Find Tax List, try again!");
+                        }
                     }
                 );
             }

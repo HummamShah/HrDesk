@@ -12,12 +12,12 @@ namespace AMS.Model.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Tax
+    public partial class Incentives
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tax()
+        public Incentives()
         {
-            this.AgentTaxes = new HashSet<AgentTaxes>();
+            this.AgentIncentives = new HashSet<AgentIncentives>();
         }
     
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace AMS.Model.Model
         public Nullable<System.DateTime> CreatedAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AgentTaxes> AgentTaxes { get; set; }
+        public virtual ICollection<AgentIncentives> AgentIncentives { get; set; }
     }
 }

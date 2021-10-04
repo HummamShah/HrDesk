@@ -17,7 +17,7 @@ namespace AMS.Models.Requests.Intensive
             try
             {
                 response.IntensivesList = new List<Intensive>();
-                var Intensives = _dbContext.Insentives.ToList();
+                var Intensives = _dbContext.Incentives.ToList();
                 foreach (var intensive in Intensives)
                 {
                     var Intensive = new Intensive();
