@@ -51,12 +51,15 @@
                 <div class="col-md-4 col-xl-4">
                     <div class="card bg-c-pink order-card boxsize">
                         <div class="card-block">
-                            <h4 class="m-b-20 mb-4 text-dark" ng-if="!User.IsAbsent">Today's Sign In Time </h4>
-                            <h2 class="text-right" ng-if="!User.IsAbsent"><i class="fa fa-clock f-left"></i><span class="mr-3">{{User.TodayClockIn | date:'hh:mm a'}}</span></h2>
-                            <p class="m-b-0" ng-if="User.IsLate">You are late today</p>
-                            <p class="m-b-0" ng-if="User.IsAbsent">You are absent today</p>
-                            <p class="m-b-0" ng-if="User.IsExcused">You are excused today for being late</p>
-                            <p class="m-b-0" ng-if="User.IsPresent">You are on time today</p>
+                            <h4 class="m-b-20 mb-2  text-center mt-4" ng-if="!User.IsAbsent">Today's Sign In Time </h4>
+                            <h2 class="text-center" ng-if="!User.IsAbsent"><i class="fa fa-clock f-center"></i><span class="ml-1">{{User.TodayClockIn | date:'hh:mm a'}}</span></h2>
+                            <div class="text-center">
+                                <p class="m-b-0" ng-if="User.IsLate">You are late today</p>
+                                <p class="m-b-0" ng-if="User.IsAbsent">You are absent today</p>
+                                <p class="m-b-0" ng-if="User.IsExcused">You are excused today for being late</p>
+                                <p class="m-b-0" ng-if="User.IsPresent">You are on time today</p>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -64,15 +67,13 @@
                     <div class="card bg-c-yellow order-card boxsize">
                         <div class="card-block">
                             <h6 class="m-b-20"></h6>
-                            <h6 class="m-b-20">Leaves</h6>
-                            <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}/30</span></p>
-                            <p class="m-b-0">Annual Leaves <span class="f-right">{{User.AnnualLeaves}}/20</span></p>
-                            <p class="m-b-0">Medical Leaves <span class="f-right">{{User.MedicalLeaves}}/10</span></p>
+                            <h4 class="m-b-20 mb-4  text-center mt-2">Leaves</h4>
+                            <div class="text-center mr-5">
+                                <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}/30</span></p>
+                                <p class="m-b-0">Annual Leaves <span class="f-right">{{User.AnnualLeaves}}/20</span></p>
+                                <p class="m-b-0">Medical Leaves <span class="f-right">{{User.MedicalLeaves}}/10</span></p>
+                            </div>
                             
-                            <h4 class="m-b-20 mb-4 text-dark">Leaves</h4>
-                            <p class="m-b-0">Total Leaves Left <span class="f-right">{{User.RemainingLeaves}}</span></p>
-                            <p class="m-b-0">Annual Leaves <span class="f-right">{{User.AnnualLeaves}}</span></p>
-                            <p class="m-b-0">Medical Leaves <span class="f-right">{{User.MedicalLeaves}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -80,12 +81,15 @@
                 <div class="col-md-4 col-xl-4">
                     <div class="card bg-c-green order-card boxsize">
                         <div class="card-block">
-                            <h4 class="m-b-20 mb-2 text-dark"><b>This Month</b></h4>
+                            <h4 class="m-b-20 mb-2  text-center"><b>This Month</b></h4>
                             @*<h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>000</span></h2>*@
-                            <p class="m-b-0">On Time<span class="f-right">{{User.PresentCount}}</span></p>
+                            <div class="text-center" style="margin-right: 80px;">
+                                <p class="m-b-0">On Time<span class="f-right">{{User.PresentCount}}</span></p>
                             <p class="m-b-0">Late<span class="f-right">{{User.LateCount}}</span></p>
                             <p class="m-b-0">Excused<span class="f-right">{{User.ExcusedCount}}</span></p>
                             <p class="m-b-0">Absent<span class="f-right">{{User.AbsentCount}}</span></p>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

@@ -213,7 +213,7 @@ svg {
 
 table {
     border-collapse: collapse;
-    font-size:13px;
+    font-size: 13px;
 }
 
 caption {
@@ -478,7 +478,7 @@ mark,
 }
 
     .blockquote-footer::before {
-        content: "— ";
+        content: "— ";
     }
 
 .img-fluid {
@@ -575,11 +575,16 @@ pre {
     }
 }
 
+@media (max-width: 544px) {
+    .hd {
+       display:none;
+    }
+}
+
 @media (min-width: 1200px) and (max-width: 1320px) {
     .barmt {
         margin-top: 18px;
     }
-
 }
 
 @media (min-width: 992px) {
@@ -10657,7 +10662,7 @@ body {
         justify-content: space-between;
         min-width: 0;
         flex-grow: 1;
-        min-height: calc(50vh - 56px);
+        min-height: calc(100vh - 56px);
         margin-left: -225px;
     }
 
@@ -10729,13 +10734,14 @@ body {
 .topnavcolor {
     background: linear-gradient(180deg,#007bff,#1a528e);
 }
+
 .sidenavcolor {
     background: linear-gradient(0deg,#163e68,#1559a2);
 }
+
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
     padding-left: 225px;
     top: 56px;
-
 }
 
 #layoutError {
@@ -10812,7 +10818,6 @@ body {
                 padding-top: 0.75rem;
                 padding-bottom: 0.75rem;
                 position: relative;
-                
             }
 
                 .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {
@@ -10912,6 +10917,7 @@ body {
     .sb-sidenav-light .sb-sidenav-footer {
         background-color: #e9ecef;
     }
+
 .font-12 {
     font-size: 13px;
 }
@@ -10950,17 +10956,17 @@ body {
     border-top: none;
 }
 
-.pageHeading{
-    padding:0px !important
+.pageHeading {
+    padding: 0px !important
 }
 
 .sub-details {
     border: 1px solid;
     border-radius: 4px;
-    margin-bottom:1%;
+    margin-bottom: 1%;
 }
 
-.dropList{
+.dropList {
     padding: 0px !important;
     height: inherit !important;
 }
@@ -10972,13 +10978,14 @@ body {
 .LoaderDeActivate {
     pointer-events: auto;
 }
+
 .inactive-tab {
-    
 }
 
 .active-tab {
-    background-color: #ddd!important;
+    background-color: #ddd !important;
 }
+
 .loader {
     border: 16px solid #f3f3f3;
     border-radius: 50%;
@@ -11038,18 +11045,24 @@ body {
     z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
 }
 
-.c-white{
-    color:white;
+.c-white {
+    color: white;
 }
+
 .active-sort {
     color: blue !important;
 }
-.inactive-sort{
-    color:grey!important;
+
+.inactive-sort {
+    color: grey !important;
 }
+
 .sort-icon {
     float: right;
     font-size: 8px;
     padding-top: 4px;
     text-decoration: none;
 }
+
+
+/*===============================================================================Tabs================================================================*/

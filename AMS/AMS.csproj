@@ -378,6 +378,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CardStyle.css" />
     <Content Include="Content\Clock.css" />
+    <Content Include="Content\css\demo.css" />
+    <Content Include="Content\css\normalize.css" />
+    <Content Include="Content\css\tabs.css" />
+    <Content Include="Content\css\tabstyles.css" />
     <Content Include="Content\Image\image003.jpg" />
     <Content Include="Content\Image\image008.jpg" />
     <Content Include="Content\Image\image010.jpg" />
@@ -387,6 +391,8 @@
     <Content Include="Content\Image\SharptelLogo.png" />
     <Content Include="Content\Image\SharptelLogoLogin.png" />
     <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\js1\cbpFWTabs.js" />
+    <Content Include="Content\js1\modernizr.custom.js" />
     <Content Include="Content\js\angular-chart.js" />
     <Content Include="Content\js\angular-chart.min.js" />
     <Content Include="Content\js\angular.min.js" />
@@ -407,6 +413,10 @@
     <Content Include="Content\SubDashboard.css" />
     <Content Include="Content\toaster.css" />
     <Content Include="Content\UiSelect2\daterangepicker.css" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\css\material-design-iconic-font.css" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\css\material-design-iconic-font.min.css" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\OFL.txt" />
     <Content Include="Content\UiSelect2\Select.css" />
     <Content Include="Content\UiSelect2\Select.js" />
     <Content Include="favicon.ico" />
@@ -438,6 +448,24 @@
     <Content Include="obj\Debug\AMS.csproj.CopyComplete" />
     <Content Include="obj\Debug\AMS.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="Content\UiSelect2\fonts\material-design-iconic-font\fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-Black.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-BlackItalic.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-Bold.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-BoldItalic.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-ExtraBold.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-ExtraBoldItalic.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-ExtraLight.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-ExtraLightItalic.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-Italic.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-Light.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-LightItalic.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-Regular.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-SemiBold.ttf" />
+    <Content Include="Content\UiSelect2\fonts\Nunito\Nunito-SemiBoldItalic.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -468,6 +496,8 @@
     <Content Include="Uploads\c4917b0a-55cf-4dad-b9cf-cfff26c85f8e.jpg" />
     <Content Include="Uploads\d52140e9-52fa-4351-af02-57c1c80133b9.jpg" />
     <Content Include="Uploads\dc099699-9076-48af-83b4-445c256efc22.jpg" />
+    <Content Include="Views\User\vendor\bootrap\css\bootstrap.min.css" />
+    <Content Include="Views\User\vendor\bootrap\js\bootstrap.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
