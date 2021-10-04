@@ -1,4 +1,6 @@
 ﻿using AMS.Models.Requests.FileUpload;
+using AMS.Models.Requests.Intensive;
+using AMS.Models.Requests.Tax;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -110,9 +112,12 @@ namespace AMS.Models
         public int AnnualLeaves { get; set; }
         public int MedicalLeaves { get; set; }
         public int ShiftId { get; set; }
+        public decimal Salary { get; set; }
         public List<Document> Docs{ get; set; }
         public List<Document> EducationalDocs { get; set; }
         public List<Document> Certificates { get; set; }
+        public List<GetTaxResponse> Taxes { get; set; }
+        public List<GetIntensiveResponse> Incentives { get; set; }
         public string UserId{ get; set; }
     }
     public class ResetPasswordViewModel

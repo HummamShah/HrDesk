@@ -237,6 +237,7 @@
     <Compile Include="Models\Requests\AgentAttendance\GetListingRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetAttendanceSummaryRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\SignOffAttendanceRequest.cs" />
+    <Compile Include="Models\Requests\AgentTaxes\GetAgentTaxesRequest.cs" />
     <Compile Include="Models\Requests\Department\AddDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\EditDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\GetDepartmentDropdownRequest.cs" />

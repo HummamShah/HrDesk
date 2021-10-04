@@ -34,7 +34,8 @@
             // ====================================================== ADD USER ============================================================
 
             $scope.AddUser = function (user) {
-                console.log(user);
+                console.log(user.Taxes);
+                console.log(user.Incentives);
                 /*if (user.DepartmentId == null || user.DepartmentId == 0) {
                     //alert("Please Select Department");
                     toaster.pop('error', "error", "Please Select Department");
@@ -197,6 +198,8 @@
                 $scope.User.Docs = [{ "Title": "Resume", "ChooseInput": false }, { "Title": "CNIC front", "ChooseInput": false }, { "Title": "CNIC back", "ChooseInput": false }, { "Title": "Appointment Letter", "ChooseInput": false }];
                 $scope.User.EducationalDocs = [];
                 $scope.User.Certificates = [];
+                $scope.User.Taxes = [];
+                $scope.User.Incentives = [];
                 $scope.AddEducationalDocRow();
                 $scope.AddCertificateRow();
                 console.log($scope.User.EducationalDocs);

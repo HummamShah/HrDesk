@@ -70,10 +70,10 @@
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
-                            toaster.pop('success', "success", "Intensive Added Successfully!");
+                            toaster.pop('success', "success", "Incentive Added Successfully!");
                             $timeout(function () { window.location.href = '/Insentive'; }, 2000);
                         } else {
-                            toaster.pop('error', "error", "Could Not Add Intensive, try again!");
+                            toaster.pop('error', "error", "Could Not Add Incentive, try again!");
                         }
                     }
                 );
@@ -98,10 +98,10 @@
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
-                            toaster.pop('success', "success", "Intensive Edited Successfully!");
+                            toaster.pop('success', "success", "Incentive Edited Successfully!");
                             $timeout(function () { window.location.href = '/Insentive'; }, 2000);
                         } else {
-                            toaster.pop('error', "error", "Could Not Edit Intensive, try again!");
+                            toaster.pop('error', "error", "Could Not Edit Incentive, try again!");
                         }
                     }
                 );

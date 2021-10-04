@@ -19,7 +19,6 @@ namespace AMS.Model.Model
         public int IncentiveId { get; set; }
         public string AgentName { get; set; }
         public string IncentiveName { get; set; }
-    
         public virtual Agent Agent { get; set; }
         public virtual Incentives Incentives { get; set; }
     }
