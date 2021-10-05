@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace AMS.Controllers
 {
-    public class InsentiveController : Controller
+    public class IncentiveController : Controller
     {
         [Authorize(Roles = "HR")]
         public ActionResult Index()

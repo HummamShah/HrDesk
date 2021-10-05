@@ -5,24 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AMS.Models.Requests.Intensive
+namespace AMS.Models.Requests.Incentive
 {
-    public class GetIntensiveRequest
+    public class GetIncentiveRequest
     {
         private AMSEntities _dbContext = new AMSEntities();
         public int Id { get; set; }
-        public Object RunRequest(GetIntensiveRequest request)
+        public Object RunRequest(GetIncentiveRequest request)
         {
-            var response = new GetIntensiveResponse();
+            var response = new GetIncentiveResponse();
             try
             {
-                var Intensive = _dbContext.Incentives.Where(x => x.Id == request.Id).FirstOrDefault();
-                response.Id = Intensive.Id;
-                response.Name = Intensive.Name;
-                response.Type = Intensive.Type;
-                response.Amount = Intensive.Amount;
-                response.CreatedBy = Intensive.CreatedBy;
-                response.CreatedAt = Intensive.CreatedAt;
+                var Incentive = _dbContext.Incentives.Where(x => x.Id == request.Id).FirstOrDefault();
+                response.Id = Incentive.Id;
+                response.Name = Incentive.Name;
+                response.Type = Incentive.Type;
+                response.Amount = Incentive.Amount;
+                response.CreatedBy = Incentive.CreatedBy;
+                response.CreatedAt = Incentive.CreatedAt;
                 response.IsSuccessful = true;
             }
             catch (Exception e)
@@ -33,7 +33,7 @@ namespace AMS.Models.Requests.Intensive
             return response;
         }
     }
-    public class GetIntensiveResponse
+    public class GetIncentiveResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }

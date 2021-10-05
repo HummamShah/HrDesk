@@ -4,13 +4,13 @@
     Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
 }
 
-<div class="container-fluid" ng-controller="IntensiveCtrl" ng-init="initIndex()">
+<div class="container-fluid" ng-controller="IncentiveCtrl" ng-init="initIndex()">
     <div class="row">
         <div class="col-sm-9 col-9">
             <h3 class="mt-4">Incentives List</h3>
         </div>
         <div class="col-sm-3 col-3">
-            <a href="/Insentive/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
+            <a href="/Incentive/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
                 Add <span><i class="fas fa-plus"></i></span>
             </a>
         </div>
@@ -50,27 +50,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="Intensive in IntensivesList| orderBy:Sorting.Field:Sorting.IsAscending">
+                        <tr ng-repeat="Incentive in IncentivesList| orderBy:Sorting.Field:Sorting.IsAscending">
                             <td>
-                                {{Intensive.Id}}
+                                {{Incentive.Id}}
                             </td>
                             <td>
-                                {{Intensive.Name}}
+                                {{Incentive.Name}}
                             </td>
                             <td>
-                                {{Intensive.Type}}
+                                {{Incentive.Type}}
                             </td>
                             <td>
-                                {{Intensive.Amount}}
+                                {{Incentive.Amount}}
                             </td>
                             <td>
-                                {{Intensive.CreatedBy}}
+                                {{Incentive.CreatedBy}}
                             </td>
                             <td>
-                                {{Intensive.CreatedAt | date:'MMM d, y'}}
+                                {{Incentive.CreatedAt | date:'MMM d, y'}}
                             </td>
                             <td>
-                                <a href="/Insentive/Edit?Id={{Intensive.Id}}" title="Edit"><i class="fas fa-pencil-alt ml-3"></i></a>
+                                <a href="/Incentive/Edit?Id={{Incentive.Id}}" title="Edit"><i class="fas fa-pencil-alt ml-3"></i></a>
                             </td>
                         </tr>
                     </tbody>

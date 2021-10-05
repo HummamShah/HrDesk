@@ -143,7 +143,7 @@
                                                                 <label>Incentives</label>
                                                                 <ui-select multiple sortable="true" ng-model="User.Incentives" theme="select2" class="form-control" title="Choose a person">
                                                                     <ui-select-match placeholder="Select or search a tax in the list...">{{Incentive.Name}}</ui-select-match>
-                                                                    <ui-select-choices repeat="Incentive in IntensivesList | filter: $select.search">
+                                                                    <ui-select-choices repeat="Incentive in IncentivesList | filter: $select.search">
                                                                         <div ng-bind-html="Incentive.Name | highlight: $select.search"></div>
                                                                     </ui-select-choices>
                                                                 </ui-select>
