@@ -100,7 +100,8 @@
                         <div class="card">
                             <div class="card-body text-center bg-primary rounded-top">
                                 <div class="user-box">
-                                    <img src="{{User.ImageUrl}}" alt="user avatar">
+                                    <img ng-if="UserIdentity.ImageUrl == null || UserIdentity.ImageUrl == '' " src="~/Content/Image/userImageAvatar.jpg" />
+                                    <img ng-if="UserIdentity.ImageUrl !=null && UserIdentity.ImageUrl != '' " src={{UserIdentity.ImageUrl}}  />
                                 </div>
                                 <h5 class="mb-1 text-white">{{User.FirstName}} {{User.LastName}}</h5>
                                 <h6 class="text-light">{{User.DepartmentEnum}}</h6>
