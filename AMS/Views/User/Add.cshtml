@@ -94,7 +94,7 @@
                                                                 <label>Shift</label>
                                                                 <select ng-model="User.ShiftId" class="form-control">
                                                                     @*ng-change="GetUsersByDepartmentId(User.DepartmentId)">*@
-                                                                    <option selected value="">Select Shift</option>
+                                                                    <option disabled selected value="">Select Shift</option>
                                                                     <option ng-repeat="Shift in ShiftsList" ng-selected="Shift.Id == User.ShiftId" value="{{Shift.Id}}">{{Shift.Name}}</option>
                                                                 </select>
                                                             </div>
@@ -107,7 +107,7 @@
                                                         <div class="form-group col-md-3" ng-if="User.HasSupervisor">
                                                             <label>Supervisor</label>
                                                             <select ng-model="User.SupervisorId" class="form-control">
-                                                                <option selected value="">Select Supervisor</option>
+                                                                <option disabled selected value="">Select Supervisor</option>
                                                                 <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
                                                             </select>
                                                         </div>
@@ -176,7 +176,7 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>Resume</label>
-                                                            <a ng-if="User.Docs[0].Url && User.Docs[0].Url != ''" href="{{User.Docs[0].Url}}" class="ml-3">{{User.Docs[0].SubTitle}}</a>
+                                                            <a target="_blank" ng-if="User.Docs[0].Url && User.Docs[0].Url != ''" href="{{User.Docs[0].Url}}" class="ml-3">{{User.Docs[0].SubTitle}}</a>
                                                             <input ng-if="!User.Docs[0].Url || User.Docs[0].Url == ''" type="file" ngf-select="UploadFile($files, 'Resume')" class="form-control" />
                                                             <span >
                                                             <a ng-if="User.Docs[0].Url && User.Docs[0].Url != ''" href="" ng-click="RemoveUploadedFile('Resume')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
@@ -187,7 +187,7 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>CNIC front</label>
-                                                            <a ng-if="User.Docs[1].Url && User.Docs[1].Url != ''" href="{{User.Docs[1].Url}}" class="ml-3">{{User.Docs[1].SubTitle}}</a>
+                                                            <a target="_blank" ng-if="User.Docs[1].Url && User.Docs[1].Url != ''" href="{{User.Docs[1].Url}}" class="ml-3">{{User.Docs[1].SubTitle}}</a>
                                                             <input ng-if="!User.Docs[1].Url || User.Docs[1].Url == ''" type="file" ngf-select="UploadFile($files, 'CNIC front')" class="form-control" />
                                                             <span>
                                                                 <a ng-if="User.Docs[1].Url && User.Docs[1].Url != ''" href="" ng-click="RemoveUploadedFile('CNIC front')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
@@ -198,7 +198,7 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>CNIC back</label>
-                                                            <a ng-if="User.Docs[2].Url && User.Docs[2].Url != ''" href="{{User.Docs[2].Url}}" class="ml-3">{{User.Docs[2].SubTitle}}</a>
+                                                            <a target="_blank" ng-if="User.Docs[2].Url && User.Docs[2].Url != ''" href="{{User.Docs[2].Url}}" class="ml-3">{{User.Docs[2].SubTitle}}</a>
                                                             <input ng-if="!User.Docs[2].Url || User.Docs[2].Url == ''" type="file" ngf-select="UploadFile($files, 'CNIC back')" class="form-control" />
                                                             <span>
                                                                 <a ng-if="User.Docs[2].Url && User.Docs[2].Url != ''" href="" ng-click="RemoveUploadedFile('CNIC back')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
@@ -209,7 +209,7 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>Appointment Letter</label>
-                                                            <a ng-if="User.Docs[3].Url && User.Docs[3].Url != ''" href="{{User.Docs[3].Url}}" class="ml-3">{{User.Docs[3].SubTitle}}</a>
+                                                            <a target="_blank" ng-if="User.Docs[3].Url && User.Docs[3].Url != ''" href="{{User.Docs[3].Url}}" class="ml-3">{{User.Docs[3].SubTitle}}</a>
                                                             <input ng-if="!User.Docs[3].Url || User.Docs[3].Url == ''" type="file" ngf-select="UploadFile($files, 'Appointment Letter')" class="form-control" />
                                                             <span>
                                                                 <a ng-if="User.Docs[3].Url && User.Docs[3].Url != ''" href="" ng-click="RemoveUploadedFile('Appointment Letter')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
@@ -221,7 +221,7 @@
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>Educational Documents</label>                                                                                                                                                                             
                                                             <div ng-repeat="row in User.EducationalDocs">
-                                                                <a ng-if="row.Url && row.Url != ''" href="{{row.Url}}" class="ml-3">{{row.SubTitle}}</a>
+                                                                <a target="_blank" ng-if="row.Url && row.Url != ''" href="{{row.Url}}" class="ml-3">{{row.SubTitle}}</a>
 
                                                                 <input ng-if="!row.Url || row.Url == ''" type="file" ngf-select="UploadEducationalFile($files, 'Educational', $index)" class="form-control mt-3" />
 
@@ -243,7 +243,7 @@
                                                             <div ng-repeat="row in User.Certificates">
 
 
-                                                                <a ng-if="row.Url && row.Url != ''" href="{{row.Url}}" class="ml-3">{{row.SubTitle}}</a>
+                                                                <a target="_blank" ng-if="row.Url && row.Url != ''" href="{{row.Url}}" class="ml-3">{{row.SubTitle}}</a>
                                                                 <input ng-if="!row.Url || row.Url == ''" type="file" ngf-select="UploadCertificate($files, 'Certifications', $index)" class="form-control mt-3" />
 
                                                                 <span>
