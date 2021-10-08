@@ -511,8 +511,6 @@
     <Content Include="Uploads\c4917b0a-55cf-4dad-b9cf-cfff26c85f8e.jpg" />
     <Content Include="Uploads\d52140e9-52fa-4351-af02-57c1c80133b9.jpg" />
     <Content Include="Uploads\dc099699-9076-48af-83b4-445c256efc22.jpg" />
-    <Content Include="Views\User\vendor\bootrap\css\bootstrap.min.css" />
-    <Content Include="Views\User\vendor\bootrap\js\bootstrap.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
