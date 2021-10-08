@@ -6,27 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace AMS.Models.Requests.Intensive
-{
-    public class AddIntensiveRequest
+namespace AMS.Models.Requests.Incentive {
+    
+    public class AddIncentiveRequest
     {
         private AMSEntities _dbContext = new AMSEntities();
         public string UserId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
-        public Object RunRequest(AddIntensiveRequest request)
+        public Object RunRequest(AddIncentiveRequest request)
         {
-            var response = new AddIntensiveResponse();
+            var response = new AddIncentiveResponse();
             try
             {
-                var Intensive = new Model.Model.Incentives();
-                Intensive.Name = request.Name;
-                Intensive.Type = request.Type;
-                Intensive.Amount = request.Amount;
-                Intensive.CreatedBy = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().FisrtName + " " + _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().LastName;
-                Intensive.CreatedAt = DateTime.Now;
-                _dbContext.Incentives.Add(Intensive);
+                var Incentive = new Model.Model.Incentives();
+                Incentive.Name = request.Name;
+                Incentive.Type = request.Type;
+                Incentive.Amount = request.Amount;
+                Incentive.CreatedBy = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().FisrtName + " " + _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().LastName;
+                Incentive.CreatedAt = DateTime.Now;
+                _dbContext.Incentives.Add(Incentive);
                 _dbContext.SaveChanges();
                 response.IsSuccessful = true;
             }
@@ -38,7 +38,7 @@ namespace AMS.Models.Requests.Intensive
             return response;
         }
     }
-    public class AddIntensiveResponse
+    public class AddIncentiveResponse
     {
         public bool IsSuccessful { get; set; }
         public List<string> ValidationErrors { get; set; } = new List<string>();

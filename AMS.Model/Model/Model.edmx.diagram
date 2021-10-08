@@ -31,13 +31,13 @@
         <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
         <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentAttendace_Shifts" />
-        <EntityTypeShape EntityType="AMSModel.Tax" Width="1.5" PointX="2.75" PointY="10.75" />
         <EntityTypeShape EntityType="AMSModel.AgentIncentives" Width="1.5" PointX="10.5" PointY="4.75" />
         <EntityTypeShape EntityType="AMSModel.AgentTaxes" Width="1.5" PointX="12.5" PointY="8.75" />
         <EntityTypeShape EntityType="AMSModel.Incentives" Width="1.5" PointX="8.25" PointY="20.75" />
         <AssociationConnector Association="AMSModel.FK_AgentIncentives_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentTaxes_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentIncentives_Incentive" />
+        <EntityTypeShape EntityType="AMSModel.Tax" Width="1.5" PointX="0.75" PointY="11" />
         <AssociationConnector Association="AMSModel.FK_AgentTaxes_Tax" />
         </Diagram>
     </edmx:Diagrams>

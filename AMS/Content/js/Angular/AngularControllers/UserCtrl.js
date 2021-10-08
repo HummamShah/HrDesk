@@ -10,15 +10,10 @@
         "toaster",
         function ($scope, $rootScope, $timeout, $q, $window, $http, Upload, toaster) {
             console.log("Connected to User App");
-
+           
             // ====================================================== INIT INDEX ============================================================
 
             $scope.initIndex = function () {
-                /*$scope.AjaxGet("/api/UserApi/GetListData", null).then(
-                    function (response) {
-                        console.log(response);
-                        $scope.Users = response.data.Data;
-                    });*/
                 var Filters = ["FirstName", "LastName", "Email", "DepartmentName", "CreatedBy"];
                 $scope.SetSearchColoumns(Filters);
                 $scope.Assignment = {};
@@ -29,6 +24,30 @@
                 }
                 $scope.ListingOptions.Url = '/api/UserApi/GetListData';
                 $scope.InitListing();
+            }
+
+            // ====================================================== EDIT INIT ============================================================
+
+            $scope.EditInit = function () {
+                $scope.GetIncentiveList();
+                $scope.GetTaxList();
+                $scope.GetShiftList();
+                $scope.User = {};
+                GetDepartments();
+                var Id = $scope.GetUrlParameter("Id");
+                $scope.AjaxGet("/api/UserApi/GetUser", { Id: Id }).then(
+                    function (response) {
+                        console.log(response);
+                        $scope.User = response.data;
+                        console.log($scope.User.Incentives);
+                        console.log("inside edit init");
+                        $scope.User.Docs.forEach(x => {
+                            x.ChooseInput = false;
+                            console.log(x.ChooseInput);
+                        });
+                        console.log($scope.User.Docs);
+                    }
+                );
             }
 
             // ====================================================== ADD USER ============================================================
@@ -42,22 +61,18 @@
                     return;
                 }*/
                 if (user.FirstName == null || user.FirstName == "") {
-                    //alert("Please Enter First Name");
                     toaster.pop('error', "error", "Please Enter First Name");
                     return;
                 }
                 if (user.Email == null || user.Email == "") {
-                    //alert("Please Enter Email!");
                     toaster.pop('error', "error", "Please Enter Email!");
                     return;
                 }
                 if (user.Contact1 == null) {
-                    //alert("Please Enter Primary Contact");
                     toaster.pop('error', "error", "Please Enter Primary Contact!");
                     return;
                 }
                 if (user.Password == null || user.Password == "") {
-                    //alert("Enter Password");
                     toaster.pop('error', "error", "Please Enter Password!");
                     return;
                 }
@@ -82,11 +97,9 @@
                     return;
                 }
                 if (user.Password != user.ConfirmPassword) {
-                    //alert("Password and Confirm Password shoul match");
                     toaster.pop('error', "error", "Password and Confirm Password should match!");
                     return;
                 }
-                    //Loader need to make it generic so we could use this in a function
                 $scope.IsServiceRunning = true;
 
                 $scope.AjaxPost("/api/UserApi/RegisterUser", user).then(
@@ -95,7 +108,6 @@
                         
                         if (response.status == 200) {
                             if (response.data.Success) {
-                                //alert("User has been Added Successfully!");
                                 toaster.pop('success', "success", "User Added Successfully!");
                                 $timeout(function () { window.location.href = '/User'; }, 2000);
                             }
@@ -162,35 +174,10 @@
                 );
             }
 
-            // ====================================================== EDIT INIT ============================================================
-
-            $scope.EditInit = function () {
-                $scope.GetIntensiveList();
-                $scope.GetTaxList();
-                $scope.GetShiftList();
-                $scope.User = {};
-                GetDepartments();
-                var Id = $scope.GetUrlParameter("Id");
-                $scope.AjaxGet("/api/UserApi/GetUser", { Id: Id }).then(
-                    function (response) {
-                        console.log(response);
-                        $scope.User = response.data;
-                        console.log("inside edit init");
-                        $scope.User.Docs.forEach(x => {
-                            x.ChooseInput = false;
-                            console.log(x.ChooseInput);
-                        });
-                        console.log($scope.User.Docs);
-                        /*$scope.resume = $scope.User.Docs.find(x => x.Title == 'Resume').Url;*/
-                        //$scope.GetUsersByDepartmentId($scope.User.DepartmentId);                        
-                    }
-                );
-            }
-
             // ====================================================== ADD INIT ============================================================
 
             $scope.AddInit = function () {
-                $scope.GetIntensiveList();
+                $scope.GetIncentiveList();
                 $scope.GetTaxList();
                 $scope.GetShiftList();
                 $scope.User = {};
@@ -236,16 +223,16 @@
                 );
             }
 
-            // =================================================== GET INTENSIVES LIST =========================================================
-            $scope.GetIntensiveList = function () {
-                $scope.AjaxGet("/api/IntensiveApi/GetIntensiveList").then(
+            // =================================================== GET INSENTIVES LIST =========================================================
+            $scope.GetIncentiveList = function () {
+                $scope.AjaxGet("/api/IncentiveApi/GetIncentiveList").then(
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
-                            $scope.IntensivesList = response.data.IntensivesList;
-                            console.log($scope.IntensivesList);
+                            $scope.IncentivesList = response.data.IncentiveList;
+                            console.log($scope.IncentivesList);
                         } else {
-                            toaster.pop('error', "error", "Could Not Find Tax List, try again!");
+                            toaster.pop('error', "error", "Could Not Find Incentive List, try again!");
                         }
                     }
                 );

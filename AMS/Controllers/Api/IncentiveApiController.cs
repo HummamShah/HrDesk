@@ -1,4 +1,4 @@
-﻿using AMS.Models.Requests.Intensive;
+﻿using AMS.Models.Requests.Incentive;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -8,24 +8,24 @@ using System.Web.Http;
 
 namespace AMS.Controllers.Api
 {
-    public class IntensiveApiController : ApiController
+    public class IncentiveApiController : ApiController
     {
         [HttpGet]
-        public object GetIntensiveList([FromUri] GetIntensiveListRequest request)
+        public object GetIncentiveList([FromUri] GetIncentiveListRequest request)
         {
             var result = request.RunRequest(request);
             return result;
         }
 
         [HttpGet]
-        public object GetIntensive([FromUri] GetIntensiveRequest request)
+        public object GetIncentive([FromUri] GetIncentiveRequest request)
         {
             var result = request.RunRequest(request);
             return result;
         }
 
         [HttpPost]
-        public object AddIntensive([FromBody] AddIntensiveRequest request)
+        public object AddIncentive([FromBody] AddIncentiveRequest request)
         {
             request.UserId = User.Identity.GetUserId();
             var result = request.RunRequest(request);
@@ -33,7 +33,7 @@ namespace AMS.Controllers.Api
         }
 
         [HttpPost]
-        public object EditIntensive([FromBody] EditIntensiveRequest request)
+        public object EditIncentive([FromBody] EditIncentiveRequest request)
         {
             request.UserId = User.Identity.GetUserId();
             var result = request.RunRequest(request);

@@ -1,11 +1,11 @@
-﻿@using UserRoles = AMS.Models.Enums.Roles;
+﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
 }
 
-<div class="container-fluid" ng-controller="IntensiveCtrl" ng-init="addInit()">
-    <h3 class="mt-4">Add Incentive</h3>
+<div class="container-fluid" ng-controller="IncentiveCtrl" ng-init="editInit()">
+    <h3 class="mt-4">Edit Incentive</h3>
     <div class="row">
         <div class="col-lg-12">
             <div class="card z-depth-3">
@@ -16,21 +16,24 @@
                                 <div class="row">
                                     <div class="form-group col-md-3">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" ng-model="Intensive.Name" />
+                                        <input type="text" class="form-control" ng-model="Incentive.Name" />
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Type</label>
-                                        <input type="text" class="form-control" ng-model="Intensive.Type" />
+                                        <select class="form-control custom-select select2" ng-model="Incentive.Type">
+                                            <option ng-selected="Incentive.Type == 'Percentage'" value="Percentage">Percentage</option>
+                                            <option ng-selected="Incentive.Type == 'Fixed Amount'" value="Fixed Amount">Fixed Amount</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Amount</label>
-                                        <input type="number" min="0" class="form-control" ng-model="Intensive.Amount" />
+                                        <input type="number" min="0" class="form-control" ng-model="Incentive.Amount" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <button type="button" class="btn btn-success float-right" ng-click="AddIntensive(Intensive)">Add Incentive</button>
-                                        <a href="/Insentive/" title="Cancel" class="btn btn-danger float-right">Cancel</a>
+                                        <button type="button" class="btn btn-success float-right" ng-click="EditIncentive(Incentive)">Edit Incentive</button>
+                                        <a href="/Incentive/" title="Cancel" class="btn btn-danger float-right">Cancel</a>
                                     </div>
                                 </div>
                             </form>

@@ -21,6 +21,7 @@ namespace AMS.Model.Model
         public string DocumentUrl { get; set; }
         public string Title { get; set; }
         public string SubTitle { get; set; }
+    
         public virtual Agent Agent { get; set; }
         public virtual Agent Agent1 { get; set; }
     }

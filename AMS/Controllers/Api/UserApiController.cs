@@ -186,7 +186,7 @@ namespace AMS.Controllers.Api
 
                     if (model.Taxes.Count > 0)
                     {
-                        var AgentTaxes = db.AgentTaxes;
+                        //var AgentTaxes = db.AgentTaxes;
                         foreach (var tax in model.Taxes)
                         {
                             var agentTax = new AgentTaxes();
@@ -194,14 +194,14 @@ namespace AMS.Controllers.Api
                             agentTax.AgentName = AgentData.FisrtName + " " + AgentData.LastName;
                             agentTax.TaxId = tax.Id;
                             agentTax.TaxName = tax.Name;
-                            AgentTaxes.Add(agentTax);
+                            db.AgentTaxes.Add(agentTax);
                             db.SaveChanges();
                         }
                     }
 
                     if (model.Incentives.Count > 0)
                     {
-                        var AgentIncentives = db.AgentIncentives;
+                        //var AgentIncentives = db.AgentIncentives;
                         foreach (var incentive in model.Incentives)
                         {
                             var agentIncentive = new AgentIncentives();
@@ -209,7 +209,7 @@ namespace AMS.Controllers.Api
                             agentIncentive.AgentName = AgentData.FisrtName + " " + AgentData.LastName; ;
                             agentIncentive.IncentiveId = incentive.Id;
                             agentIncentive.IncentiveName = incentive.Name;
-                            AgentIncentives.Add(agentIncentive);
+                            db.AgentIncentives.Add(agentIncentive);
                             db.SaveChanges();
                         }
                     }
@@ -317,6 +317,45 @@ namespace AMS.Controllers.Api
             AgentData.Gender = request.Gender;
             AgentData.ImageUrl = request.ImageUrl;
             AgentData.ShiftId = request.ShiftId;
+            AgentData.Salary = request.Salary;
+
+            // removing previously selected taxes
+            var AgentTaxes = db.AgentTaxes.Where(x => x.AgentId == AgentData.Id).ToList();
+            foreach (var tax in AgentTaxes) {
+                db.AgentTaxes.Remove(tax);
+                db.SaveChanges();
+            }
+
+            // adding updated taxes applied on employee
+            foreach (var tax in request.Taxes) {
+                var agentTax = new AgentTaxes();
+                agentTax.AgentId = AgentData.Id;
+                agentTax.AgentName = AgentData.FisrtName + " " + AgentData.LastName;
+                agentTax.TaxId = tax.Id;
+                agentTax.TaxName = tax.Name;
+                db.AgentTaxes.Add(agentTax);
+                db.SaveChanges();
+            }
+
+            // removing previously selected incentives
+            var AgentIncentives = db.AgentIncentives.Where(x => x.AgentId == AgentData.Id).ToList();
+            foreach (var incentive in AgentIncentives)
+            {
+                db.AgentIncentives.Remove(incentive);
+                db.SaveChanges();
+            }
+
+            // adding updated incentives applied on employee
+            foreach (var incentive in request.Incentives)
+            {
+                var agentIncentives = new AgentIncentives();
+                agentIncentives.AgentId = AgentData.Id;
+                agentIncentives.AgentName = AgentData.FisrtName + " " + AgentData.LastName;
+                agentIncentives.IncentiveId = incentive.Id;
+                agentIncentives.IncentiveName = incentive.Name;
+                db.AgentIncentives.Add(agentIncentives);
+                db.SaveChanges();
+            }
 
             UpdateDocumentInDB("Resume", AgentData.Id, uploadedBy, request.Docs, AgentData);
             UpdateDocumentInDB("CNIC back", AgentData.Id, uploadedBy, request.Docs, AgentData);

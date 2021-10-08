@@ -22,6 +22,7 @@
             $scope.addInit = function () {
                 console.log("inisde add init index");
                 $scope.Tax = {};
+                $scope.Tax.Type = "Percentage";
             }
 
             // ================================================== EDIT INIT INDEX ==========================================================
@@ -65,6 +66,10 @@
                     toaster.pop('error', "error", "Please fill the AMOUNT filed!");
                     return;
                 }
+                if (!$scope.Tax.Order) {
+                    toaster.pop('error', "error", "Please fill the ORDER filed!");
+                    return;
+                }
 
                 $scope.AjaxPost("/api/TaxApi/AddTax", $scope.Tax).then(
                     function (response) {
@@ -91,6 +96,10 @@
                 }
                 if (!$scope.Tax.Amount) {
                     toaster.pop('error', "error", "Please fill the AMOUNT filed!");
+                    return;
+                }
+                if (!$scope.Tax.Order) {
+                    toaster.pop('error', "error", "Please fill the ORDER filed!");
                     return;
                 }
 

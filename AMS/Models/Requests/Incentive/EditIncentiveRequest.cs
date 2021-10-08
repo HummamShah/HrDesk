@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace AMS.Models.Requests.Intensive
+namespace AMS.Models.Requests.Incentive
 {
-    public class EditIntensiveRequest
+    public class EditIncentiveRequest
     {
         private AMSEntities _dbContext = new AMSEntities();
         public string UserId { get; set; }
@@ -16,15 +16,15 @@ namespace AMS.Models.Requests.Intensive
         public string Name { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
-        public Object RunRequest(EditIntensiveRequest request)
+        public Object RunRequest(EditIncentiveRequest request)
         {
-            var response = new EditIntensiveResponse();
+            var response = new EditIncentiveResponse();
             try
             {
-                var Intensive = _dbContext.Incentives.Where(x => x.Id == request.Id).FirstOrDefault();
-                Intensive.Name = request.Name;
-                Intensive.Type = request.Type;
-                Intensive.Amount = request.Amount;
+                var Incentive = _dbContext.Incentives.Where(x => x.Id == request.Id).FirstOrDefault();
+                Incentive.Name = request.Name;
+                Incentive.Type = request.Type;
+                Incentive.Amount = request.Amount;
                 _dbContext.SaveChanges();
                 response.IsSuccessful = true;
             }
@@ -36,7 +36,7 @@ namespace AMS.Models.Requests.Intensive
             return response;
         }
     }
-    public class EditIntensiveResponse
+    public class EditIncentiveResponse
     {
         public bool IsSuccessful { get; set; }
         public List<string> ValidationErrors { get; set; } = new List<string>();

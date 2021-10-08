@@ -1,5 +1,5 @@
 ﻿using AMS.Models.Requests.FileUpload;
-using AMS.Models.Requests.Intensive;
+using AMS.Models.Requests.Incentive;
 using AMS.Models.Requests.Tax;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -117,7 +117,7 @@ namespace AMS.Models
         public List<Document> EducationalDocs { get; set; }
         public List<Document> Certificates { get; set; }
         public List<GetTaxResponse> Taxes { get; set; }
-        public List<GetIntensiveResponse> Incentives { get; set; }
+        public List<GetIncentiveResponse> Incentives { get; set; }
         public string UserId{ get; set; }
     }
     public class ResetPasswordViewModel
