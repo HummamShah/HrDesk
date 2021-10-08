@@ -219,7 +219,7 @@
     <Compile Include="Controllers\IncentiveController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PayRecordController.cs" />
+    <Compile Include="Controllers\PayController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
@@ -261,8 +261,8 @@
     <Compile Include="Models\Requests\Leave\GetLeaveSummaryRequest.cs" />
     <Compile Include="Models\Requests\Leave\GetPendingLeavesRequest.cs" />
     <Compile Include="Models\Requests\Leave\RejectLeaveRequest.cs" />
-    <Compile Include="Models\Requests\Pay\AddPayRecordRequest.cs" />
-    <Compile Include="Models\Requests\Pay\GetPayRecordRequest.cs" />
+    <Compile Include="Models\Requests\Pay\GeneratePaySlipRequest.cs" />
+    <Compile Include="Models\Requests\Pay\GetPayRollListRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />
     <Compile Include="Models\Requests\Shifts\GetShiftsRequest.cs" />
     <Compile Include="Models\Requests\Tax\AddTaxRequest.cs" />
@@ -417,6 +417,7 @@
     <Content Include="Content\js\Angular\AngularControllers\BaseCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\DepartmentCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\IncentiveCtrl.js" />
+    <Content Include="Content\js\Angular\AngularControllers\PayCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\ProfileCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\LeaveCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\TaxCtrl.js" />
@@ -566,7 +567,7 @@
     <Content Include="Views\Hiring\Add.cshtml" />
     <Content Include="Views\Hiring\Edit.cshtml" />
     <Content Include="Views\Leave\Index.cshtml" />
-    <Content Include="Views\PayRecord\Index.cshtml" />
+    <Content Include="Views\Pay\Index.cshtml" />
     <Content Include="Views\AgentAttendance\StaffAttendance.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Leave\Requests.cshtml" />
@@ -577,6 +578,7 @@
     <Content Include="Views\Tax\Add.cshtml" />
     <Content Include="Views\Tax\Edit.cshtml" />
     <Content Include="Views\Incentive\Edit.cshtml" />
+    <Content Include="Views\Pay\PaySlip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

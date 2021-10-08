@@ -6,25 +6,18 @@ using System.Web.Mvc;
 
 namespace AMS.Controllers
 {
-    public class UserController : Controller
+    public class PayController : Controller
     {
+        // GET: Pay Roll
         [Authorize(Roles = "HR")]
         public ActionResult Index()
         {
             return View();
         }
+
+        // POST: Generate PaySlip
         [Authorize(Roles = "HR")]
-        public ActionResult Add()
-        {
-            return View();
-        }
-        [Authorize(Roles = "HR")]
-        public ActionResult Edit()
-        {
-            return View();
-        }
-        [Authorize(Roles = "SuperAdmin")]
-        public ActionResult AddAdmin()
+        public ActionResult PaySlip()
         {
             return View();
         }

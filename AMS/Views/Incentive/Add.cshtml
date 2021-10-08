@@ -20,7 +20,10 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Type</label>
-                                        <input type="text" class="form-control" ng-model="Incentive.Type" />
+                                        <select class="form-control custom-select select2" ng-model="Incentive.Type">
+                                            <option value="Percentage">Percentage</option>
+                                            <option value="Fixed Amount">Fixed Amount</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Amount</label>

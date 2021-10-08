@@ -1,4 +1,6 @@
 ﻿using AMS.Models.Requests.FileUpload;
+using AMS.Models.Requests.Incentive;
+using AMS.Models.Requests.Tax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +33,11 @@ namespace AMS.Models.Requests.User
         public int ShiftId { get; set; }
         public string ImageUrl { get; set; }
         public string Gender { get; set; }
+        public decimal Salary { get; set; }
         public List<Document> Docs { get; set; }
         public List<Document> EducationalDocs { get; set; }
         public List<Document> Certificates { get; set; }
-
+        public List<GetTaxResponse> Taxes{ get; set; }
+        public List<GetIncentiveResponse> Incentives { get; set; }
     }
 }

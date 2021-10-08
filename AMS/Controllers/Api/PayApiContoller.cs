@@ -1,4 +1,4 @@
-﻿using AMS.Model.Request.Pay;
+﻿using AMS.Models.Requests.Pay;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +7,17 @@ using System.Web.Http;
 
 namespace AMS.Controllers.Api
 {
-    public class PayApiContoller : ApiController
+    public class PayApiController : ApiController
     {
-        [HttpPost]
-        public object GetPayRecord([FromBody] GetPayRecordRequest req) {
+        [HttpGet]
+        public object GetPayRollList([FromUri] GetPayRollListRequest req)
+        {
             var result = req.RunRequest(req);
             return result;
         }
+
         [HttpPost]
-        public object AddPayRecord([FromBody] AddPayRecordRequest req)
+        public object GeneratePaySlip([FromBody] GeneratePaySlipRequest req)
         {
             var result = req.RunRequest(req);
             return result;

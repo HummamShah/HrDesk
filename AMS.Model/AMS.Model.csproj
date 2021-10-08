@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\AmountType.cs" />
     <Compile Include="Enum\AssigningType.cs" />
     <Compile Include="Enum\AttendanceType.cs" />
     <Compile Include="Enum\Departments.cs" />

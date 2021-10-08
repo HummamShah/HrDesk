@@ -10,7 +10,7 @@
         "toaster",
         function ($scope, $rootScope, $timeout, $q, $window, $http, Upload, toaster) {
             console.log("Connected to User App");
-
+           
             // ====================================================== INIT INDEX ============================================================
 
             $scope.initIndex = function () {

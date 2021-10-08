@@ -1,6 +1,8 @@
 ﻿using AMS.Model.Model;
 using AMS.Models.Enums;
 using AMS.Models.Requests.FileUpload;
+using AMS.Models.Requests.Incentive;
+using AMS.Models.Requests.Tax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,8 +44,8 @@ namespace AMS.Models.Requests.User
 		public List<Document> Docs { get; set; }
 		public List<Document> EducationalDocs { get; set; }
 		public List<Document> Certificates { get; set; }
-		public List<AgentTaxes.AgentTaxes> Taxes { get; set; }
-		public List<AgentIncentives.AgentIncentives> Incentives { get; set; }
+		public List<GetTaxResponse> Taxes { get; set; }
+		public List<GetIncentiveResponse> Incentives { get; set; }
 	}
 
 	public class GetUserRequest
@@ -76,6 +78,39 @@ namespace AMS.Models.Requests.User
 				response.MedicalLeaves = Data.MedicalLeaves;
                 response.Gender = Data.Gender;
 				response.ShiftId = Data.ShiftId;
+				response.Salary = Data.Salary;
+
+				// get taxes applied on user
+				response.Taxes = new List<GetTaxResponse>();
+				var AgentTaxes = _dbContext.AgentTaxes.Where( x => x.AgentId == Data.Id).ToList();
+				foreach (var tax in AgentTaxes) {
+					var Tax = new GetTaxResponse();
+					Tax.Id = tax.TaxId;
+					Tax.Name = tax.TaxName;
+					Tax.Type = tax.Tax.Type;
+					Tax.Amount = tax.Tax.Amount;
+					Tax.CreatedBy = tax.Tax.CreatedBy;
+					Tax.CreatedAt = tax.Tax.CreatedAt;
+					response.Taxes.Add(Tax);
+				}
+
+				// get incentives applied on user
+				response.Incentives = new List<GetIncentiveResponse>();
+				var AgentIncentives = _dbContext.AgentIncentives.Where(x => x.AgentId == Data.Id).ToList();
+				foreach (var incentive in AgentIncentives)
+				{
+					var Incentive = new GetIncentiveResponse();
+					Incentive.Id = incentive.IncentiveId;
+					Incentive.Name = incentive.IncentiveName;
+					Incentive.Type = incentive.Incentives.Type;
+					Incentive.Amount = incentive.Incentives.Amount;
+					Incentive.CreatedBy = incentive.Incentives.CreatedBy;
+					Incentive.CreatedAt = incentive.Incentives.CreatedAt;
+					
+					response.Incentives.Add(Incentive);
+				}
+
+				// get user docs
 				response.Docs = new List<Document>();
 				var Docs = Data.Documents.Where(x => x.AgentId == Data.Id && x.Title == "Resume" || x.Title == "CNIC front" || x.Title == "CNIC back" || x.Title == "Appointment Letter").ToList();
 				
@@ -122,30 +157,30 @@ namespace AMS.Models.Requests.User
 					response.Certificates.Add(row);
 				}
 
-				response.Taxes = new List<AgentTaxes.AgentTaxes>();
-				var AgentTaxes = Data.AgentTaxes.Where(x => x.AgentId == Data.Id).ToList();
-				foreach (var taxes in AgentTaxes) {
-					var Taxes = new AgentTaxes.AgentTaxes();
-					Taxes.Id = taxes.Id;
-					Taxes.TaxId = taxes.TaxId;
-					Taxes.TaxName = taxes.TaxName;
-					Taxes.AgentId = taxes.AgentId;
-					Taxes.AgentName = taxes.AgentName;
-					response.Taxes.Add(Taxes);
-				}
+				//response.Taxes = new List<AgentTaxes.AgentTaxes>();
+				//var AgentTaxes = Data.AgentTaxes.Where(x => x.AgentId == Data.Id).ToList();
+				//foreach (var taxes in AgentTaxes) {
+				//	var Taxes = new AgentTaxes.AgentTaxes();
+				//	Taxes.Id = taxes.Id;
+				//	Taxes.TaxId = taxes.TaxId;
+				//	Taxes.TaxName = taxes.TaxName;
+				//	Taxes.AgentId = taxes.AgentId;
+				//	Taxes.AgentName = taxes.AgentName;
+				//	response.Taxes.Add(Taxes);
+				//}
 
-				response.Incentives = new List<AgentIncentives.AgentIncentives>();
-				var AgentIncentives = Data.AgentIncentives.Where(x => x.AgentId == Data.Id).ToList();
-				foreach (var incentive in AgentIncentives)
-				{
-					var Incentive = new AgentIncentives.AgentIncentives();
-					Incentive.Id = incentive.Id;
-					Incentive.IncentiveId = incentive.IncentiveId;
-					Incentive.IncentiveName = incentive.IncentiveName;
-					Incentive.AgentId = incentive.AgentId;
-					Incentive.AgentName = incentive.AgentName;
-					response.Incentives.Add(Incentive);
-				}
+				//response.Incentives = new List<AgentIncentives.AgentIncentives>();
+				//var AgentIncentives = Data.AgentIncentives.Where(x => x.AgentId == Data.Id).ToList();
+				//foreach (var incentive in AgentIncentives)
+				//{
+				//	var Incentive = new AgentIncentives.AgentIncentives();
+				//	Incentive.Id = incentive.Id;
+				//	Incentive.IncentiveId = incentive.IncentiveId;
+				//	Incentive.IncentiveName = incentive.IncentiveName;
+				//	Incentive.AgentId = incentive.AgentId;
+				//	Incentive.AgentName = incentive.AgentName;
+				//	response.Incentives.Add(Incentive);
+				//}
 
 				var MonthAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date.Month == DateTime.Today.Month && x.IsAttendanceMarked == true).ToList();
 				response.AbsentCount = MonthAttendance.Where(x => x.IsAbsent == true).Count();

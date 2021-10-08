@@ -15,13 +15,14 @@
             // ================================================== INIT INDEX ==========================================================
             $scope.initIndex = function () {
                 console.log("inisde init index");
-                $scope.GetIntensiveList();
+                $scope.GetIncentiveList();
             }
 
             // ================================================== ADD INIT INDEX ==========================================================
             $scope.addInit = function () {
                 console.log("inisde add init index");
-                $scope.Intensive = {};
+                $scope.Incentive = {};
+                $scope.Incentive.Type = "Percentage";
             }
 
             // ================================================== EDIT INIT INDEX ==========================================================
@@ -42,7 +43,7 @@
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
-                            $scope.IncentivesList = response.data.IncentivesList;
+                            $scope.IncentivesList = response.data.IncentiveList;
                             console.log($scope.IncentivesList);
                         } else {
                             toaster.pop('error', "error", "Could Not Find Incentive List, try again!");

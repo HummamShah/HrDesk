@@ -178,6 +178,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -249,6 +250,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -735,7 +737,6 @@
             <End Role="Shifts" EntitySet="Shifts" />
             <End Role="AgentAttendance" EntitySet="AgentAttendance" />
           </AssociationSet>
-          <EntitySet Name="Tax" EntityType="AMSModel.Tax" />
           <EntitySet Name="AgentIncentives" EntityType="AMSModel.AgentIncentives" />
           <EntitySet Name="AgentTaxes" EntityType="AMSModel.AgentTaxes" />
           <EntitySet Name="Incentives" EntityType="AMSModel.Incentives" />
@@ -751,6 +752,7 @@
             <End Role="Incentives" EntitySet="Incentives" />
             <End Role="AgentIncentives" EntitySet="AgentIncentives" />
           </AssociationSet>
+          <EntitySet Name="Tax" EntityType="AMSModel.Tax" />
           <AssociationSet Name="FK_AgentTaxes_Tax" Association="AMSModel.FK_AgentTaxes_Tax">
             <End Role="Tax" EntitySet="Tax" />
             <End Role="AgentTaxes" EntitySet="AgentTaxes" />
@@ -1038,18 +1040,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Tax">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AgentTaxes" Relationship="AMSModel.FK_AgentTaxes_Tax" FromRole="Tax" ToRole="AgentTaxes" />
-        </EntityType>
         <EntityType Name="AgentIncentives">
           <Key>
             <PropertyRef Name="Id" />
@@ -1085,6 +1075,7 @@
           <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AgentIncentives" Relationship="AMSModel.FK_AgentIncentives_Incentive" FromRole="Incentives" ToRole="AgentIncentives" />
+          <Property Name="Order" Type="Int32" />
         </EntityType>
         <Association Name="FK_AgentIncentives_Agent">
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="1" />
@@ -1122,6 +1113,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Tax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AgentTaxes" Relationship="AMSModel.FK_AgentTaxes_Tax" FromRole="Tax" ToRole="AgentTaxes" />
+          <Property Name="Order" Type="Int32" />
+        </EntityType>
         <Association Name="FK_AgentTaxes_Tax">
           <End Type="AMSModel.Tax" Role="Tax" Multiplicity="1" />
           <End Type="AMSModel.AgentTaxes" Role="AgentTaxes" Multiplicity="*" />
@@ -1357,18 +1361,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tax">
-            <EntityTypeMapping TypeName="AMSModel.Tax">
-              <MappingFragment StoreEntitySet="Tax">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AgentIncentives">
             <EntityTypeMapping TypeName="AMSModel.AgentIncentives">
               <MappingFragment StoreEntitySet="AgentIncentives">
@@ -1394,6 +1386,20 @@
           <EntitySetMapping Name="Incentives">
             <EntityTypeMapping TypeName="AMSModel.Incentives">
               <MappingFragment StoreEntitySet="Incentives">
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tax">
+            <EntityTypeMapping TypeName="AMSModel.Tax">
+              <MappingFragment StoreEntitySet="Tax">
+                <ScalarProperty Name="Order" ColumnName="Order" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
