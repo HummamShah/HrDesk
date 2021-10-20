@@ -72,6 +72,9 @@
                 $scope.AjaxPost("/api/LeaveApi/AccpetLeave", { LeaveId: Leave.Id, DaysCount: Leave.DaysCount }).then(
                     function (response) {
                         if (response.status == 200) {
+                            if (!response.data.IsSuccessful) {
+                                toaster.pop('error', "error", response.data.ValidationErrors[0]);
+                            }
                             $scope.getPendingLeaves();
                         } else {
                             toaster.pop('error', "error", "Could Not Proceed Accpet Leave, try again!");

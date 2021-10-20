@@ -31,6 +31,7 @@
             $scope.EditInit = function () {
                 $scope.GetIncentiveList();
                 $scope.GetTaxList();
+                $scope.GetDeductionList();
                 $scope.GetShiftList();
                 $scope.User = {};
                 GetDepartments();
@@ -54,12 +55,8 @@
 
             $scope.AddUser = function (user) {
                 console.log(user.Taxes);
+                console.log(user.Deductions);
                 console.log(user.Incentives);
-                /*if (user.DepartmentId == null || user.DepartmentId == 0) {
-                    //alert("Please Select Department");
-                    toaster.pop('error', "error", "Please Select Department");
-                    return;
-                }*/
                 if (user.FirstName == null || user.FirstName == "") {
                     toaster.pop('error', "error", "Please Enter First Name");
                     return;
@@ -177,9 +174,11 @@
             // ====================================================== ADD INIT ============================================================
 
             $scope.AddInit = function () {
+
                 $scope.GetIncentiveList();
                 $scope.GetTaxList();
                 $scope.GetShiftList();
+                $scope.GetDeductionList();
                 $scope.User = {};
                 $scope.Document = {};
                 $scope.User.Docs = [{ "Title": "Resume", "ChooseInput": false }, { "Title": "CNIC front", "ChooseInput": false }, { "Title": "CNIC back", "ChooseInput": false }, { "Title": "Appointment Letter", "ChooseInput": false }];
@@ -233,6 +232,21 @@
                             console.log($scope.IncentivesList);
                         } else {
                             toaster.pop('error', "error", "Could Not Find Incentive List, try again!");
+                        }
+                    }
+                );
+            }
+
+            // =================================================== GET DEDUCTIONS LIST =========================================================
+            $scope.GetDeductionList = function () {
+                $scope.AjaxGet("/api/DeductionApi/GetDeductionList").then(
+                    function (response) {
+                        if (response.status == 200) {
+                            console.log(response);
+                            $scope.DeductionsList = response.data.DeductionsList;
+                            console.log($scope.DeductionsList);
+                        } else {
+                            toaster.pop('error', "error", "Could Not Find Deduction List, try again!");
                         }
                     }
                 );

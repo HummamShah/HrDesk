@@ -25,6 +25,7 @@ namespace AMS.Model.Model
             this.Pay = new HashSet<Pay>();
             this.AgentIncentives = new HashSet<AgentIncentives>();
             this.AgentTaxes = new HashSet<AgentTaxes>();
+            this.AgentDeductions = new HashSet<AgentDeductions>();
         }
     
         public int Id { get; set; }
@@ -84,5 +85,7 @@ namespace AMS.Model.Model
         public virtual ICollection<AgentIncentives> AgentIncentives { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentTaxes> AgentTaxes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AgentDeductions> AgentDeductions { get; set; }
     }
 }

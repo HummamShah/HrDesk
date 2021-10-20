@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="AMSModel.Pay" Width="1.5" PointX="7.5" PointY="13.25" />
         <EntityTypeShape EntityType="AMSModel.LeaveDates" Width="1.5" PointX="9.75" PointY="9.625" />
         <AssociationConnector Association="AMSModel.FK_LeaveDates_Leaves" />
-        <EntityTypeShape EntityType="AMSModel.Notification" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="AMSModel.Shifts" Width="1.5" PointX="3" PointY="1.875" />
         <EntityTypeShape EntityType="AMSModel.Documents" Width="1.5" PointX="7.5" PointY="16.875" />
         <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="0.75" />
@@ -39,6 +38,10 @@
         <AssociationConnector Association="AMSModel.FK_AgentIncentives_Incentive" />
         <EntityTypeShape EntityType="AMSModel.Tax" Width="1.5" PointX="0.75" PointY="11" />
         <AssociationConnector Association="AMSModel.FK_AgentTaxes_Tax" />
+        <EntityTypeShape EntityType="AMSModel.Deductions" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AMSModel.AgentDeductions" Width="1.5" PointX="13.625" PointY="3.75" />
+        <AssociationConnector Association="AMSModel.FK_AgentDeductions_Agent" />
+        <AssociationConnector Association="AMSModel.FK_AgentDeductions_Deduction" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

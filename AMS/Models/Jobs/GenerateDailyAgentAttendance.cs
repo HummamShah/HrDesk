@@ -67,6 +67,7 @@ namespace AMS.Models.Jobs
                 {
                     if (absentAgent.Agent.RemainingLeaves > 0 && absentAgent.Agent.AnnualLeaves > 0)
                     {
+                        // absentAgent.IsAttendanceMarked = true;
                         absentAgent.Agent.RemainingLeaves--;
                         absentAgent.Agent.AnnualLeaves--;
                         _dbContext.SaveChanges();

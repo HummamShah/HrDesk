@@ -33,7 +33,6 @@ namespace AMS.Model.Model
         public virtual DbSet<Leaves> Leaves { get; set; }
         public virtual DbSet<Pay> Pay { get; set; }
         public virtual DbSet<LeaveDates> LeaveDates { get; set; }
-        public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<Shifts> Shifts { get; set; }
         public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<Agent> Agent { get; set; }
@@ -42,5 +41,7 @@ namespace AMS.Model.Model
         public virtual DbSet<AgentTaxes> AgentTaxes { get; set; }
         public virtual DbSet<Incentives> Incentives { get; set; }
         public virtual DbSet<Tax> Tax { get; set; }
+        public virtual DbSet<Deductions> Deductions { get; set; }
+        public virtual DbSet<AgentDeductions> AgentDeductions { get; set; }
     }
 }

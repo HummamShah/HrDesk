@@ -19,14 +19,42 @@ namespace AMS.Models.Requests.Leave
             try
             {
                 var Leave = _dbContext.Leaves.Where(x => x.Id == LeaveId).FirstOrDefault();
-                Leave.Agent.RemainingLeaves -= request.DaysCount;
+
+                // validation that the HR is not accepting the leaves of passed dates
+                if (Leave.LeaveFrom <= DateTime.Now.Date)
+                {
+                    response.IsSuccessful = false;
+                    response.ValidationErrors.Add("The date has already passed");
+                    return response;
+                }
+
+                // validation that the user has enough leaves left
                 if (Leave.Type == 0) {
-                    Leave.Agent.AnnualLeaves -= request.DaysCount;
+                    if (Leave.Agent.AnnualLeaves >= request.DaysCount)
+                    {
+                        Leave.Agent.AnnualLeaves -= request.DaysCount;
+                    }
+                    else
+                    {
+                        response.IsSuccessful = false;
+                        response.ValidationErrors.Add("The employee has only " + Leave.Agent.AnnualLeaves + " annual leaves left!");
+                        return response;
+                    }
                 }
                 else if (Leave.Type == 1)
                 {
-                    Leave.Agent.MedicalLeaves -= request.DaysCount;
+                    if (Leave.Agent.MedicalLeaves >= request.DaysCount)
+                    {
+                        Leave.Agent.MedicalLeaves -= request.DaysCount;
+                    }
+                    else
+                    {
+                        response.IsSuccessful = false;
+                        response.ValidationErrors.Add("The employee has only " + Leave.Agent.MedicalLeaves + " medical leaves left!");
+                        return response;
+                    }
                 }
+                Leave.Agent.RemainingLeaves -= request.DaysCount;
                 Leave.AccpRejDate = DateTime.Now;
                 Leave.Status = 1;
                 _dbContext.SaveChanges();
@@ -43,6 +71,6 @@ namespace AMS.Models.Requests.Leave
     public class AcceptLeaveResponse
     {
         public bool IsSuccessful { get; set; }
-        public List<string> ValidationErrors { get; set; }
+        public List<string> ValidationErrors { get; set; } = new List<string>();
     }
 }

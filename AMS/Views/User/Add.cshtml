@@ -140,6 +140,17 @@
                                                         </div>
                                                         <div class="form-group col-md-3">
                                                             <div class="">
+                                                                <label>Deductions</label>
+                                                                <ui-select multiple sortable="true" ng-model="User.Deductions" theme="select2" class="form-control" title="Choose deduction">
+                                                                    <ui-select-match placeholder="Select or search a deduction in the list...">{{$select.selected[Id].Name}}</ui-select-match>
+                                                                    <ui-select-choices repeat="Deduction in DeductionsList | filter: $select.search">
+                                                                        <div ng-bind-html="Deduction.Name | highlight: $select.search"></div>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <div class="">
                                                                 <label>Incentives</label>
                                                                 <ui-select multiple sortable="true" ng-model="User.Incentives" theme="select2" class="form-control" title="Choose incentive">
                                                                     <ui-select-match placeholder="Select or search a tax in the list...">{{$select.selected.Name}}</ui-select-match>
@@ -150,13 +161,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                        <div class="row">
-                                                            <div class="form-group col-md-6">
-                                                                <label>Profile Photo</label>
-                                                                <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
-                                                            </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label>Profile Photo</label>
+                                                            <input type="file" accept="image/*" ngf-select="UploadUserImage($files,'ImageUrl')" class="form-control" />
                                                         </div>
-
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -180,9 +190,8 @@
                                                             <input ng-if="!User.Docs[0].Url || User.Docs[0].Url == ''" type="file" ngf-select="UploadFile($files, 'Resume')" class="form-control" />
                                                             <span >
                                                             <a ng-if="User.Docs[0].Url && User.Docs[0].Url != ''" href="" ng-click="RemoveUploadedFile('Resume')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
-                                                        </span>
+                                                            </span>
                                                         </div>
-                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
@@ -193,7 +202,6 @@
                                                                 <a ng-if="User.Docs[1].Url && User.Docs[1].Url != ''" href="" ng-click="RemoveUploadedFile('CNIC front')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
                                                             </span>
                                                         </div>
-                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
@@ -204,7 +212,6 @@
                                                                 <a ng-if="User.Docs[2].Url && User.Docs[2].Url != ''" href="" ng-click="RemoveUploadedFile('CNIC back')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
                                                             </span>
                                                         </div>
-                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
@@ -215,16 +222,13 @@
                                                                 <a ng-if="User.Docs[3].Url && User.Docs[3].Url != ''" href="" ng-click="RemoveUploadedFile('Appointment Letter')" class="ml-2"><i class="fas fa-trash-alt"></i></a>
                                                             </span>
                                                         </div>
-                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>Educational Documents</label>                                                                                                                                                                             
                                                             <div ng-repeat="row in User.EducationalDocs">
                                                                 <a target="_blank" ng-if="row.Url && row.Url != ''" href="{{row.Url}}" class="ml-3">{{row.SubTitle}}</a>
-
                                                                 <input ng-if="!row.Url || row.Url == ''" type="file" ngf-select="UploadEducationalFile($files, 'Educational', $index)" class="form-control mt-3" />
-
                                                                 <span>
                                                                     <a ng-if="row.Url && row.Url != ''" href="" ng-click="RemoveUploadedEducationalFile($index)" class="ml-2"><i class="fas fa-trash-alt"></i></a>
                                                                 </span>
@@ -235,17 +239,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
                                                     <div class="row">
                                                         <div class="form-group col-md-6 text-left">
                                                             <label>Certifications & Courses</label>
-
                                                             <div ng-repeat="row in User.Certificates">
-
-
                                                                 <a target="_blank" ng-if="row.Url && row.Url != ''" href="{{row.Url}}" class="ml-3">{{row.SubTitle}}</a>
                                                                 <input ng-if="!row.Url || row.Url == ''" type="file" ngf-select="UploadCertificate($files, 'Certifications', $index)" class="form-control mt-3" />
-
                                                                 <span>
                                                                     <a ng-if="row.Url && row.Url != ''" href="" ng-click="RemoveUploadedCertificate($index)" class="ml-2"><i class="fas fa-trash-alt"></i></a>
                                                                 </span>
@@ -254,10 +253,8 @@
                                                             <div class="col-md-7">
                                                                 <button ng-click="AddCertificateRow()"><i class="fas fa-plus"></i> Add</button>
                                                             </div>
-                                                            </div>
-
                                                         </div>
-                                                    
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <button type="button" class="btn btn-success float-right" ng-click="AddUser(User)">Add User</button>
@@ -277,20 +274,15 @@
                     <section id="section-tzoid-5"><p>5</p></section>
                 </div><!-- /content -->
             </div><!-- /tabs -->
-
         </section>
-
-
     </div><!-- /container -->
 
     <script src="~/Content/js1/cbpFWTabs.js"></script>
     <script>
         (function () {
-
             [].slice.call(document.querySelectorAll('.tabs')).forEach(function (el) {
                 new CBPFWTabs(el);
             });
-
         })();
     </script>
 

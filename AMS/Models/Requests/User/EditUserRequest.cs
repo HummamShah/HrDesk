@@ -38,6 +38,7 @@ namespace AMS.Models.Requests.User
         public List<Document> EducationalDocs { get; set; }
         public List<Document> Certificates { get; set; }
         public List<GetTaxResponse> Taxes{ get; set; }
+        public List<GetTaxResponse> Deductions{ get; set; }
         public List<GetIncentiveResponse> Incentives { get; set; }
     }
 }

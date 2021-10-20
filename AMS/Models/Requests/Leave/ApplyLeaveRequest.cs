@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AMS.Model.Request.Leave
 {
@@ -38,22 +36,34 @@ namespace AMS.Model.Request.Leave
                     }
                 }
 
+                // validation of duplicate leave application
+                var AlreadyAppliedLeaves = _dbContext.LeaveDates.Where(x => x.Leaves.AgentId == Agent.Id && x.Leaves.Status != 2).ToList();
+                foreach (var alreadyAppliedLeave in AlreadyAppliedLeaves) {
+                    foreach (var singleDay in allDates ) {
+                        if (singleDay == alreadyAppliedLeave.Dates) {
+                            response.IsSuccessful = false;
+                            response.ValidationErrors.Add("You have alaready applied for " + singleDay.ToShortDateString() + " before!");
+                            return response;
+                        }
+                    }
+                }
+
                 // checking if agent has remaining leaves
                 if (RemainingLeaves == 0)
                 {
                     response.ValidationErrors.Add("You can't apply for leave, you have used all of your leaves");
                 }
-                else if (RemainingLeaves < allDates.Count)
+                else if (RemainingLeaves < allDates.Count)     // may not need this condition becusae the next two blocks are already checking this condition
                 {
                     response.ValidationErrors.Add("You have only " + RemainingLeaves + " leaves left");
                 }
                 else if (request.Type == 0 && AnnualLeaves < allDates.Count) 
                 {
-                    response.ValidationErrors.Add("You applied for " + allDates.Count + " days but you have only " + AnnualLeaves + " annual leaves left");
+                    response.ValidationErrors.Add("You applied for " + allDates.Count + " days but you have only " + AnnualLeaves + " annual leave(s) left");
                 }
                 else if (request.Type == 1 && MedicalLeaves < allDates.Count)
                 {
-                    response.ValidationErrors.Add("You applied for " + allDates.Count + " days but you have only " + MedicalLeaves + " medical leaves left");
+                    response.ValidationErrors.Add("You applied for " + allDates.Count + " days but you have only " + MedicalLeaves + " medical leave(s) left");
                 }
                 else {
                     Leave.AgentId = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().Id;

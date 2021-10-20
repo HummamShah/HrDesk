@@ -1,4 +1,5 @@
-﻿using AMS.Models.Requests.FileUpload;
+﻿using AMS.Models.Requests.Deduction;
+using AMS.Models.Requests.FileUpload;
 using AMS.Models.Requests.Incentive;
 using AMS.Models.Requests.Tax;
 using System.Collections.Generic;
@@ -117,6 +118,7 @@ namespace AMS.Models
         public List<Document> EducationalDocs { get; set; }
         public List<Document> Certificates { get; set; }
         public List<GetTaxResponse> Taxes { get; set; }
+        public List<GetDeductionResponse> Deductions { get; set; }
         public List<GetIncentiveResponse> Incentives { get; set; }
         public string UserId{ get; set; }
     }

@@ -1,0 +1,81 @@
+﻿@using UserRoles = AMS.Models.Enums.Roles;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div class="container-fluid" ng-controller="DeductionCtrl" ng-init="initIndex()">
+    <div class="row">
+        <div class="col-sm-9 col-9">
+            <h3 class="mt-4">Deductions List</h3>
+        </div>
+        <div class="col-sm-3 col-3">
+            <a href="/Deduction/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
+                Add <span><i class="fas fa-plus"></i></span>
+            </a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Deduction List
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-md" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="overflow:hidden;">
+                            <th>
+                                ID <a href="" class="sort-icon" ng-click="SetSortingColoumn('Id')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                            </th>
+                            <th>
+                                Name <a href="" class="sort-icon" ng-click="SetSortingColoumn('Name')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                            </th>
+                            <th>
+                                Type <a href="" class="sort-icon" ng-click="SetSortingColoumn('Type')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                            </th>
+                            <th>
+                                Amount <a href="" class="sort-icon" ng-click="SetSortingColoumn('Amount')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                            </th>
+                            <th>
+                                Created By <a href="" class="sort-icon" ng-click="SetSortingColoumn('CreatedBy')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                            </th>
+
+                            <th>
+                                Created At <a href="" class="sort-icon" ng-click="SetSortingColoumn('CreatedAt')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Deduction in DeductionsList| orderBy:Sorting.Field:Sorting.IsAscending">
+                            <td>
+                                {{Deduction.Id}}
+                            </td>
+                            <td>
+                                {{Deduction.Name}}
+                            </td>
+                            <td>
+                                {{Deduction.Type}}
+                            </td>
+                            <td>
+                                {{Deduction.Amount}}
+                            </td>
+                            <td>
+                                {{Deduction.CreatedBy}}
+                            </td>
+                            <td>
+                                {{Deduction.CreatedAt | date:'MMM d, y'}}
+                            </td>
+                            <td>
+                                <a href="/Deduction/Edit?Id={{Deduction.Id}}" title="Edit"><i class="fas fa-pencil-alt ml-3"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

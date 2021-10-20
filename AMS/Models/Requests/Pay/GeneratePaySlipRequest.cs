@@ -15,7 +15,7 @@ namespace AMS.Models.Requests.Pay
             try
             {
                 var Agent = _dbContext.Agent.Where(x => x.Id == request.Id).FirstOrDefault();
-
+                response.SalaryPerDay = Agent.Salary / 30;
                 // deduction for taxes
                 var AgentTaxes = _dbContext.AgentTaxes.Where(x => x.AgentId == request.Id).ToList();
                 foreach (var tax in AgentTaxes) {
@@ -33,6 +33,26 @@ namespace AMS.Models.Requests.Pay
                     Agent.Salary = Agent.Salary - deductionDetails.Amount;
                     response.TaxDeductions.Add(deductionDetails);
                     response.TotalTaxDeduction += deductionDetails.Amount;
+                }
+
+                // deduction for deductions
+                var AgentDeductions = _dbContext.AgentDeductions.Where(x => x.AgentId == request.Id).ToList();
+                foreach (var deduction in AgentDeductions)
+                {
+                    var deductionDetails = new SalaryDetails();
+                    deductionDetails.Description = deduction.DeductionName;
+                    if (deduction.Deductions.Type == "Percentage")
+                    {
+                        deductionDetails.Amount = (deduction.Deductions.Amount / 100) * Agent.Salary;
+                    }
+                    else if (deduction.Deductions.Type == "Fixed Amount")
+                    {
+                        deductionDetails.Amount = deduction.Deductions.Amount;
+                    }
+
+                    Agent.Salary = Agent.Salary - deductionDetails.Amount;
+                    response.DeductionsDeductions.Add(deductionDetails);
+                    response.TotalDeductionsDeduction += deductionDetails.Amount;
                 }
 
                 // addition of incentives
@@ -54,7 +74,6 @@ namespace AMS.Models.Requests.Pay
                 }
 
                 // deduction for absent days
-                response.SalaryPerDay = Agent.Salary/30;
                 if (Agent.DeductionInDays > 0)
                 {
                     response.DeductionInDaysCalc = response.SalaryPerDay * Agent.DeductionInDays;
@@ -77,9 +96,11 @@ namespace AMS.Models.Requests.Pay
         public decimal DeductionInDaysCalc { get; set; }
         public decimal SalaryPerDay { get; set; }
         public decimal TotalTaxDeduction { get; set; }
+        public decimal TotalDeductionsDeduction { get; set; }
         public decimal TotalIncentiveAddition { get; set; }
         public decimal FinalSalary { get; set; }
         public List<SalaryDetails> TaxDeductions { get; set; } = new List<SalaryDetails>();
+        public List<SalaryDetails> DeductionsDeductions { get; set; } = new List<SalaryDetails>();
         public List<SalaryDetails> IncentiveAddition { get; set; } = new List<SalaryDetails>();
         public List<string> ValidationErrors { get; set; } = new List<string>();
     }

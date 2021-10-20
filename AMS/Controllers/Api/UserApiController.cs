@@ -186,7 +186,6 @@ namespace AMS.Controllers.Api
 
                     if (model.Taxes.Count > 0)
                     {
-                        //var AgentTaxes = db.AgentTaxes;
                         foreach (var tax in model.Taxes)
                         {
                             var agentTax = new AgentTaxes();
@@ -198,10 +197,21 @@ namespace AMS.Controllers.Api
                             db.SaveChanges();
                         }
                     }
-
+                    if (model.Deductions.Count > 0)
+                    {
+                        foreach (var deduction in model.Deductions)
+                        {
+                            var agentDeduction = new AgentDeductions();
+                            agentDeduction.AgentId = AgentData.Id;
+                            agentDeduction.AgentName = AgentData.FisrtName + " " + AgentData.LastName;
+                            agentDeduction.DeductionId = deduction.Id;
+                            agentDeduction.DeductionName = deduction.Name;
+                            db.AgentDeductions.Add(agentDeduction);
+                            db.SaveChanges();
+                        }
+                    }
                     if (model.Incentives.Count > 0)
                     {
-                        //var AgentIncentives = db.AgentIncentives;
                         foreach (var incentive in model.Incentives)
                         {
                             var agentIncentive = new AgentIncentives();
@@ -336,6 +346,27 @@ namespace AMS.Controllers.Api
                 db.AgentTaxes.Add(agentTax);
                 db.SaveChanges();
             }
+
+            // removing previously selected deductions
+            var AgentDeductions = db.AgentDeductions.Where(x => x.AgentId == AgentData.Id).ToList();
+            foreach (var deduction in AgentDeductions)
+            {
+                db.AgentDeductions.Remove(deduction);
+                db.SaveChanges();
+            }
+
+            // adding updated deductions applied on employee
+            foreach (var deduction in request.Deductions)
+            {
+                var agentDeduction = new AgentDeductions();
+                agentDeduction.AgentId = AgentData.Id;
+                agentDeduction.AgentName = AgentData.FisrtName + " " + AgentData.LastName;
+                agentDeduction.DeductionId = deduction.Id;
+                agentDeduction.DeductionName = deduction.Name;
+                db.AgentDeductions.Add(agentDeduction);
+                db.SaveChanges();
+            }
+
 
             // removing previously selected incentives
             var AgentIncentives = db.AgentIncentives.Where(x => x.AgentId == AgentData.Id).ToList();

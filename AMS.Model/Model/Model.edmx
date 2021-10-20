@@ -74,6 +74,16 @@
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ShiftId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="AgentDeductions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" Nullable="false" />
+          <Property Name="DeductionId" Type="int" Nullable="false" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
+          <Property Name="DeductionName" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="AgentIncentives">
           <Key>
             <PropertyRef Name="Id" />
@@ -146,6 +156,18 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsCustomer" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Deductions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
@@ -205,22 +227,6 @@
           <Property Name="Type" Type="int" />
           <Property Name="Reason" Type="nvarchar(max)" />
           <Property Name="DaysCount" Type="int" />
-        </EntityType>
-        <EntityType Name="Notification">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AgentId" Type="int" />
-          <Property Name="Content" Type="nvarchar(max)" />
-          <Property Name="Link" Type="nvarchar(max)" />
-          <Property Name="IsActive" Type="bit" />
-          <Property Name="IsRead" Type="bit" Nullable="false" />
-          <Property Name="Date" Type="datetime" />
-          <Property Name="CreatedBy" Type="nvarchar(max)" />
-          <Property Name="CreatedAt" Type="datetime" />
-          <Property Name="UpdatedBy" Type="nvarchar(max)" />
-          <Property Name="UpdatedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Pay">
           <Key>
@@ -312,6 +318,30 @@
             </Principal>
             <Dependent Role="AgentAttendance">
               <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentDeductions_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="AgentDeductions" Type="Self.AgentDeductions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentDeductions">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentDeductions_Deduction">
+          <End Role="Deductions" Type="Self.Deductions" Multiplicity="1" />
+          <End Role="AgentDeductions" Type="Self.AgentDeductions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deductions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentDeductions">
+              <PropertyRef Name="DeductionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -482,6 +512,7 @@
         <EntityContainer Name="AMSModelStoreContainer">
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentAttendance" EntityType="Self.AgentAttendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AgentDeductions" EntityType="Self.AgentDeductions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentIncentives" EntityType="Self.AgentIncentives" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentTaxes" EntityType="Self.AgentTaxes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -489,12 +520,12 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deductions" EntityType="Self.Deductions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incentives" EntityType="Self.Incentives" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tax" EntityType="Self.Tax" Schema="dbo" store:Type="Tables" />
@@ -517,6 +548,14 @@
           <AssociationSet Name="FK_AgentAttendace_Shifts" Association="Self.FK_AgentAttendace_Shifts">
             <End Role="Shifts" EntitySet="Shifts" />
             <End Role="AgentAttendance" EntitySet="AgentAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentDeductions_Agent" Association="Self.FK_AgentDeductions_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentDeductions" EntitySet="AgentDeductions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentDeductions_Deduction" Association="Self.FK_AgentDeductions_Deduction">
+            <End Role="Deductions" EntitySet="Deductions" />
+            <End Role="AgentDeductions" EntitySet="AgentDeductions" />
           </AssociationSet>
           <AssociationSet Name="FK_AgentIncentives_Agent" Association="Self.FK_AgentIncentives_Agent">
             <End Role="Agent" EntitySet="Agent" />
@@ -696,7 +735,6 @@
             <End Role="Leaves" EntitySet="Leaves" />
             <End Role="LeaveDates" EntitySet="LeaveDates" />
           </AssociationSet>
-          <EntitySet Name="Notification" EntityType="AMSModel.Notification" />
           <EntitySet Name="Shifts" EntityType="AMSModel.Shifts" />
           <EntitySet Name="Documents" EntityType="AMSModel.Documents" />
           <EntitySet Name="Agent" EntityType="AMSModel.Agent" />
@@ -757,6 +795,16 @@
             <End Role="Tax" EntitySet="Tax" />
             <End Role="AgentTaxes" EntitySet="AgentTaxes" />
           </AssociationSet>
+          <EntitySet Name="Deductions" EntityType="AMSModel.Deductions" />
+          <EntitySet Name="AgentDeductions" EntityType="AMSModel.AgentDeductions" />
+          <AssociationSet Name="FK_AgentDeductions_Agent" Association="AMSModel.FK_AgentDeductions_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="AgentDeductions" EntitySet="AgentDeductions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentDeductions_Deduction" Association="AMSModel.FK_AgentDeductions_Deduction">
+            <End Role="Deductions" EntitySet="Deductions" />
+            <End Role="AgentDeductions" EntitySet="AgentDeductions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
           <Key>
@@ -809,22 +857,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Notification">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentId" Type="Int32" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="IsRead" Type="Boolean" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Shifts">
           <Key>
             <PropertyRef Name="Id" />
@@ -902,6 +934,7 @@
           <Property Name="Salary" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <NavigationProperty Name="AgentIncentives" Relationship="AMSModel.FK_AgentIncentives_Agent" FromRole="Agent" ToRole="AgentIncentives" />
           <NavigationProperty Name="AgentTaxes" Relationship="AMSModel.FK_AgentTaxes_Agent" FromRole="Agent" ToRole="AgentTaxes" />
+          <NavigationProperty Name="AgentDeductions" Relationship="AMSModel.FK_AgentDeductions_Agent" FromRole="Agent" ToRole="AgentDeductions" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -1138,6 +1171,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Deductions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Order" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AgentDeductions" Relationship="AMSModel.FK_AgentDeductions_Deduction" FromRole="Deductions" ToRole="AgentDeductions" />
+        </EntityType>
+        <EntityType Name="AgentDeductions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="DeductionId" Type="Int32" Nullable="false" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeductionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_AgentDeductions_Agent" FromRole="AgentDeductions" ToRole="Agent" />
+          <NavigationProperty Name="Deductions" Relationship="AMSModel.FK_AgentDeductions_Deduction" FromRole="AgentDeductions" ToRole="Deductions" />
+        </EntityType>
+        <Association Name="FK_AgentDeductions_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="1" />
+          <End Type="AMSModel.AgentDeductions" Role="AgentDeductions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentDeductions">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentDeductions_Deduction">
+          <End Type="AMSModel.Deductions" Role="Deductions" Multiplicity="1" />
+          <End Type="AMSModel.AgentDeductions" Role="AgentDeductions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deductions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentDeductions">
+              <PropertyRef Name="DeductionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1246,23 +1328,6 @@
               <MappingFragment StoreEntitySet="LeaveDates">
                 <ScalarProperty Name="Dates" ColumnName="Dates" />
                 <ScalarProperty Name="LeaveId" ColumnName="LeaveId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Notification">
-            <EntityTypeMapping TypeName="AMSModel.Notification">
-              <MappingFragment StoreEntitySet="Notification">
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Link" ColumnName="Link" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1405,6 +1470,30 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deductions">
+            <EntityTypeMapping TypeName="AMSModel.Deductions">
+              <MappingFragment StoreEntitySet="Deductions">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentDeductions">
+            <EntityTypeMapping TypeName="AMSModel.AgentDeductions">
+              <MappingFragment StoreEntitySet="AgentDeductions">
+                <ScalarProperty Name="DeductionName" ColumnName="DeductionName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="DeductionId" ColumnName="DeductionId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

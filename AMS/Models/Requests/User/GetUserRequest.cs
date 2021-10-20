@@ -1,5 +1,6 @@
 ﻿using AMS.Model.Model;
 using AMS.Models.Enums;
+using AMS.Models.Requests.Deduction;
 using AMS.Models.Requests.FileUpload;
 using AMS.Models.Requests.Incentive;
 using AMS.Models.Requests.Tax;
@@ -45,6 +46,7 @@ namespace AMS.Models.Requests.User
 		public List<Document> EducationalDocs { get; set; }
 		public List<Document> Certificates { get; set; }
 		public List<GetTaxResponse> Taxes { get; set; }
+		public List<GetDeductionResponse> Deductions { get; set; }
 		public List<GetIncentiveResponse> Incentives { get; set; }
 	}
 
@@ -92,6 +94,21 @@ namespace AMS.Models.Requests.User
 					Tax.CreatedBy = tax.Tax.CreatedBy;
 					Tax.CreatedAt = tax.Tax.CreatedAt;
 					response.Taxes.Add(Tax);
+				}
+
+				// get deductions applied on user
+				response.Deductions = new List<GetDeductionResponse>();
+				var AgentDeductions = _dbContext.AgentDeductions.Where(x => x.AgentId == Data.Id).ToList();
+				foreach (var deduction in AgentDeductions)
+				{
+					var Deduction = new GetDeductionResponse();
+					Deduction.Id = deduction.DeductionId;
+					Deduction.Name = deduction.DeductionName;
+					Deduction.Type = deduction.Deductions.Type;
+					Deduction.Amount = deduction.Deductions.Amount;
+					Deduction.CreatedBy = deduction.Deductions.CreatedBy;
+					Deduction.CreatedAt = deduction.Deductions.CreatedAt;
+					response.Deductions.Add(Deduction);
 				}
 
 				// get incentives applied on user

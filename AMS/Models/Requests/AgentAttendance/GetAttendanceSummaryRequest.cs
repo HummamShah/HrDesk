@@ -28,18 +28,9 @@ namespace AMS.Models.Requests.AgentAttendance
                 }
 
                 var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id && x.IsAttendanceMarked == true).OrderBy(x => x.CreatedAt).ToList();
+                //var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id).OrderBy(x => x.CreatedAt).ToList();
                 var firstOfMonth = new DateTime(request.Year, request.Month + 1, 1);
                 var lastOFMonth = firstOfMonth.AddMonths(1).AddDays(-1);
-                //if (request.Month == 1) {
-                //    Attendances = Attendances.Where(x => x.CreatedAt >= new DateTime(Year, Month + 1, 1) && x.CreatedAt <= new DateTime(Year, Month + 1, 28)).ToList();
-                //}
-                //else if (request.Month == 0 || request.Month == 2|| request.Month == 4 || request.Month == 6 || request.Month == 7 || request.Month == 9 || request.Month == 11) {
-                //    Attendances = Attendances.Where(x => x.CreatedAt >= new DateTime(Year, Month + 1, 1) && x.CreatedAt <= new DateTime(Year, Month + 1, 31)).ToList();
-                //}
-                //else if (request.Month == 3 || request.Month == 5 || request.Month == 8 || request.Month == 10)
-                //{
-                //    Attendances = Attendances.Where(x => x.CreatedAt >= new DateTime(Year, Month + 1, 1) && x.CreatedAt <= new DateTime(Year, Month + 1, 30)).ToList();
-                //}
                 Attendances = Attendances.Where(x => x.Date >= firstOfMonth && x.Date <= lastOFMonth).ToList();
                 if (Attendances.Count != 0)
                 {

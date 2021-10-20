@@ -66,10 +66,6 @@
                     toaster.pop('error', "error", "Please fill the AMOUNT filed!");
                     return;
                 }
-                if (!$scope.Tax.Order) {
-                    toaster.pop('error', "error", "Please fill the ORDER filed!");
-                    return;
-                }
 
                 $scope.AjaxPost("/api/TaxApi/AddTax", $scope.Tax).then(
                     function (response) {
@@ -96,10 +92,6 @@
                 }
                 if (!$scope.Tax.Amount) {
                     toaster.pop('error', "error", "Please fill the AMOUNT filed!");
-                    return;
-                }
-                if (!$scope.Tax.Order) {
-                    toaster.pop('error', "error", "Please fill the ORDER filed!");
                     return;
                 }
 
