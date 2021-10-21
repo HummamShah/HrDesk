@@ -20,7 +20,7 @@ namespace AMS.Models.Requests.Leave
             {
                 var Leave = _dbContext.Leaves.Where(x => x.Id == LeaveId).FirstOrDefault();
 
-                // validation that the HR is not accepting the leaves of passed dates
+                // validation that the HR should not accept the leaves of passed dates
                 if (Leave.LeaveFrom <= DateTime.Now.Date)
                 {
                     response.IsSuccessful = false;

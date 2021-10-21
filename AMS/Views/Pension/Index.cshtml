@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div class="container-fluid" >
+    <div class="row">
+        <div class="col-sm-9 col-9">
+            <h3 class="mt-4">Pension List</h3>
+        </div>
+        <div class="col-sm-3 col-3">
+            <a href="/Pension/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
+                Add <span><i class="fas fa-plus"></i></span>
+            </a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+           Pension Packages
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-md" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="overflow:hidden;">
+                            <th>
+                                Package ID
+                            </th>
+                            <th>
+                                Name 
+                            </th>
+                            <th>
+                                Year From 
+                            </th>
+                            <th>
+                               Year To
+                            </th>
+                            <th>
+                                Amount ( % )
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Pen-112
+                            </td>
+                            <td>
+                                Pension Package A
+                            </td>
+                            <td>
+                                2000
+                            </td>
+                            <td>
+                                2021
+                            </td>
+                            <td>
+                                10
+                            </td>
+                            <td>
+                                <a href="/Pension/Edit?Id=" title="Edit Pension"><i class="fas fa-pencil-alt ml-3"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Pen-113
+                            </td>
+                            <td>
+                                Pension Package B
+                            </td>
+                            <td>
+                                1970
+                            </td>
+                            <td>
+                                1999
+                            </td>
+                            <td>
+                                7
+                            </td>
+                            <td>
+                                <a href="/Pension/Edit?Id=" title="Edit Pension"><i class="fas fa-pencil-alt ml-3"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Pen-114
+                            </td>
+                            <td>
+                                Pension Package C
+                            </td>
+                            <td>
+                                1990
+                            </td>
+                            <td>
+                                1997
+                            </td>
+                            <td>
+                                13
+                            </td>
+                            <td>
+                                <a href="/Pension/Edit?Id=" title="Edit Pension"><i class="fas fa-pencil-alt ml-3"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Pen-115
+                            </td>
+                            <td>
+                                Elderly Pension Package D
+                            </td>
+                            <td>
+                                2021
+                            </td>
+                            <td>
+                                2030
+                            </td>
+                            <td>
+                                15
+                            </td>
+                            <td>
+                                <a href="/Pension/Edit?Id=" title="Edit Pension"><i class="fas fa-pencil-alt ml-3"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

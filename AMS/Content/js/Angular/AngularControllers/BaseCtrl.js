@@ -568,6 +568,27 @@ app.controller('baseCtrl',
                             console.log(response);
                             $scope.UserIdentity = response.data;
                         });
-                }
             }
+
+        //    $scope.AddPension = function () {
+        //        toaster.pop('success', "success", "Pension Added Successfully!");
+        //        $timeout(function () { window.location.href = '/Pension'; }, 2000);
+        //    }
+        //    $scope.EditPension = function () {
+        //        toaster.pop('success', "success", "Pension Updated Successfully!");
+        //        $timeout(function () { window.location.href = '/Pension'; }, 2000);
+        //    }
+        //    $scope.pensionDemoInit = function (type) {
+        //        if (type == 'Add') {
+        //            $scope.Pension = {};
+        //        } else {
+        //            $scope.Pension = {
+        //                Name: "Pension Package A",
+        //                YearFrom : "2000",
+        //                YearTo: "2021",
+        //                Amount: 10
+        //            };
+        //        }
+        //}
+        }
             ]);

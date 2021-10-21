@@ -1,0 +1,53 @@
+﻿@using UserRoles = AMS.Models.Enums.Roles;
+@{
+    ViewBag.Title = "Add Pension";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div class="container-fluid" ng-controller="baseCtrl" ng-init="pensionDemoInit('Add')">
+    <h3 class="mt-4">Add Pension</h3>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card z-depth-3">
+                <div class="card-body">
+                    <div class="tab-content p-3">
+                        <div class="tab-pane active" id="edit">
+                            <form class="p-3">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" ng-model="Pension.Name" />
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Amount</label>
+                                        <input class="form-control" ng-model="Pension.YearFrom" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Working From Year</label>
+                                        <input type="text" class="form-control" ng-model="Pension.YearFrom" />
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Working To Year</label>
+                                        <input class="form-control" ng-model="Pension.YearTo" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button style="margin: 2px;" type="button" class="btn btn-success float-right" ng-click="AddPension(Pension)">Add Pension</button>
+                                        <a style="margin: 2px;" href="/Pension/" title="Cancel" class="btn btn-danger float-right">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/Content/CardStyle.css" rel="stylesheet" />

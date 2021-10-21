@@ -196,12 +196,15 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config\Job\JobRegistry.cs" />
+    <Content Include="Content\js\Angular\AngularControllers\DeductionCtrl.js" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgentAttendanceController.cs" />
     <Compile Include="Controllers\Api\AddAgentAttendanceRequest.cs" />
     <Compile Include="Controllers\Api\AgentAttendanceApiController.cs" />
+    <Compile Include="Controllers\Api\AgentDeductionApiController.cs" />
     <Compile Include="Controllers\Api\AgentIncentiveApiController.cs" />
     <Compile Include="Controllers\Api\AgentTaxApiController.cs" />
+    <Compile Include="Controllers\Api\DeductionApiController.cs" />
     <Compile Include="Controllers\Api\DepartmentApiController.cs" />
     <Compile Include="Controllers\Api\FileUploadApiController.cs" />
     <Compile Include="Controllers\Api\HiringApiController.cs" />
@@ -212,6 +215,7 @@
     <Compile Include="Controllers\Api\ShiftApiController.cs" />
     <Compile Include="Controllers\Api\TaxApiController.cs" />
     <Compile Include="Controllers\Api\UserApiController.cs" />
+    <Compile Include="Controllers\DeductionController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HiringController.cs" />
@@ -220,6 +224,7 @@
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PayController.cs" />
+    <Compile Include="Controllers\PensionController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
@@ -241,6 +246,10 @@
     <Compile Include="Models\Requests\AgentAttendance\SignOffAttendanceRequest.cs" />
     <Compile Include="Models\Requests\AgentIncentives\GetAgentIncentivesRequest.cs" />
     <Compile Include="Models\Requests\AgentTaxes\GetAgentTaxesRequest.cs" />
+    <Compile Include="Models\Requests\Deduction\AddDeductionRequest.cs" />
+    <Compile Include="Models\Requests\Deduction\EditDeductionRequest.cs" />
+    <Compile Include="Models\Requests\Deduction\GetDeductionListRequest.cs" />
+    <Compile Include="Models\Requests\Deduction\GetDeductionRequest.cs" />
     <Compile Include="Models\Requests\Department\AddDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\EditDepartmentRequest.cs" />
     <Compile Include="Models\Requests\Department\GetDepartmentDropdownRequest.cs" />
@@ -577,6 +586,12 @@
     <Content Include="Views\Tax\Edit.cshtml" />
     <Content Include="Views\Incentive\Edit.cshtml" />
     <Content Include="Views\Pay\PaySlip.cshtml" />
+    <Content Include="Views\Pension\Index.cshtml" />
+    <Content Include="Views\Pension\Add.cshtml" />
+    <Content Include="Views\Pension\Edit.cshtml" />
+    <Content Include="Views\Deduction\Index.cshtml" />
+    <Content Include="Views\Deduction\Add.cshtml" />
+    <Content Include="Views\Deduction\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
