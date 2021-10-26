@@ -28,7 +28,8 @@ namespace AMS.Models.Requests.Leave
                     return response;
                 }
 
-                // validation that the user has enough leaves left
+                // validation that the user has enough leaves left (it has already been done at the time of applying leave by the employee
+                // but needs to be checked again here beucase of multiple pending requests)
                 if (Leave.Type == 0) {
                     if (Leave.Agent.AnnualLeaves >= request.DaysCount)
                     {

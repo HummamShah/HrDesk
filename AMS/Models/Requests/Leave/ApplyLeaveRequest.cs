@@ -51,7 +51,7 @@ namespace AMS.Model.Request.Leave
                 // checking if agent has remaining leaves
                 if (RemainingLeaves == 0)
                 {
-                    response.ValidationErrors.Add("You can't apply for leave, you have used all of your leaves");
+                    response.ValidationErrors.Add("You can't apply for leave, you have availed all of your leaves");
                 }
                 else if (RemainingLeaves < allDates.Count)     // may not need this condition becusae the next two blocks are already checking this condition
                 {

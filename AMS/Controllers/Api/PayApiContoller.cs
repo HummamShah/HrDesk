@@ -22,5 +22,12 @@ namespace AMS.Controllers.Api
             var result = req.RunRequest(req);
             return result;
         }
+
+        [HttpPost]
+        public object SavePaySlip([FromBody] SavePaySlipRequest req)
+        {
+            var result = req.RunRequest(req);
+            return result;
+        }
     }
 }

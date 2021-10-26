@@ -31,7 +31,6 @@ namespace AMS.Model.Model
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<Leaves> Leaves { get; set; }
-        public virtual DbSet<Pay> Pay { get; set; }
         public virtual DbSet<LeaveDates> LeaveDates { get; set; }
         public virtual DbSet<Shifts> Shifts { get; set; }
         public virtual DbSet<Documents> Documents { get; set; }
@@ -43,5 +42,7 @@ namespace AMS.Model.Model
         public virtual DbSet<Tax> Tax { get; set; }
         public virtual DbSet<Deductions> Deductions { get; set; }
         public virtual DbSet<AgentDeductions> AgentDeductions { get; set; }
+        public virtual DbSet<Pay> Pay { get; set; }
+        public virtual DbSet<PayDetails> PayDetails { get; set; }
     }
 }

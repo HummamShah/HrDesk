@@ -232,13 +232,31 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AgentId" Type="int" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar(max)" />
           <Property Name="Year" Type="int" />
           <Property Name="PaySlipUrl" Type="nvarchar(max)" />
           <Property Name="GeneratedOn" Type="datetime" />
-          <Property Name="Salary" Type="int" />
+          <Property Name="GeneratedBy" Type="nvarchar(max)" />
+          <Property Name="BasicSalary" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="SalaryPerDay" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="FinalSalary" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalTaxDeduction" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalDeductionsDeduction" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalIncentiveAddition" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="PayDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaySlipId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Shifts">
           <Key>
@@ -509,6 +527,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PayDetails_Pay">
+          <End Role="Pay" Type="Self.Pay" Multiplicity="1" />
+          <End Role="PayDetails" Type="Self.PayDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pay">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PayDetails">
+              <PropertyRef Name="PaySlipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AMSModelStoreContainer">
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentAttendance" EntityType="Self.AgentAttendance" Schema="dbo" store:Type="Tables" />
@@ -527,6 +557,7 @@
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayDetails" EntityType="Self.PayDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tax" EntityType="Self.Tax" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
@@ -608,6 +639,10 @@
           <AssociationSet Name="FK_Pay_Agent" Association="Self.FK_Pay_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Pay" EntitySet="Pay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PayDetails_Pay" Association="Self.FK_PayDetails_Pay">
+            <End Role="Pay" EntitySet="Pay" />
+            <End Role="PayDetails" EntitySet="PayDetails" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -729,7 +764,6 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Leaves" EntityType="AMSModel.Leaves" />
-          <EntitySet Name="Pay" EntityType="AMSModel.Pay" />
           <EntitySet Name="LeaveDates" EntityType="AMSModel.LeaveDates" />
           <AssociationSet Name="FK_LeaveDates_Leaves" Association="AMSModel.FK_LeaveDates_Leaves">
             <End Role="Leaves" EntitySet="Leaves" />
@@ -767,10 +801,6 @@
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Leaves" EntitySet="Leaves" />
           </AssociationSet>
-          <AssociationSet Name="FK_Pay_Agent" Association="AMSModel.FK_Pay_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="Pay" EntitySet="Pay" />
-          </AssociationSet>
           <AssociationSet Name="FK_AgentAttendace_Shifts" Association="AMSModel.FK_AgentAttendace_Shifts">
             <End Role="Shifts" EntitySet="Shifts" />
             <End Role="AgentAttendance" EntitySet="AgentAttendance" />
@@ -805,6 +835,16 @@
             <End Role="Deductions" EntitySet="Deductions" />
             <End Role="AgentDeductions" EntitySet="AgentDeductions" />
           </AssociationSet>
+          <EntitySet Name="Pay" EntityType="AMSModel.Pay" />
+          <EntitySet Name="PayDetails" EntityType="AMSModel.PayDetails" />
+          <AssociationSet Name="FK_Pay_Agent" Association="AMSModel.FK_Pay_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Pay" EntitySet="Pay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PayDetails_Pay" Association="AMSModel.FK_PayDetails_Pay">
+            <End Role="Pay" EntitySet="Pay" />
+            <End Role="PayDetails" EntitySet="PayDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
           <Key>
@@ -822,19 +862,6 @@
           <NavigationProperty Name="LeaveDates" Relationship="AMSModel.FK_LeaveDates_Leaves" FromRole="Leaves" ToRole="LeaveDates" />
           <Property Name="DaysCount" Type="Int32" />
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Leaves" ToRole="Agent" />
-        </EntityType>
-        <EntityType Name="Pay">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="AgentId" Type="Int32" />
-          <Property Name="Month" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="PaySlipUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GeneratedOn" Type="DateTime" Precision="3" />
-          <Property Name="Salary" Type="Int32" />
-          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Pay_Agent" FromRole="Pay" ToRole="Agent" />
         </EntityType>
         <EntityType Name="LeaveDates">
           <Key>
@@ -930,11 +957,11 @@
           <NavigationProperty Name="Documents" Relationship="AMSModel.FK_Documents_AgentId" FromRole="Agent" ToRole="Documents" />
           <NavigationProperty Name="Documents1" Relationship="AMSModel.FK_Documents_UploadedBy" FromRole="Agent" ToRole="Documents" />
           <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
-          <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
           <Property Name="Salary" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
           <NavigationProperty Name="AgentIncentives" Relationship="AMSModel.FK_AgentIncentives_Agent" FromRole="Agent" ToRole="AgentIncentives" />
           <NavigationProperty Name="AgentTaxes" Relationship="AMSModel.FK_AgentTaxes_Agent" FromRole="Agent" ToRole="AgentTaxes" />
           <NavigationProperty Name="AgentDeductions" Relationship="AMSModel.FK_AgentDeductions_Agent" FromRole="Agent" ToRole="AgentDeductions" />
+          <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -1045,18 +1072,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Leaves">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Pay_Agent">
-          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
-          <End Type="AMSModel.Pay" Role="Pay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Pay">
               <PropertyRef Name="AgentId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1220,6 +1235,63 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Pay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="PaySlipUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GeneratedOn" Type="DateTime" Precision="3" />
+          <Property Name="GeneratedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BasicSalary" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SalaryPerDay" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FinalSalary" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalTaxDeduction" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalDeductionsDeduction" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalIncentiveAddition" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Pay_Agent" FromRole="Pay" ToRole="Agent" />
+          <NavigationProperty Name="PayDetails" Relationship="AMSModel.FK_PayDetails_Pay" FromRole="Pay" ToRole="PayDetails" />
+        </EntityType>
+        <EntityType Name="PayDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaySlipId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pay" Relationship="AMSModel.FK_PayDetails_Pay" FromRole="PayDetails" ToRole="Pay" />
+        </EntityType>
+        <Association Name="FK_Pay_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Pay" Role="Pay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pay">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PayDetails_Pay">
+          <End Type="AMSModel.Pay" Role="Pay" Multiplicity="1" />
+          <End Type="AMSModel.PayDetails" Role="PayDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pay">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PayDetails">
+              <PropertyRef Name="PaySlipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1305,19 +1377,6 @@
                 <ScalarProperty Name="LeaveFrom" ColumnName="LeaveFrom" />
                 <ScalarProperty Name="AccpRejDate" ColumnName="AccpRejDate" />
                 <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Pay">
-            <EntityTypeMapping TypeName="AMSModel.Pay">
-              <MappingFragment StoreEntitySet="Pay">
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="GeneratedOn" ColumnName="GeneratedOn" />
-                <ScalarProperty Name="PaySlipUrl" ColumnName="PaySlipUrl" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1494,6 +1553,38 @@
                 <ScalarProperty Name="AgentName" ColumnName="AgentName" />
                 <ScalarProperty Name="DeductionId" ColumnName="DeductionId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pay">
+            <EntityTypeMapping TypeName="AMSModel.Pay">
+              <MappingFragment StoreEntitySet="Pay">
+                <ScalarProperty Name="TotalIncentiveAddition" ColumnName="TotalIncentiveAddition" />
+                <ScalarProperty Name="TotalDeductionsDeduction" ColumnName="TotalDeductionsDeduction" />
+                <ScalarProperty Name="TotalTaxDeduction" ColumnName="TotalTaxDeduction" />
+                <ScalarProperty Name="FinalSalary" ColumnName="FinalSalary" />
+                <ScalarProperty Name="SalaryPerDay" ColumnName="SalaryPerDay" />
+                <ScalarProperty Name="BasicSalary" ColumnName="BasicSalary" />
+                <ScalarProperty Name="GeneratedBy" ColumnName="GeneratedBy" />
+                <ScalarProperty Name="GeneratedOn" ColumnName="GeneratedOn" />
+                <ScalarProperty Name="PaySlipUrl" ColumnName="PaySlipUrl" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayDetails">
+            <EntityTypeMapping TypeName="AMSModel.PayDetails">
+              <MappingFragment StoreEntitySet="PayDetails">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PaySlipId" ColumnName="PaySlipId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

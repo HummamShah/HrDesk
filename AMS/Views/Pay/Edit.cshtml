@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div class="container-fluid" ng-controller="PayCtrl" ng-init="editInit()">
+    <div class="row">
+        <div class="col-sm-9 col-9">
+            <h3 class="mt-4">Pay Slip</h3>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Pay Slip of {{PaySlip.AgentName}} for the Month of {{PaySlip.Month}}
+        </div>
+        <div class="card-body">
+            <div class="profile-card-4 z-depth-3">
+                <div class="card">
+                    <div class="card-body text-center bg-primary rounded-top">
+                        <h5 class="mb-1 text-white">Pay & Allowances</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">
+                                    <span>Basic Salary</span>
+                                    <small>{{PaySlip.BasicSalary}}</small>
+                                </div>
+                                <div ng-repeat="Incentive in PaySlip.IncentiveAddition" class="list-details">
+                                    <span>{{Incentive.Description}}</span>
+                                    <input type="number" ng-model="Incentive.Amount" ng-change="CalculateTotalAmount('Incentive')"/>
+                                    <input type="text" ng-model="Incentive.Remarks" placeholder="remarks" />
+                                    <span>
+                                        <a href="" ng-click="RemoveRow($index, 'Incentive')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">Total Incentives</div>
+                                <div>{{PaySlip.TotalIncentiveAddition + PaySlip.BasicSalary}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <button data-toggle="modal" ng-click="SetModalTitle('Incentive')" data-target="#addRow" role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded">
+                        <i class="typcn typcn-arrow-left"></i> <span class="spn">Add Incnetive</span>
+                    </button>
+                    <br />
+                    <div class="card-body text-center bg-primary rounded-top">
+                        <h5 class="mb-1 text-white">Taxes</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div ng-repeat="Tax in PaySlip.TaxDeductions" class="list-details">
+                                    <span>{{Tax.Description}}</span>
+                                    <input type="number" ng-model="Tax.Amount" ng-change="CalculateTotalAmount('Tax')" />
+                                    <input type="text" ng-model="Tax.Remarks" placeholder="remarks" />
+                                    <span>
+                                        <a href="" ng-click="RemoveRow($index, 'Tax')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">Total Taxes</div>
+                                <div>{{PaySlip.TotalTaxDeduction}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <button data-toggle="modal" ng-click="SetModalTitle('Tax')" data-target="#addRow" role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded">
+                        <i class="typcn typcn-arrow-left"></i> <span class="spn">Add Tax</span>
+                    </button>
+                    <br />
+                    <div class="card-body text-center bg-primary rounded-top">
+                        <h5 class="mb-1 text-white">Deductions</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div ng-repeat="Deduction in PaySlip.DeductionsDeductions" class="list-details">
+                                    <span>{{Deduction.Description}}</span>
+                                    <input type="number" ng-model="Deduction.Amount" ng-change="CalculateTotalAmount('Deduction')" />
+                                    <input type="text" ng-model="Deduction.Remarks" placeholder="remarks" />
+                                    <span>
+                                        <a href="" ng-click="RemoveRow($index, 'Deduction')"><i class="fas fa-trash-alt"></i></a>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">Total Deductions</div>
+                                <div>{{PaySlip.TotalDeductionsDeduction}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <button data-toggle="modal" ng-click="SetModalTitle('Deduction')" data-target="#addRow" role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded">
+                        <i class="typcn typcn-arrow-left"></i> <span class="spn">Add Deduction</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Final Salary {{PaySlip.FinalSalary}}
+        </div>
+        <div class="card-header">
+            <button type="button" class="btn btn-success float-right" ng-click="SavePaySlip(PaySlip)">Save</button>
+            <a href="/Pay/PaySlip?Id={{PaySlip.AgentId}}" title="Cancel" class="btn btn-danger float-right">Cancel</a>
+        </div>
+    </div>
+
+    @* ============================================== ADD MODAL ============================================ *@
+    <div class="modal fade" id="addRow">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add {{ModalTitle}}</h5>
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="leave-types">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control" ng-model="Row.Description" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Amount</label>
+                                    <input type="number" min="0" class="form-control" ng-model="Row.Amount" />
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Remarks</label>
+                                    <input type="text" class="form-control" ng-model="Row.Remarks" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="ml-auto mt-2">
+                        <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="AddRow(ModalTitle, Row)" data-dismiss="modal">Add {{ModalTitle}}</button>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

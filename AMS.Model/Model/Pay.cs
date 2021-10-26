@@ -14,14 +14,29 @@ namespace AMS.Model.Model
     
     public partial class Pay
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Pay()
+        {
+            this.PayDetails = new HashSet<PayDetails>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> AgentId { get; set; }
+        public string AgentName { get; set; }
         public string Month { get; set; }
         public Nullable<int> Year { get; set; }
         public string PaySlipUrl { get; set; }
         public Nullable<System.DateTime> GeneratedOn { get; set; }
-        public Nullable<int> Salary { get; set; }
+        public string GeneratedBy { get; set; }
+        public Nullable<decimal> BasicSalary { get; set; }
+        public Nullable<decimal> SalaryPerDay { get; set; }
+        public Nullable<decimal> FinalSalary { get; set; }
+        public Nullable<decimal> TotalTaxDeduction { get; set; }
+        public Nullable<decimal> TotalDeductionsDeduction { get; set; }
+        public Nullable<decimal> TotalIncentiveAddition { get; set; }
     
         public virtual Agent Agent { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PayDetails> PayDetails { get; set; }
     }
 }

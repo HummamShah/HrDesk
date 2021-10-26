@@ -272,6 +272,7 @@
     <Compile Include="Models\Requests\Leave\RejectLeaveRequest.cs" />
     <Compile Include="Models\Requests\Pay\GeneratePaySlipRequest.cs" />
     <Compile Include="Models\Requests\Pay\GetPayRollListRequest.cs" />
+    <Compile Include="Models\Requests\Pay\SavePaySlipRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />
     <Compile Include="Models\Requests\Shifts\GetShiftsRequest.cs" />
     <Compile Include="Models\Requests\Tax\AddTaxRequest.cs" />
@@ -592,6 +593,7 @@
     <Content Include="Views\Deduction\Index.cshtml" />
     <Content Include="Views\Deduction\Add.cshtml" />
     <Content Include="Views\Deduction\Edit.cshtml" />
+    <Content Include="Views\Pay\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

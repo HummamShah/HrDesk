@@ -12,10 +12,82 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
-            Employees List with Pay
+            Pay Slip of {{PaySlip.AgentName}} for the Month of {{PaySlip.Month}}
         </div>
         <div class="card-body">
-           
+            <div class="profile-card-4 z-depth-3">
+                <div class="card">
+                    <div class="card-body text-center bg-primary rounded-top">
+                        <h5 class="mb-1 text-white">Pay & Allowances</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">
+                                    <span>Basic Salary</span>
+                                    <small>{{PaySlip.BasicSalary}}</small>
+                                </div>
+                                <div ng-repeat="Incentive in PaySlip.IncentiveAddition" class="list-details">
+                                    <span>{{Incentive.Description}}</span>
+                                    <small>{{Incentive.Amount}}</small>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">Total Incentives</div>
+                                <div>{{PaySlip.TotalIncentiveAddition + PaySlip.BasicSalary}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body text-center bg-primary rounded-top">
+                        <h5 class="mb-1 text-white">Taxes</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div ng-repeat="Tax in PaySlip.TaxDeductions" class="list-details">
+                                    <span>{{Tax.Description}}</span>
+                                    <small>{{Tax.Amount}}</small>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">Total Taxes</div>
+                                <div>{{PaySlip.TotalTaxDeduction}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body text-center bg-primary rounded-top">
+                        <h5 class="mb-1 text-white">Deductions</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div ng-repeat="Deduction in PaySlip.DeductionsDeductions" class="list-details">
+                                    <span>{{Deduction.Description}}</span>
+                                    <small>{{Deduction.Amount}}</small>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-details">Total Deductions</div>
+                                <div>{{PaySlip.TotalDeductionsDeduction}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Final Salary {{PaySlip.FinalSalary}}
+        </div>
+        <div class="card-header">
+            <button type="button" class="btn btn-success float-right" ng-click="SavePaySlip(PaySlip)">Save</button>
+            <a href="/Pay/Edit?Id={{PaySlip.AgentId}}" title="Edit" class="btn btn-danger float-right">Edit</a>
         </div>
     </div>
 </div>

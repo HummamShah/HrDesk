@@ -22,10 +22,10 @@ namespace AMS.Model.Model
             this.Documents = new HashSet<Documents>();
             this.Documents1 = new HashSet<Documents>();
             this.Leaves = new HashSet<Leaves>();
-            this.Pay = new HashSet<Pay>();
             this.AgentIncentives = new HashSet<AgentIncentives>();
             this.AgentTaxes = new HashSet<AgentTaxes>();
             this.AgentDeductions = new HashSet<AgentDeductions>();
+            this.Pay = new HashSet<Pay>();
         }
     
         public int Id { get; set; }
@@ -80,12 +80,12 @@ namespace AMS.Model.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Leaves> Leaves { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pay> Pay { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentIncentives> AgentIncentives { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentTaxes> AgentTaxes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentDeductions> AgentDeductions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pay> Pay { get; set; }
     }
 }

@@ -21,5 +21,11 @@ namespace AMS.Controllers
         {
             return View();
         }
+        // POST: Edit PaySlip
+        [Authorize(Roles = "HR")]
+        public ActionResult Edit()
+        {
+            return View();
+        }
     }
 }
