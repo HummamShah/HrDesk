@@ -9,6 +9,8 @@ namespace AMS.Models.Requests.Pay
     {
         private AMSEntities _dbContext = new AMSEntities();
         public int Id { get; set; }
+        public string Month { get; set; } = "September";
+        public int Year { get; set; } = DateTime.Now.Year;
         public Object RunRequest(GeneratePaySlipRequest request)
         {
             var response = new GeneratePaySlipResponse();
@@ -17,8 +19,8 @@ namespace AMS.Models.Requests.Pay
                 var Agent = _dbContext.Agent.Where(x => x.Id == request.Id).FirstOrDefault();
                 response.AgentId = request.Id;
                 response.AgentName = Agent.FisrtName + " " + Agent.LastName;
-                response.Month = "September";       //DateTime.Now.Month;
-                response.Year = DateTime.Now.Year;
+                response.Month = request.Month;     //DateTime.Now.Month;
+                response.Year = request.Year;
                 response.BasicSalary = Agent.Salary;
                 response.SalaryPerDay = Agent.Salary / 30;
                 // deduction for taxes
@@ -91,6 +93,15 @@ namespace AMS.Models.Requests.Pay
                 }
 
                 response.FinalSalary = Agent.Salary;
+                var Pay = _dbContext.Pay.Where(x => x.AgentId == Agent.Id && x.Month == request.Month && x.Year == request.Year).FirstOrDefault();
+                if (Pay != null)
+                {
+                    response.IsGenerated = true;
+                }
+                else
+                {
+                    response.IsGenerated = false;
+                }
                 response.IsSuccessful = true;
             }
             catch (Exception e)
@@ -115,6 +126,7 @@ namespace AMS.Models.Requests.Pay
         public decimal TotalIncentiveAddition { get; set; }
         public decimal BasicSalary { get; set; }
         public decimal FinalSalary { get; set; }
+        public bool IsGenerated { get; set; }
         public List<SalaryDetails> TaxDeductions { get; set; } = new List<SalaryDetails>();
         public List<SalaryDetails> DeductionsDeductions { get; set; } = new List<SalaryDetails>();
         public List<SalaryDetails> IncentiveAddition { get; set; } = new List<SalaryDetails>();

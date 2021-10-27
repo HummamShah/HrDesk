@@ -57,7 +57,8 @@
                                 {{AgentPayDetail.DeductionInDays}}
                             </td>
                             <td>
-                                <a href="/Pay/PaySlip?Id={{AgentPayDetail.Id}}" title="Genrate Pay Slip"><i class="fas fa-pencil-alt ml-3"></i></a>
+                                <a ng-if="!AgentPayDetail.IsGenerated" href="/Pay/PaySlip?Id={{AgentPayDetail.Id}}" title="Genrate Pay Slip"><i class="fas fa-pencil-alt ml-3"></i></a>
+                                <a ng-if="AgentPayDetail.IsGenerated" title="View Pay Slip"><i class="fas fa-eye ml-3"></i></a>
                             </td>
                         </tr>
                     </tbody>

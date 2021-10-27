@@ -1,4 +1,5 @@
 ﻿using AMS.Models.Requests.Pay;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace AMS.Controllers.Api
         [HttpPost]
         public object SavePaySlip([FromBody] SavePaySlipRequest req)
         {
+            req.UserId = User.Identity.GetUserId();
             var result = req.RunRequest(req);
             return result;
         }

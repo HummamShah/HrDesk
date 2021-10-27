@@ -10,6 +10,8 @@ namespace AMS.Models.Requests.Pay
     public class GetPayRollListRequest
     {
         private AMSEntities _dbContext = new AMSEntities();
+        public string Month { get; set; } = "September";
+        public int Year { get; set; } = 2021;
         public Object RunRequest(GetPayRollListRequest request)
         {
             var response = new GetPayRollListResponse();
@@ -25,6 +27,13 @@ namespace AMS.Models.Requests.Pay
                     Agent.LastName = agent.LastName;
                     Agent.Salary = agent.Salary;
                     Agent.DeductionInDays = agent.DeductionInDays;
+                    var Pay = _dbContext.Pay.Where(x => x.AgentId == Agent.Id && x.Month == request.Month && x.Year == request.Year).FirstOrDefault();
+                    if (Pay != null) {
+                        Agent.IsGenerated = true;
+                    }
+                    else {
+                        Agent.IsGenerated = false;
+                    }
                     response.PayRollList.Add(Agent);
                 }
                 response.IsSuccessful = true;
@@ -50,5 +59,6 @@ namespace AMS.Models.Requests.Pay
         public string LastName{ get; set; }
         public decimal Salary{ get; set; }
         public decimal DeductionInDays { get; set; }
+        public bool IsGenerated { get; set; }
     }
 }

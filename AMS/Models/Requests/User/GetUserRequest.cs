@@ -42,6 +42,7 @@ namespace AMS.Models.Requests.User
 		public int? LateCount { get; set; }
 		public int? ShiftId { get; set; }
 		public decimal Salary { get; set; }
+		public int DeductionInDays { get; set; }
 		public List<Document> Docs { get; set; }
 		public List<Document> EducationalDocs { get; set; }
 		public List<Document> Certificates { get; set; }
@@ -81,6 +82,7 @@ namespace AMS.Models.Requests.User
                 response.Gender = Data.Gender;
 				response.ShiftId = Data.ShiftId;
 				response.Salary = Data.Salary;
+				response.DeductionInDays = Data.DeductionInDays;
 
 				// get taxes applied on user
 				response.Taxes = new List<GetTaxResponse>();

@@ -8,6 +8,7 @@ namespace AMS.Models.Requests.Pay
     public class SavePaySlipRequest
     {
         private AMSEntities _dbContext = new AMSEntities();
+        public string UserId { get; set; }
         public int AgentId { get; set; }
         public string AgentName { get; set; }
         public string Month { get; set; }
@@ -39,10 +40,10 @@ namespace AMS.Models.Requests.Pay
                 PaySlip.TotalTaxDeduction = request.TotalTaxDeduction;
                 PaySlip.TotalDeductionsDeduction = request.TotalDeductionsDeduction;
                 PaySlip.GeneratedOn = DateTime.Now;
-                PaySlip.GeneratedBy = "Rizwan Ahamd";
+                PaySlip.GeneratedBy = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().FisrtName + " " + _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().LastName;
                 _dbContext.Pay.Add(PaySlip);
                 _dbContext.SaveChanges();
-                
+
                 // adding incentives
                 foreach (var incentive in request.IncentiveAddition) {
                     var PayDetails = new AMS.Model.Model.PayDetails();
@@ -82,6 +83,10 @@ namespace AMS.Models.Requests.Pay
                     _dbContext.SaveChanges();
                 }
                 response.IsSuccessful = true;
+                //reset deduction in days after the salary generated
+                var Agent = _dbContext.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
+                Agent.DeductionInDays = 0;
+                _dbContext.SaveChanges();
             }
             catch (Exception e)
             {

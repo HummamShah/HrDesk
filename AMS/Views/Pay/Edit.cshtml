@@ -40,7 +40,7 @@
                         </ul>
                         <ul class="list-group shadow-none">
                             <li class="list-group-item">
-                                <div class="list-details">Total Incentives</div>
+                                <div class="list-details">Gross Salary</div>
                                 <div>{{PaySlip.TotalIncentiveAddition + PaySlip.BasicSalary}}</div>
                             </li>
                         </ul>
@@ -109,7 +109,7 @@
             <i class="fas fa-table mr-1"></i>
             Final Salary {{PaySlip.FinalSalary}}
         </div>
-        <div class="card-header">
+        <div ng-if="!PaySlip.IsGenerated" class="card-header">
             <button type="button" class="btn btn-success float-right" ng-click="SavePaySlip(PaySlip)">Save</button>
             <a href="/Pay/PaySlip?Id={{PaySlip.AgentId}}" title="Cancel" class="btn btn-danger float-right">Cancel</a>
         </div>

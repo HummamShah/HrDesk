@@ -22,10 +22,6 @@
             $scope.editInit = async function () {
                 console.log("inside edit init");
                 await $scope.GeneratePaySlip();
-                //console.log($scope.PaySlip.IncentiveAddition);
-                //$scope.IncentivesList = $scope.PaySlip.IncentiveAddition;
-                //$scope.TaxesList = $scope.PaySlip.TaxDeductions;
-                //$scope.DeductionsList = $scope.PaySlip.DeductionsDeductions;
             }
 
             /** calls the function to generating PaySlip of a particular agent
@@ -125,6 +121,13 @@
                 $scope.AjaxPost("/api/PayApi/SavePaySlip", paySlip).then(
                     function (response) {
                         console.log(response);
+                        if (response.data.IsSuccessful) {
+                            console.log("inside success");
+                            $timeout(function () { window.location.href = '/Pay'; }, 2000);
+                        }
+                        else {
+                            toaster.pop(response.data.ValidationErrors[0]);
+                        }
                     }
                 );
             }
