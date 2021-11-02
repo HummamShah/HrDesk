@@ -1,6 +1,7 @@
 ﻿using AMS.Model.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AMS.Models.Requests.Pay
@@ -9,8 +10,8 @@ namespace AMS.Models.Requests.Pay
     {
         private AMSEntities _dbContext = new AMSEntities();
         public int Id { get; set; }
-        public string Month { get; set; } = "September";
-        public int Year { get; set; } = DateTime.Now.Year;
+        public string Month { get; set; }
+        public int Year { get; set; }
         public Object RunRequest(GeneratePaySlipRequest request)
         {
             var response = new GeneratePaySlipResponse();
@@ -20,6 +21,7 @@ namespace AMS.Models.Requests.Pay
                 response.AgentId = request.Id;
                 response.AgentName = Agent.FisrtName + " " + Agent.LastName;
                 response.Month = request.Month;     //DateTime.Now.Month;
+                response.MonthEnum = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Int16.Parse(request.Month)+1);
                 response.Year = request.Year;
                 response.BasicSalary = Agent.Salary;
                 response.SalaryPerDay = Agent.Salary / 30;
@@ -45,7 +47,6 @@ namespace AMS.Models.Requests.Pay
                 // deduction for deductions
                 var AgentDeductions = _dbContext.AgentDeductions.Where(x => x.AgentId == request.Id).ToList();
                 var deductionDueToDays = new SalaryDetails();
-                // deduction for absent days
                 if (Agent.DeductionInDays > 0)
                 {
                     response.DeductionInDaysCalc = response.SalaryPerDay * Agent.DeductionInDays;
@@ -60,14 +61,8 @@ namespace AMS.Models.Requests.Pay
                     var deductionDetails = new SalaryDetails();
                     deductionDetails.Description = deduction.DeductionName;
 
-                    if (deduction.Deductions.Type == "Percentage")
-                    {
-                        deductionDetails.Amount = (deduction.Deductions.Amount / 100) * Agent.Salary;
-                    }
-                    else if (deduction.Deductions.Type == "Fixed Amount")
-                    {
-                        deductionDetails.Amount = deduction.Deductions.Amount;
-                    }
+                    if (deduction.Deductions.Type == "Percentage"){deductionDetails.Amount = (deduction.Deductions.Amount / 100) * Agent.Salary;}
+                    else if (deduction.Deductions.Type == "Fixed Amount"){deductionDetails.Amount = deduction.Deductions.Amount;}
 
                     Agent.Salary = Agent.Salary - deductionDetails.Amount;
                     response.DeductionsDeductions.Add(deductionDetails);
@@ -80,12 +75,8 @@ namespace AMS.Models.Requests.Pay
                 {
                     var additionDetails = new SalaryDetails();
                     additionDetails.Description = incentive.IncentiveName;
-                    if (incentive.Incentives.Type == "Percentage") {
-                        additionDetails.Amount = (incentive.Incentives.Amount / 100) * Agent.Salary;
-                    }
-                    else if (incentive.Incentives.Type == "Fixed Amount") {
-                        additionDetails.Amount = incentive.Incentives.Amount;
-                    }
+                    if (incentive.Incentives.Type == "Percentage") {additionDetails.Amount = (incentive.Incentives.Amount / 100) * Agent.Salary;}
+                    else if (incentive.Incentives.Type == "Fixed Amount") {additionDetails.Amount = incentive.Incentives.Amount;}
                     
                     Agent.Salary = Agent.Salary + additionDetails.Amount;
                     response.IncentiveAddition.Add(additionDetails);
@@ -94,14 +85,8 @@ namespace AMS.Models.Requests.Pay
 
                 response.FinalSalary = Agent.Salary;
                 var Pay = _dbContext.Pay.Where(x => x.AgentId == Agent.Id && x.Month == request.Month && x.Year == request.Year).FirstOrDefault();
-                if (Pay != null)
-                {
-                    response.IsGenerated = true;
-                }
-                else
-                {
-                    response.IsGenerated = false;
-                }
+                if (Pay != null){response.IsGenerated = true;}
+                else{response.IsGenerated = false;}
                 response.IsSuccessful = true;
             }
             catch (Exception e)
@@ -118,6 +103,7 @@ namespace AMS.Models.Requests.Pay
         public int AgentId { get; set; }
         public string AgentName { get; set; }
         public string Month { get; set; }
+        public string MonthEnum { get; set; }
         public int Year { get; set; }
         public decimal DeductionInDaysCalc { get; set; }
         public decimal SalaryPerDay { get; set; }

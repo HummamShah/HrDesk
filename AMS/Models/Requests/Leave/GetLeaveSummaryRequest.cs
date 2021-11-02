@@ -3,8 +3,6 @@ using AMS.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace AMS.Models.Requests.Leave
 {
     public class GetLeaveSummaryRequest
@@ -79,7 +77,6 @@ namespace AMS.Models.Requests.Leave
         public List<LeaveDetails> LeaveRecordList { get; set; }
         public List<string> ValidationErrors { get; set; } = new List<string>();
     }
-
     public class LeaveDetails
     {
         public int Id { get; set; }
@@ -88,8 +85,6 @@ namespace AMS.Models.Requests.Leave
         public int? Type { get; set; }
         public int? Status { get; set; }
         public string Reason { get; set; }
-        //public DateTime? LeaveFrom { get; set; }
-        //public DateTime? LeaveTo{ get; set; }
         public DateTime? LeaveDate { get; set; }
         public string TypeEnum { get; set; }
         public string StatusEnum { get; set; }

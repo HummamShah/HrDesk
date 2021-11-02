@@ -4,6 +4,7 @@
 	[AgentId] int,
 	[AgentName] nvarchar(max),
 	[Month] nvarchar(max),
+	[MonthEnum] nvarchar(max),
 	[Year] int,
 	[PaySlipUrl] nvarchar(max),
 	[GeneratedOn] datetime,

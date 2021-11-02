@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace AMS.Models.Requests.AgentAttendance
 {
     public class GetAttendanceSummaryRequest  
@@ -26,9 +24,8 @@ namespace AMS.Models.Requests.AgentAttendance
                 else {
                     Id = _dbContext.Agent.Where(x => x.UserId == request.CurrentUserId).FirstOrDefault().Id;
                 }
-
-                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id && x.IsAttendanceMarked == true).OrderBy(x => x.CreatedAt).ToList();
-                //var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id).OrderBy(x => x.CreatedAt).ToList();
+                var tomorrow = DateTime.Today.AddDays(1);
+                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id && x.Date != tomorrow).OrderBy(x => x.CreatedAt).ToList();
                 var firstOfMonth = new DateTime(request.Year, request.Month + 1, 1);
                 var lastOFMonth = firstOfMonth.AddMonths(1).AddDays(-1);
                 Attendances = Attendances.Where(x => x.Date >= firstOfMonth && x.Date <= lastOFMonth).ToList();

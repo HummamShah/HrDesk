@@ -1,6 +1,7 @@
 ﻿using AMS.Model.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AMS.Models.Requests.Pay
@@ -11,7 +12,8 @@ namespace AMS.Models.Requests.Pay
         public string UserId { get; set; }
         public int AgentId { get; set; }
         public string AgentName { get; set; }
-        public string Month { get; set; }
+        public string Month { get; set; } 
+        public string MonthEnum { get; set; } 
         public int Year { get; set; }
         public decimal DeductionInDaysCalc { get; set; }
         public decimal SalaryPerDay { get; set; }
@@ -41,12 +43,13 @@ namespace AMS.Models.Requests.Pay
                 PaySlip.TotalDeductionsDeduction = request.TotalDeductionsDeduction;
                 PaySlip.GeneratedOn = DateTime.Now;
                 PaySlip.GeneratedBy = _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().FisrtName + " " + _dbContext.Agent.Where(x => x.UserId == request.UserId).FirstOrDefault().LastName;
+                PaySlip.MonthEnum = request.MonthEnum;
                 _dbContext.Pay.Add(PaySlip);
                 _dbContext.SaveChanges();
 
                 // adding incentives
                 foreach (var incentive in request.IncentiveAddition) {
-                    var PayDetails = new AMS.Model.Model.PayDetails();
+                    var PayDetails = new PayDetails();
                     PayDetails.PaySlipId = PaySlip.Id;
                     PayDetails.Description = incentive.Description;
                     PayDetails.Amount = incentive.Amount;
@@ -59,7 +62,7 @@ namespace AMS.Models.Requests.Pay
                 // adding taxes
                 foreach (var tax in request.TaxDeductions)
                 {
-                    var PayDetails = new AMS.Model.Model.PayDetails();
+                    var PayDetails = new PayDetails();
                     PayDetails.PaySlipId = PaySlip.Id;
                     PayDetails.Description = tax.Description;
                     PayDetails.Amount = tax.Amount;
@@ -72,7 +75,7 @@ namespace AMS.Models.Requests.Pay
                 // adding deductions
                 foreach (var deduction in request.DeductionsDeductions)
                 {
-                    var PayDetails = new AMS.Model.Model.PayDetails();
+                    var PayDetails = new PayDetails();
                     PayDetails.PaySlipId = PaySlip.Id;
                     PayDetails.Description = deduction.Description;
                     PayDetails.Amount = deduction.Amount;
@@ -82,11 +85,11 @@ namespace AMS.Models.Requests.Pay
                     _dbContext.PayDetails.Add(PayDetails);
                     _dbContext.SaveChanges();
                 }
-                response.IsSuccessful = true;
-                //reset deduction in days after the salary generated
+                //reset deduction in days to zero, once the salary is generated
                 var Agent = _dbContext.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
                 Agent.DeductionInDays = 0;
                 _dbContext.SaveChanges();
+                response.IsSuccessful = true;
             }
             catch (Exception e)
             {

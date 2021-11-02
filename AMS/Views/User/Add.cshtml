@@ -128,7 +128,7 @@
                                                             <div class="">
                                                                 <label>Taxes</label>
                                                                 <ui-select multiple sortable="true" ng-model="User.Taxes" theme="select2" class="form-control" title="Choose tax">
-                                                                    <ui-select-match placeholder="Select or search a tax in the list...">{{$select.selected[Id].Name}}</ui-select-match>
+                                                                    <ui-select-match placeholder="Select or search a tax in the list...">{{$item.Name}}</ui-select-match>
                                                                     <ui-select-choices repeat="Tax in TaxesList | filter: $select.search">
                                                                         <div ng-bind-html="Tax.Name | highlight: $select.search"></div>
                                                                     </ui-select-choices>
@@ -139,7 +139,7 @@
                                                             <div class="">
                                                                 <label>Deductions</label>
                                                                 <ui-select multiple sortable="true" ng-model="User.Deductions" theme="select2" class="form-control" title="Choose deduction">
-                                                                    <ui-select-match placeholder="Select or search a deduction in the list...">{{$select.selected[Id].Name}}</ui-select-match>
+                                                                    <ui-select-match placeholder="Select or search a deduction in the list...">{{$item.Name}}</ui-select-match>
                                                                     <ui-select-choices repeat="Deduction in DeductionsList | filter: $select.search">
                                                                         <div ng-bind-html="Deduction.Name | highlight: $select.search"></div>
                                                                     </ui-select-choices>
@@ -150,7 +150,7 @@
                                                             <div class="">
                                                                 <label>Incentives</label>
                                                                 <ui-select multiple sortable="true" ng-model="User.Incentives" theme="select2" class="form-control" title="Choose incentive">
-                                                                    <ui-select-match placeholder="Select or search a tax in the list...">{{$select.selected.Name}}</ui-select-match>
+                                                                    <ui-select-match placeholder="Select or search an incentive in the list...">{{$item.Name}}</ui-select-match>
                                                                     <ui-select-choices repeat="Incentive in IncentivesList | filter: $select.search">
                                                                         <div ng-bind-html="Incentive.Name | highlight: $select.search"></div>
                                                                     </ui-select-choices>

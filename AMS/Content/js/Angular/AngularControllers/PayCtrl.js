@@ -14,7 +14,21 @@
             /**
              * initializes the main index page */
             $scope.initIndex = function () {
+                // ================= variables & constants =========================
+                var date = new Date();
+                $scope.selectedMonth = date.getMonth();
+                $scope.selectedYear = date.getFullYear();
+                $scope.months = [{ id: 0, name: "January" }, { id: 1, name: "February" }, { id: 2, name: "March" }, { id: 3, name: "April" }, { id: 4, name: "May" }, { id: 5, name: "June" }, { id: 6, name: "July" }, { id: 7, name: "August" }, { id: 8, name: "September" }, { id: 9, name: "October" }, { id: 10, name: "November" }, { id: 11, name: "December" }];
+                $scope.years = ["2021"];
+                $scope.searchedMonth = $scope.selectedMonth;
                 $scope.GetPayListing();
+            }
+
+            /** initializes the pay slip page by calling the function to generate PaySlip of a particular agents
+             * */
+            $scope.paySlipInit = function () {
+                console.log("inside payslip init");
+                $scope.GeneratePaySlip();
             }
 
             /** initializes the edit page by binding the values of the generated salary first
@@ -24,17 +38,16 @@
                 await $scope.GeneratePaySlip();
             }
 
-            /** calls the function to generating PaySlip of a particular agent
-             * */
-            $scope.paySlipInit = function () {
-                console.log("inside payslip init");
-                $scope.GeneratePaySlip();
+            /**
+            * calls the function GetPayListing */
+            $scope.GetPayRollSummary = function () {
+                $scope.GetPayListing();
             }
 
-            /** gets the basic info of the agents (related to pay e.g. gross salary etc)
+            /** gets the basic info of all agents (related to pay for e.g. gross salary etc)
              * */
             $scope.GetPayListing = function () {
-                $scope.AjaxGet("/api/PayApi/GetPayRollList", null).then(
+                $scope.AjaxGet("/api/PayApi/GetPayRollList", { Month: $scope.selectedMonth, Year: $scope.selectedYear}).then(
                     function (response) {
                         console.log(response);
                         $scope.PayRollList = response.data.PayRollList;
@@ -46,10 +59,14 @@
             /**
              * generates pay slips for the given agent id (getting from url parameter)
              * */
-            $scope.GeneratePaySlip = function () {
+            $scope.GeneratePaySlip = function (Month, Year) {
                 console.log("inside generate payslip");
                 var Id = $scope.GetUrlParameter("Id");
-                $scope.AjaxPost("/api/PayApi/GeneratePaySlip", { 'Id': Id }).then(
+                var Month = $scope.GetUrlParameter("Month");
+                var Year = $scope.GetUrlParameter("Year");
+                console.log(Month);
+                console.log(Year);
+                $scope.AjaxPost("/api/PayApi/GeneratePaySlip", { Id: Id, Month, Year}).then(
                     function (response) {
                         console.log(response);
                         $scope.PaySlip = response.data;
@@ -68,7 +85,7 @@
 
             /**
              * adds a row 
-             * @param {any} type
+             * @param {string} type
              */
             $scope.AddRow = function (type, row) {
                 if (type === 'Incentive') { $scope.PaySlip.IncentiveAddition.push(row); $scope.CalculateTotalAmount(type); return;}
@@ -88,7 +105,7 @@
             }
 
             /**
-             * calculates the total on the change of amount
+             * calculates the respective total on the change of amount
              * @param {string} type
              */
             $scope.CalculateTotalAmount = function (type) {
@@ -125,9 +142,7 @@
                             console.log("inside success");
                             $timeout(function () { window.location.href = '/Pay'; }, 2000);
                         }
-                        else {
-                            toaster.pop(response.data.ValidationErrors[0]);
-                        }
+                        else {toaster.pop(response.data.ValidationErrors[0]);}
                     }
                 );
             }

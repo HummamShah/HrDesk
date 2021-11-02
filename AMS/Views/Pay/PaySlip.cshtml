@@ -12,7 +12,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
-            Pay Slip of {{PaySlip.AgentName}} for the Month of {{PaySlip.Month}}
+            Pay Slip of {{PaySlip.AgentName}} for the Month of {{PaySlip.MonthEnum}}
         </div>
         <div class="card-body">
             <div class="profile-card-4 z-depth-3">
@@ -87,7 +87,7 @@
         </div>
         <div ng-if="!PaySlip.IsGenerated" class="card-header">
             <button type="button" class="btn btn-success float-right" ng-click="SavePaySlip(PaySlip)">Save</button>
-            <a href="/Pay/Edit?Id={{PaySlip.AgentId}}" title="Edit" class="btn btn-danger float-right">Edit</a>
+            <a href="/Pay/Edit?Id={{PaySlip.AgentId}}&Month={{PaySlip.Month}}&Year={{PaySlip.Year}}" title="Edit" class="btn btn-danger float-right">Edit</a>
         </div>
     </div>
 </div>

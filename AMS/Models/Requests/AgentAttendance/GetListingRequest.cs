@@ -48,14 +48,12 @@ namespace AMS.Model.Requests.AgentAttendance
 		private AMSEntities _dbContext = new AMSEntities();
 		public DateTime? DateFrom { get; set; }
 		public DateTime? DateTo { get; set; }
-		//Pagination Fields
 		public object RunRequest(GetListingRequest req)
 		{
 			var response = new GetListingResponse();
 			response.Data = new List<AgentAttendanceData>();
-            //var Companies = _dbContext.Company.Where(x=>x.BillingInformationId != null);
-            //var Attendances = _dbContext.AgentAttendance.OrderBy(x => x.CreatedAt).ToList();
-            var Attendances = _dbContext.AgentAttendance.Where(x => x.IsAttendanceMarked == true).OrderBy(x => x.CreatedAt).ToList();
+			var tomorrow = DateTime.Today.AddDays(1);
+			var Attendances = _dbContext.AgentAttendance.Where(x => x.Date != tomorrow).OrderBy(x => x.CreatedAt).ToList();
             if (req.DateFrom.HasValue)
 			{
 				Attendances = Attendances.Where(x => x.Date >= req.DateFrom.Value).ToList();

@@ -34,6 +34,7 @@ namespace AMS.Model.Model
         public Nullable<decimal> TotalTaxDeduction { get; set; }
         public Nullable<decimal> TotalDeductionsDeduction { get; set; }
         public Nullable<decimal> TotalIncentiveAddition { get; set; }
+        public string MonthEnum { get; set; }
     
         public virtual Agent Agent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

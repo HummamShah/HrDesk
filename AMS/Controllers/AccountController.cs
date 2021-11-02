@@ -85,105 +85,107 @@ namespace AMS.Controllers
             {
                 case SignInStatus.Success:
                     {
-                        //Mark Agent Present;
-                        var Attendance = new Model.Model.AgentAttendance();
-                        var today = DateTime.Now.Date;
-                        var yesterday = today.AddDays(-1);
-                        var Agent = db.Agent.Where(x => x.Email == model.Email).FirstOrDefault();
-                        if (Agent != null)
+                        if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday && DateTime.Now.DayOfWeek != DayOfWeek.Saturday)
                         {
-                            int AgentId = Agent.Id;
-                            var TodayAttendance = db.AgentAttendance.Where(x => x.Date == today && x.AgentId == AgentId);
-                            if (Agent.ShiftId == 4)
+                            //Mark Agent Present;
+                            var Attendance = new Model.Model.AgentAttendance();
+                            var today = DateTime.Now.Date;
+                            var yesterday = today.AddDays(-1);
+                            var Agent = db.Agent.Where(x => x.Email == model.Email).FirstOrDefault();
+                            if (Agent != null)
                             {
-                                TodayAttendance = db.AgentAttendance.Where(x => x.Date == yesterday && x.AgentId == AgentId);
-                            }
-                            if (TodayAttendance.Count() < 1)
-                            {
-                                TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).TimeOfDay;
-                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
-                                TimeSpan now = DateTime.Now.TimeOfDay;
-                                if (now >= MarkAbsentTime)
+                                int AgentId = Agent.Id;
+                                var TodayAttendance = db.AgentAttendance.Where(x => x.Date == today && x.AgentId == AgentId);
+                                if (Agent.ShiftId == 4)
                                 {
-                                    Attendance.IsAbsent = true;
+                                    TodayAttendance = db.AgentAttendance.Where(x => x.Date == yesterday && x.AgentId == AgentId);
                                 }
-                                else if (now > LateTime)
+                                if (TodayAttendance.Count() < 1)
                                 {
-                                    Attendance.IsLate = true;
-                                    Attendance.IsAbsent = false;
-                                    Agent.ConsecutiveLateCounter++;
-                                    if (Agent.ConsecutiveLateCounter % 3 == 0)
+                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(0).TimeOfDay;
+                                    TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
+                                    TimeSpan now = DateTime.Now.TimeOfDay;
+                                    if (now >= MarkAbsentTime)
                                     {
-                                        if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
-                                        {
-                                            Agent.RemainingLeaves--;
-                                            Agent.AnnualLeaves--;
-                                        }
-                                        else
-                                            Agent.DeductionInDays++;
+                                        Attendance.IsAbsent = true;
                                     }
-                                }
+                                    else if (now > LateTime)
+                                    {
+                                        Attendance.IsLate = true;
+                                        Attendance.IsAbsent = false;
+                                        Agent.ConsecutiveLateCounter++;
+                                        if (Agent.ConsecutiveLateCounter % 3 == 0)
+                                        {
+                                            if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
+                                            {
+                                                Agent.RemainingLeaves--;
+                                                Agent.AnnualLeaves--;
+                                            }
+                                            else
+                                                Agent.DeductionInDays++;
+                                        }
+                                    }
                                 
-                                else
-                                {
-                                    Attendance.IsPresent = true;
-                                    Attendance.IsAbsent = false;
-                                }
-                                Attendance.AgentId = AgentId;
-                                Attendance.CreatedAt = DateTime.Now;
-
-                                Attendance.StartDateTime = DateTime.Now;
-                                Attendance.Date = DateTime.Now.Date;
-                                Attendance.Type = (int)AttendanceType.Premises;
-                                Attendance.IsAttendanceMarked = true;
-                                Attendance.ShiftId = Agent.ShiftId;
-                                var Attendanceresult = db.AgentAttendance.Add(Attendance);
-                                db.SaveChanges();
-                            }
-                            else if (TodayAttendance.FirstOrDefault() != null && TodayAttendance.FirstOrDefault().IsAttendanceMarked == false)
-                            {
-                                TimeSpan now = DateTime.Now.TimeOfDay;
-                                TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).TimeOfDay;
-                                TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
-                                Attendance = TodayAttendance.FirstOrDefault();
-                                if (now >= MarkAbsentTime)
-                                {
-                                    Attendance.IsAbsent = true;
-                                }
-                                else if (now > LateTime)
-                                {
-                                    Attendance.IsLate = true;
-                                    Attendance.IsAbsent = false;
-                                    Agent.ConsecutiveLateCounter++;
-                                    if (Agent.ConsecutiveLateCounter % 3 == 0)
+                                    else
                                     {
-                                        if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
-                                        {
-                                            Agent.RemainingLeaves--;
-                                            Agent.AnnualLeaves--;
-                                        }
-                                        else
-                                            Agent.DeductionInDays++;
+                                        Attendance.IsPresent = true;
+                                        Attendance.IsAbsent = false;
                                     }
-                                }
-                                else
-                                {
-                                    Attendance.IsPresent = true;
-                                    Attendance.IsAbsent = false;
-                                }
-                                Attendance.AgentId = AgentId;
-                                Attendance.CreatedAt = DateTime.Now;
-                                Attendance.StartDateTime = DateTime.Now;
-                                Attendance.Date = DateTime.Now.Date;
-                                Attendance.Type = (int)AttendanceType.Premises;
-                                Attendance.IsAttendanceMarked = true;
-                                Attendance.ShiftId = Agent.ShiftId;
-                                //var Attendanceresult = db.AgentAttendance.Add(Attendance);
-                                db.SaveChanges();
+                                    Attendance.AgentId = AgentId;
+                                    Attendance.CreatedAt = DateTime.Now;
 
+                                    Attendance.StartDateTime = DateTime.Now;
+                                    Attendance.Date = DateTime.Now.Date;
+                                    Attendance.Type = (int)AttendanceType.Premises;
+                                    Attendance.IsAttendanceMarked = true;
+                                    Attendance.ShiftId = Agent.ShiftId;
+                                    var Attendanceresult = db.AgentAttendance.Add(Attendance);
+                                    db.SaveChanges();
+                                }
+                                else if (TodayAttendance.FirstOrDefault() != null && TodayAttendance.FirstOrDefault().IsAttendanceMarked == false)
+                                {
+                                    TimeSpan now = DateTime.Now.TimeOfDay;
+                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(0).TimeOfDay;
+                                    TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
+                                    Attendance = TodayAttendance.FirstOrDefault();
+                                    if (now >= MarkAbsentTime)
+                                    {
+                                        Attendance.IsAbsent = true;
+                                    }
+                                    else if (now > LateTime)
+                                    {
+                                        Attendance.IsLate = true;
+                                        Attendance.IsAbsent = false;
+                                        Agent.ConsecutiveLateCounter++;
+                                        if (Agent.ConsecutiveLateCounter % 3 == 0)
+                                        {
+                                            if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
+                                            {
+                                                Agent.RemainingLeaves--;
+                                                Agent.AnnualLeaves--;
+                                            }
+                                            else
+                                                Agent.DeductionInDays++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Attendance.IsPresent = true;
+                                        Attendance.IsAbsent = false;
+                                    }
+                                    Attendance.AgentId = AgentId;
+                                    Attendance.CreatedAt = DateTime.Now;
+                                    Attendance.StartDateTime = DateTime.Now;
+                                    Attendance.Date = DateTime.Now.Date;
+                                    Attendance.Type = (int)AttendanceType.Premises;
+                                    Attendance.IsAttendanceMarked = true;
+                                    Attendance.ShiftId = Agent.ShiftId;
+                                    //var Attendanceresult = db.AgentAttendance.Add(Attendance);
+                                    db.SaveChanges();
+
+                                }
                             }
                         }
-
                         return RedirectToLocal(returnUrl);
                     }
                 case SignInStatus.LockedOut:

@@ -20,6 +20,23 @@
             <i class="fas fa-table mr-1"></i>
             Employees List with Pay
         </div>
+        <div class="row mb-0 pb-0" style=" margin-left: 200px; ">
+            <div class="col-md-auto col-xl-auto text-center py-4 ">
+                <select ng-model="selectedMonth" class="btnstyl">
+                    <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-auto col-xl-auto text-center py-4">
+                <select ng-model="selectedYear" class="btnstyl1">
+                    <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
+                </select>
+            </div>
+            <div class="col-md-auto col-xl-auto text-center py-3">
+                <button role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded mt-2" ng-click="GetPayRollSummary()">
+                    <i class="fa fa-chevron-left"></i> <span class="spn ml-1">GET</span>
+                </button>
+            </div>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-md" id="dataTable" width="100%" cellspacing="0">
@@ -43,7 +60,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="AgentPayDetail in PayRollList"> @* | orderBy:Sorting.Field:Sorting.IsAscending *@
+                        <tr ng-repeat="AgentPayDetail in PayRollList">
+                            @* | orderBy:Sorting.Field:Sorting.IsAscending *@
                             <td>
                                 {{AgentPayDetail.Id}}
                             </td>
@@ -57,7 +75,7 @@
                                 {{AgentPayDetail.DeductionInDays}}
                             </td>
                             <td>
-                                <a ng-if="!AgentPayDetail.IsGenerated" href="/Pay/PaySlip?Id={{AgentPayDetail.Id}}" title="Genrate Pay Slip"><i class="fas fa-pencil-alt ml-3"></i></a>
+                                <a ng-if="!AgentPayDetail.IsGenerated" href="/Pay/PaySlip?Id={{AgentPayDetail.Id}}&Month={{selectedMonth}}&Year={{selectedYear}}" title="Genrate Pay Slip"><i class="fas fa-pencil-alt ml-3"></i></a>
                                 <a ng-if="AgentPayDetail.IsGenerated" title="View Pay Slip"><i class="fas fa-eye ml-3"></i></a>
                             </td>
                         </tr>
