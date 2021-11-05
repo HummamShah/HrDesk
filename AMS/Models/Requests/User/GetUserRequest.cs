@@ -35,11 +35,13 @@ namespace AMS.Models.Requests.User
 		public bool? IsPresent { get; set; }
 		public bool? IsAbsent{ get; set; }
 		public bool? IsExcused{ get; set; }
+		public bool? IsHoliday{ get; set; }
 		public DateTime? TodayClockIn { get; set; }
 		public int? AbsentCount { get; set; }
 		public int? ExcusedCount { get; set; }
 		public int? PresentCount { get; set; }
 		public int? LateCount { get; set; }
+		public int? HolidayCount { get; set; }
 		public int? ShiftId { get; set; }
 		public decimal Salary { get; set; }
 		public int DeductionInDays { get; set; }
@@ -206,6 +208,7 @@ namespace AMS.Models.Requests.User
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
 				response.LateCount = MonthAttendance.Where(x => x.IsLate == true).Count();
 				response.ExcusedCount = MonthAttendance.Where(x => x.IsExcused == true).Count();
+				response.HolidayCount = MonthAttendance.Where(x => x.IsHoliday == true).Count();
 ;				var TodaysAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date == DateTime.Today.Date).FirstOrDefault();
 				if (TodaysAttendance != null)
 				{
@@ -219,6 +222,7 @@ namespace AMS.Models.Requests.User
 					response.IsPresent = TodaysAttendance.IsPresent;
 					response.IsAbsent = TodaysAttendance.IsAbsent;
 					response.IsExcused = TodaysAttendance.IsExcused;
+					response.IsHoliday = TodaysAttendance.IsHoliday;
 				}
 			}
             else
@@ -290,6 +294,7 @@ namespace AMS.Models.Requests.User
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
 				response.LateCount = MonthAttendance.Where(x => x.IsLate == true).Count();
 				response.ExcusedCount = MonthAttendance.Where(x => x.IsExcused == true).Count();
+				response.HolidayCount = MonthAttendance.Where(x => x.IsHoliday == true).Count();
 				var TodaysAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date == DateTime.Today.Date).FirstOrDefault();
 				if (TodaysAttendance != null)
 				{
@@ -303,6 +308,7 @@ namespace AMS.Models.Requests.User
 					response.IsPresent = TodaysAttendance.IsPresent;
 					response.IsAbsent = TodaysAttendance.IsAbsent;
 					response.IsExcused = TodaysAttendance.IsExcused;
+					response.IsHoliday = TodaysAttendance.IsHoliday;
 				}
 			}
 			return response;

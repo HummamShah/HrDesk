@@ -108,21 +108,22 @@
                                             <span ng-if="Agent.IsPresent == true" style="color: chartreuse">On Time</span>
                                             <span ng-if="Agent.IsExcused == true" style="color: blueviolet">Excused</span>
                                             <span ng-if="Agent.IsAbsent == true" style="color:black">Absent</span>
+                                            <span ng-if="Agent.IsHoliday == true" style="color:black">Holiday</span>
                                         </td>
                                         <td>
                                             <span ng-if="Agent.IsExcused == true">{{Agent.Remarks}}</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Agent.IsAbsent == false">{{Agent.StartDateTime | date:'hh:mm a'}}</span>
-                                            <span ng-if="Agent.IsAbsent == true">NA</span>
+                                            <span ng-if="Agent.IsAbsent == false && Agent.IsHoliday == false">{{Agent.StartDateTime | date:'hh:mm a'}}</span>
+                                            <span ng-if="Agent.IsAbsent == true || Agent.IsHoliday == true">NA</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Agent.IsAbsent == false">{{Agent.EndDateTime | date:'hh:mm a'}}</span>
-                                            <span ng-if="Agent.IsAbsent == true">NA</span>
+                                            <span ng-if="Agent.IsAbsent == false && Agent.IsHoliday == false">{{Agent.EndDateTime | date:'hh:mm a'}}</span>
+                                            <span ng-if="Agent.IsAbsent == true || Agent.IsHoliday == true">NA</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Agent.IsAbsent == false">{{Agent.WorkingHours}}</span>
-                                            <span ng-if="Agent.IsAbsent == true">NA</span>
+                                            <span ng-if="Agent.IsAbsent == false && Agent.IsHoliday == false">{{Agent.WorkingHours}}</span>
+                                            <span ng-if="Agent.IsAbsent == true || Agent.IsHoliday == true">NA</span>
                                         </td>
                                         <td>
                                             {{Agent.ShiftName}}

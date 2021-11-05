@@ -30,6 +30,7 @@ namespace AMS.Model.Requests.AgentAttendance
 		public bool IsLate { get; set; }
 		public bool? IsExcused { get; set; }
 		public bool? IsAbsent { get; set; }
+		public bool? IsHoliday { get; set; }
 		public int RemainingLeaves { get; set; }
 		public int ConsecutiveLateCounter { get; set; }
 		public int DeductionInDays { get; set; }
@@ -76,6 +77,7 @@ namespace AMS.Model.Requests.AgentAttendance
 				AgentAttendance.IsExcused = attendance.IsExcused;
 				AgentAttendance.IsPresent = attendance.IsPresent;
 				AgentAttendance.IsAbsent = attendance.IsAbsent;
+				AgentAttendance.IsHoliday = attendance.IsHoliday;
 				AgentAttendance.StartDate = attendance.StartDateTime;
 				AgentAttendance.StartDateTime = attendance.StartDateTime;
 				AgentAttendance.ShiftId = attendance.ShiftId;
@@ -86,6 +88,8 @@ namespace AMS.Model.Requests.AgentAttendance
 						AgentAttendance.EndDateTime = attendance.EndDateTime;
 						TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
 						AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+						var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+						AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
 					}
 					else if (attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < attendance.Shifts.EndTime.Value.TimeOfDay)
 					{
@@ -97,6 +101,8 @@ namespace AMS.Model.Requests.AgentAttendance
 						AgentAttendance.EndDateTime = attendance.StartDateTime.Value.Date + ts;
 						TimeSpan duration = AgentAttendance.EndDateTime.Value.TimeOfDay - AgentAttendance.StartDateTime.Value.TimeOfDay;
 						AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+						var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+						AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
 					}
 				}
 				AgentAttendance.UpdatedAt = attendance.UpdatedAt;

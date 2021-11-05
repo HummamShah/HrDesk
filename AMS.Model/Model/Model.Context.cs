@@ -44,5 +44,6 @@ namespace AMS.Model.Model
         public virtual DbSet<AgentDeductions> AgentDeductions { get; set; }
         public virtual DbSet<Pay> Pay { get; set; }
         public virtual DbSet<PayDetails> PayDetails { get; set; }
+        public virtual DbSet<Holidays> Holidays { get; set; }
     }
 }

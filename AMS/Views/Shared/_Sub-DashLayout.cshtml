@@ -75,6 +75,18 @@
                                 }
                             </nav>
                         </div>
+                        @if (User.IsInRole(UserRoles.HR))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseHoliday" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                                Holidays
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseHoliday" aria-labelledby="headingthree">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Holiday/">Holidays</a>
+                                </nav>
+                            </div>
+                        }
                         <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
                             Leave
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>

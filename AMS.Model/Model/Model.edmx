@@ -55,6 +55,7 @@
           <Property Name="AgentId" Type="int" Nullable="false" />
           <Property Name="IsPresent" Type="bit" Nullable="false" />
           <Property Name="IsLate" Type="bit" Nullable="false" />
+          <Property Name="IsHoliday" Type="bit" Nullable="false" />
           <Property Name="StartDateTime" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
           <Property Name="StartDate" Type="datetime" />
@@ -192,6 +193,16 @@
           <Property Name="DocumentUrl" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="SubTitle" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Holidays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="AddedBy" Type="nvarchar(max)" />
+          <Property Name="AddedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Incentives">
           <Key>
@@ -554,6 +565,7 @@
           <EntitySet Name="Deductions" EntityType="Self.Deductions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incentives" EntityType="Self.Incentives" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
@@ -846,6 +858,7 @@
             <End Role="Pay" EntitySet="Pay" />
             <End Role="PayDetails" EntitySet="PayDetails" />
           </AssociationSet>
+          <EntitySet Name="Holidays" EntityType="AMSModel.Holidays" />
         </EntityContainer>
         <EntityType Name="Leaves">
           <Key>
@@ -992,6 +1005,7 @@
           <Property Name="ShiftId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_AgentAttendace_Agent" FromRole="AgentAttendance" ToRole="Agent" />
           <NavigationProperty Name="Shifts" Relationship="AMSModel.FK_AgentAttendace_Shifts" FromRole="AgentAttendance" ToRole="Shifts" />
+          <Property Name="IsHoliday" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Agent_Agent">
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
@@ -1294,6 +1308,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Holidays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddedAt" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1462,6 +1486,7 @@
           <EntitySetMapping Name="AgentAttendance">
             <EntityTypeMapping TypeName="AMSModel.AgentAttendance">
               <MappingFragment StoreEntitySet="AgentAttendance">
+                <ScalarProperty Name="IsHoliday" ColumnName="IsHoliday" />
                 <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
@@ -1588,6 +1613,17 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PaySlipId" ColumnName="PaySlipId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Holidays">
+            <EntityTypeMapping TypeName="AMSModel.Holidays">
+              <MappingFragment StoreEntitySet="Holidays">
+                <ScalarProperty Name="AddedAt" ColumnName="AddedAt" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

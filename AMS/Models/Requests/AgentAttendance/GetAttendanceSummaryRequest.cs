@@ -35,6 +35,7 @@ namespace AMS.Models.Requests.AgentAttendance
                     response.PresentCount = Attendances.Where(x => x.IsPresent == true).Count();
                     response.LateCount = Attendances.Where(x => x.IsLate == true).Count();
                     response.ExcuseCount = Attendances.Where(x => x.IsExcused == true).Count();
+                    response.HolidayCount = Attendances.Where(x => x.IsHoliday == true).Count();
 
                     // getting individual attendance details
                     response.AgentAttandanceList = new List<AgentAttendanceData>();
@@ -52,6 +53,8 @@ namespace AMS.Models.Requests.AgentAttendance
                                 AgentAttendance.EndDate = Attendance.EndDateTime;
                                 TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
                                 AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                                var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+                                AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
                             }
                             else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < Attendance.Shifts.EndTime.Value.TimeOfDay)
                             {
@@ -64,12 +67,16 @@ namespace AMS.Models.Requests.AgentAttendance
                                 //AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + Attendance.Shifts.EndTime.Value.TimeOfDay;
                                 TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
                                 AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                                var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+                                AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
                             }
                         }
                         AgentAttendance.IsLate = Attendance.IsLate;
                         AgentAttendance.IsExcused = Attendance.IsExcused;
                         AgentAttendance.IsPresent = Attendance.IsPresent;
                         AgentAttendance.IsAbsent = Attendance.IsAbsent;
+                        AgentAttendance.IsHoliday= Attendance.IsHoliday;
+
                         AgentAttendance.IsAttendanceMarked = Attendance.IsAttendanceMarked;
                         AgentAttendance.ShiftId = Attendance.ShiftId;
                         AgentAttendance.ShiftName = Attendance.Shifts.Name;
@@ -97,6 +104,7 @@ namespace AMS.Models.Requests.AgentAttendance
         public int AbsentCount { get; set; }
         public int LateCount { get; set; }
         public int ExcuseCount { get; set; }
+        public int HolidayCount { get; set; }
         public bool IsSuccessful { get; set; }
         public bool AttendanceIsEmpty { get; set; }
         public List<AgentAttendanceData> AgentAttandanceList { get; set; } = new List<AgentAttendanceData>();
@@ -113,6 +121,7 @@ namespace AMS.Models.Requests.AgentAttendance
         public bool IsLate { get; set; }
         public bool IsAbsent { get; set; }
         public bool IsExcused { get; set; }
+        public bool IsHoliday{ get; set; }
         public string WorkingHours { get; set; }
         public int ShiftId { get; set; }
         public string ShiftName { get; set; }

@@ -97,12 +97,7 @@
             }
 
             // ===================================================== APPLY LEAVE =========================================================
-            $scope.applyLeave = function () {
-                //console.log($scope.Leave.LeaveFrom < new Date().today);
-                //var a = new Date();
-                //console.log(a);
-                //console.log($scope.Leave);
-                
+            $scope.applyLeave = function () {                
                 if ($scope.Leave.LeaveFrom == null) {
                     toaster.pop('error', "error", "Please choose date");
                     return;
@@ -134,8 +129,6 @@
                 $scope.LeaveTemp.Reason = $scope.Leave.Reason;
                 $scope.LeaveTemp.LeaveFrom = $scope.GetDatePostFormat($scope.Leave.LeaveFrom);
                 $scope.LeaveTemp.LeaveTo = $scope.GetDatePostFormat($scope.Leave.LeaveTo);
-                //$scope.Leave.LeaveFrom = $scope.GetDatePostFormat($scope.Leave.LeaveFrom);
-                //$scope.Leave.LeaveTo = $scope.GetDatePostFormat($scope.Leave.LeaveTo);
                 $scope.AjaxPost("/api/LeaveApi/ApplyLeave", $scope.LeaveTemp).then(
                     function (response) {
                         if (response.status == 200) {

@@ -55,6 +55,10 @@
                                 <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
                                 <h6 class="mb-0 mt-3">Absent</h6>
                             </div>
+                            <div style="color: black" class="col-md-1 col-xl-auto text-center py-3">
+                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.HolidayCount}}</h6>
+                                <h6 class="mb-0 mt-3">Holiday</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,41 +73,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @*<div class="col-md-12 col-lg-12 col-xl-5">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">From:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="feather feather-calendar"></i>
-                                                </div>
-                                            </div>
-                                            <input type="date" class="form-control" ng-model="DateFrom" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">To:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="feather feather-calendar"></i>
-                                                </div>
-                                            </div>
-                                            <input type="date" class="form-control" ng-model="DateTo" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                        @*<div class="col-md-12 col-lg-12 col-xl-2">
-                            <div class="form-group mt-4">
-                                <a href="#" class="btn btn-primary btn-block" style="margin-top: 33px;" ng-click="GetAgentAttendanceRecord(DateFrom,DateTo)">GET</a>
-                            </div>
-                        </div>*@
                         <table class="table table-bordered table-responsive-sm table-responsive-xs" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr style="overflow:hidden;">
@@ -137,18 +106,19 @@
                                         <span ng-if="Attendance.IsPresent == true" style="color: forestgreen">On Time</span>
                                         <span ng-if="Attendance.IsExcused == true" style="color: blueviolet">Excused</span>
                                         <span ng-if="Attendance.IsAbsent == true" style="color:black">Absent</span>
+                                        <span ng-if="Attendance.IsHoliday == true" style="color:black">Holiday</span>
                                     </td>
                                     <td>
-                                        <span ng-if="Attendance.IsAbsent == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
-                                        <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                        <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
+                                        <span ng-if="Attendance.IsAbsent == true || Attendance.IsHoliday == true">NA</span>
                                     </td>
                                     <td>
-                                        <span ng-if="Attendance.IsAbsent == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
-                                        <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                        <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
+                                        <span ng-if="Attendance.IsAbsent == true || Attendance.IsHoliday == true">NA</span>
                                     </td>
                                     <td>
-                                        <span ng-if="Attendance.IsAbsent == false">{{Attendance.WorkingHours}}</span>
-                                        <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                        <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.WorkingHours}}</span>
+                                        <span ng-if="Attendance.IsAbsent == true || Attendance.IsHoliday == true">NA</span>
                                     </td>
                                     <td>
                                         {{Attendance.ShiftName}}

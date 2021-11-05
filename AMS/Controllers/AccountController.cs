@@ -102,10 +102,17 @@ namespace AMS.Controllers
                                 }
                                 if (TodayAttendance.Count() < 1)
                                 {
-                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(0).TimeOfDay;
+
+                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).AddMinutes(1).TimeOfDay;
                                     TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
                                     TimeSpan now = DateTime.Now.TimeOfDay;
-                                    if (now >= MarkAbsentTime)
+                                    var isTodayHoliday = db.Holidays.Where(x => x.Date == today).FirstOrDefault();
+                                    if (isTodayHoliday != null)
+                                    {
+                                        Attendance.IsHoliday = true;
+                                        Attendance.IsAbsent = false;
+                                    }
+                                    else if (now >= MarkAbsentTime)
                                     {
                                         Attendance.IsAbsent = true;
                                     }
@@ -125,7 +132,7 @@ namespace AMS.Controllers
                                                 Agent.DeductionInDays++;
                                         }
                                     }
-                                
+
                                     else
                                     {
                                         Attendance.IsPresent = true;
@@ -145,10 +152,16 @@ namespace AMS.Controllers
                                 else if (TodayAttendance.FirstOrDefault() != null && TodayAttendance.FirstOrDefault().IsAttendanceMarked == false)
                                 {
                                     TimeSpan now = DateTime.Now.TimeOfDay;
-                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(0).TimeOfDay;
+                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).AddMinutes(1).TimeOfDay;
                                     TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
                                     Attendance = TodayAttendance.FirstOrDefault();
-                                    if (now >= MarkAbsentTime)
+                                    var isTodayHoliday = db.Holidays.Where(x => x.Date == today).FirstOrDefault();
+                                    if (isTodayHoliday != null)
+                                    {
+                                        Attendance.IsHoliday = true;
+                                        Attendance.IsAbsent = false;
+                                    }
+                                    else if (now >= MarkAbsentTime)
                                     {
                                         Attendance.IsAbsent = true;
                                     }

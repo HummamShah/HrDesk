@@ -4,6 +4,7 @@
 	[AgentId] int not null,
 	[IsPresent] bit not null default(0),
 	[IsLate] bit not null default(0),
+	[IsHoliday] bit not null default(0),
 	[StartDateTime] datetime,
 	[EndDate] datetime,
 	[StartDate] datetime,

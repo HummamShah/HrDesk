@@ -80,5 +80,6 @@
     <Build Include="dbo\Tables\AgentDeductions.sql" />
     <Build Include="dbo\Tables\Deductions.sql" />
     <Build Include="dbo\Tables\PayDetails.sql" />
+    <Build Include="dbo\Tables\Holidays.sql" />
   </ItemGroup>
 </Project>

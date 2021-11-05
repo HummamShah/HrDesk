@@ -11,10 +11,9 @@
         function ($scope, $rootScope, $timeout, $q, $window, $http, Upload, toaster) {
             console.log("Connected to Pay App");
 
-            /**
-             * initializes the main index page */
+            // ============================================= INIT INDEX ===================================================
             $scope.initIndex = function () {
-                // ================= variables & constants =========================
+                // variables & constants
                 var date = new Date();
                 $scope.selectedMonth = date.getMonth();
                 $scope.selectedYear = date.getFullYear();
@@ -24,28 +23,24 @@
                 $scope.GetPayListing();
             }
 
-            /** initializes the pay slip page by calling the function to generate PaySlip of a particular agents
-             * */
+           // ============================================= PAY SLIP INIT ===================================================
             $scope.paySlipInit = function () {
                 console.log("inside payslip init");
                 $scope.GeneratePaySlip();
             }
 
-            /** initializes the edit page by binding the values of the generated salary first
-             * */
+            // ============================================= EDIT INIT ======================================================
             $scope.editInit = async function () {
                 console.log("inside edit init");
                 await $scope.GeneratePaySlip();
             }
 
-            /**
-            * calls the function GetPayListing */
+            // ============================================= GET PAY ROLL SUMMARY ===================================================
             $scope.GetPayRollSummary = function () {
                 $scope.GetPayListing();
             }
 
-            /** gets the basic info of all agents (related to pay for e.g. gross salary etc)
-             * */
+            // ============================================= GET PAY LISTING ===================================================
             $scope.GetPayListing = function () {
                 $scope.AjaxGet("/api/PayApi/GetPayRollList", { Month: $scope.selectedMonth, Year: $scope.selectedYear}).then(
                     function (response) {
@@ -56,9 +51,7 @@
                 );
             }
 
-            /**
-             * generates pay slips for the given agent id (getting from url parameter)
-             * */
+            // ============================================= GENERATE PAY SLIP ==================================================
             $scope.GeneratePaySlip = function (Month, Year) {
                 console.log("inside generate payslip");
                 var Id = $scope.GetUrlParameter("Id");
@@ -74,40 +67,27 @@
                 );
             }
 
-            /**
-            * sets the title of add row modal
-            * @param {string} title
-            */
+            // ============================================= SET MODAL TITLE ==================================================
             $scope.SetModalTitle = function (title) {
                 $scope.ModalTitle = title;
                 $scope.Row = { "Description": null, "Amount": null, "Remarks": null };
             }
 
-            /**
-             * adds a row 
-             * @param {string} type
-             */
+            // ============================================= ADD ROW ==================================================
             $scope.AddRow = function (type, row) {
                 if (type === 'Incentive') { $scope.PaySlip.IncentiveAddition.push(row); $scope.CalculateTotalAmount(type); return;}
                 else if (type === 'Tax') { $scope.PaySlip.TaxDeductions.push(row); $scope.CalculateTotalAmount(type); return;}
                 else if (type === 'Deduction') { $scope.PaySlip.DeductionsDeductions.push(row); $scope.CalculateTotalAmount(type); return;}
             }
 
-            /**
-             * removes the entire entry from the given 'type' list by 'index'
-             * @param {number} index
-             * @param {string} type
-             */
+            // ============================================= REMOVE ROW ==================================================
             $scope.RemoveRow = function (index, type) {
                 if (type === 'Incentive') { $scope.PaySlip.IncentiveAddition.splice(index, 1); $scope.CalculateTotalAmount(type); return;}
                 else if (type === 'Tax') { $scope.PaySlip.TaxDeductions.splice(index, 1); $scope.CalculateTotalAmount(type); return;}
                 else if (type === 'Deduction') { $scope.PaySlip.DeductionsDeductions.splice(index, 1); $scope.CalculateTotalAmount(type); return;}
             }
 
-            /**
-             * calculates the respective total on the change of amount
-             * @param {string} type
-             */
+            // ============================================= CALCULATE TOTAL AMOUNT ==================================================
             $scope.CalculateTotalAmount = function (type) {
                 if (type === 'Incentive') {
                     $scope.PaySlip.TotalIncentiveAddition = 0;
@@ -130,10 +110,7 @@
                 $scope.PaySlip.FinalSalary = $scope.PaySlip.BasicSalary + $scope.PaySlip.TotalIncentiveAddition - $scope.PaySlip.TotalTaxDeduction - $scope.PaySlip.TotalDeductionsDeduction;
             }
 
-            /**
-             * it calls the API to save the generated payslip in DB
-             * @param {object} paySlip
-             */
+            // ============================================= SAVE PAY SLIP ==================================================
             $scope.SavePaySlip = function (paySlip) {
                 $scope.AjaxPost("/api/PayApi/SavePaySlip", paySlip).then(
                     function (response) {

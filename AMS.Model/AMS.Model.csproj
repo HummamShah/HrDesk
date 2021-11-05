@@ -131,6 +131,9 @@
     <Compile Include="Model\Documents.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Holidays.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Incentives.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

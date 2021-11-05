@@ -208,6 +208,7 @@
     <Compile Include="Controllers\Api\DepartmentApiController.cs" />
     <Compile Include="Controllers\Api\FileUploadApiController.cs" />
     <Compile Include="Controllers\Api\HiringApiController.cs" />
+    <Compile Include="Controllers\Api\HolidayApiController.cs" />
     <Compile Include="Controllers\Api\IncentiveApiController.cs" />
     <Compile Include="Controllers\Api\LeaveApiController.cs" />
     <Compile Include="Controllers\Api\PayApiContoller.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HiringController.cs" />
+    <Compile Include="Controllers\HolidayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IncentiveController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
@@ -260,6 +262,9 @@
     <Compile Include="Models\Requests\Hiring\AddHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\EditHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\GetHiringRequest.cs" />
+    <Compile Include="Models\Requests\Holiday\AddHolidayRequest.cs" />
+    <Compile Include="Models\Requests\Holiday\GetHolidayListRequest.cs" />
+    <Compile Include="Models\Requests\Holiday\GetHolidayRequest.cs" />
     <Compile Include="Models\Requests\Incentive\AddIncentiveRequest.cs" />
     <Compile Include="Models\Requests\Incentive\EditIncentiveRequest.cs" />
     <Compile Include="Models\Requests\Incentive\GetIncentiveListRequest.cs" />
@@ -433,6 +438,7 @@
     <Content Include="Content\js\Angular\AngularControllers\TaxCtrl.js" />
     <Content Include="Content\js\Angular\AngularControllers\UserCtrl.js" />
     <Content Include="Content\js\Angular\app.js" />
+    <Content Include="Content\js\Angular\AngularControllers\HolidayCtrl.js" />
     <Content Include="Content\js\Clock.js" />
     <Content Include="Content\js\daterangepicker.js" />
     <Content Include="Content\js\jquery.min.js" />
@@ -594,6 +600,7 @@
     <Content Include="Views\Deduction\Add.cshtml" />
     <Content Include="Views\Deduction\Edit.cshtml" />
     <Content Include="Views\Pay\Edit.cshtml" />
+    <Content Include="Views\Holiday\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

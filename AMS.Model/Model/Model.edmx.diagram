@@ -44,6 +44,7 @@
         <EntityTypeShape EntityType="AMSModel.PayDetails" Width="1.5" PointX="9.75" PointY="25.75" />
         <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <AssociationConnector Association="AMSModel.FK_PayDetails_Pay" />
+        <EntityTypeShape EntityType="AMSModel.Holidays" Width="1.5" PointX="12.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

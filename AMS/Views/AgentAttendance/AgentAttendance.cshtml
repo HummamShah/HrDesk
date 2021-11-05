@@ -69,6 +69,10 @@
                                     <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
                                     <h6 class="mb-0 mt-3">Absent</h6>
                                 </div>
+                                <div style="color: black" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.HolidayCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Holiday</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,18 +120,19 @@
                                             <span ng-if="Attendance.IsPresent == true" style="color: forestgreen">On Time</span>
                                             <span ng-if="Attendance.IsExcused == true" style="color: blueviolet">Excused</span>
                                             <span ng-if="Attendance.IsAbsent == true" style="color:black">Absent</span>
+                                            <span ng-if="Attendance.IsHoliday == true" style="color:black">Holiday</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
-                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                            <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true || Attendance.IsHoliday == true">NA</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
-                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                            <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.EndDate | date:'hh:mm a'}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true || Attendance.IsHoliday == true">NA</span>
                                         </td>
                                         <td>
-                                            <span ng-if="Attendance.IsAbsent == false">{{Attendance.WorkingHours}}</span>
-                                            <span ng-if="Attendance.IsAbsent == true">NA</span>
+                                            <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.WorkingHours}}</span>
+                                            <span ng-if="Attendance.IsAbsent == true || Attendance.IsHoliday == true">NA</span>
                                         </td>
                                         <td>
                                             {{Attendance.ShiftName}}
