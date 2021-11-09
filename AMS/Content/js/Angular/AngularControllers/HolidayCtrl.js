@@ -13,6 +13,7 @@
 
             // ==================================================== INIT INDEX ==========================================================
             $scope.InitIndex = function () {
+               
                 $scope.Holiday = {};
                 $scope.AjaxGet("/api/HolidayApi/GetHolidayList").then(
                     function (response) {
@@ -26,8 +27,74 @@
                     }
                 );
             }
-
+            // =================================================== DELETE HOLIDAY ====================================================
+            $scope.DeleteHoliday = function (Id) {
+                console.log(Id);
+                $scope.AjaxPost('/Api/HolidayApi/DeleteHoliday', {Id: Id}).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            console.log(response);
+                            if (response.data.Success) {
+                                toaster.pop('success', "success", "Holiday has been Deleted!");
+                                $timeout(function () { window.location.href = '/Holiday'; }, 2000);
+                            }
+                            else if (!response.data.Success) {
+                                toaster.pop('error', "error", response.data.ValidationErrors[0]);
+                            }
+                        }
+                        else {
+                            toaster.pop('error', "error", "Could Not Delete Holiday, TRY AGAIN!");
+                        }
+                    }
+                );
+            }
+            $scope.ModalOptions = {};
+            $scope.SetHolidayModal = function (action) {
+                $scope.ModalOptions = {};
+                $scope.ModalOptions.Action = action;
+                if (action == "Edit") {
+                    $scope.ModalOptions.Heading = "Edit Holiday";
+                    //$scope.UpdateHoliday(data);
+                }if (action == "Add") {
+                    $scope.ModalOptions.Heading = "Add Holiday";
+                }
+            }
+            // =================================================== EDIT HOLIDAY ====================================================
+            $scope.UpdateHoliday = function (Holiday) {
+                $scope.ActionType = "Edit";
+                $scope.Holiday = Holiday;
+                $scope.HolidayId = Holiday.Id;
+                $scope.Holiday.Date = new Date(Holiday.Date);
+                $scope.SetHolidayModal("Edit");
+                console.log($scope.Holiday);
+            }
+            $scope.EditHoliday = function (Holiday) {
+                var Data = {
+                    Id: $scope.HolidayId,
+                    Date: Holiday.Date,
+                    Remarks: Holiday.Remarks
+                }
+                console.log(Data)
+                $scope.AjaxPost('/Api/HolidayApi/EditHoliday', Data).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            console.log(response);
+                            if (response.data.Success) {
+                                toaster.pop('success', "success", "Holiday has been Deleted!");
+                                $timeout(function () { window.location.href = '/Holiday'; }, 2000);
+                            }
+                            else if (!response.data.Success) {
+                                toaster.pop('error', "error", response.data.ValidationErrors[0]);
+                            }
+                        }
+                        else {
+                            toaster.pop('error', "error", "Could Not Delete Holiday, TRY AGAIN!");
+                        }
+                    }
+                );
+            }
             // =================================================== ADD HOLIDAY ====================================================
+
             $scope.AddHoliday = function () {
                 console.log('inside add holiday function', $scope.Holiday);
                 if ($scope.Holiday.Date == null) {
