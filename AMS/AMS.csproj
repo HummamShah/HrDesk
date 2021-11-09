@@ -247,6 +247,7 @@
     <Compile Include="Models\Requests\AgentAttendance\SignOffAttendanceRequest.cs" />
     <Compile Include="Models\Requests\AgentIncentives\GetAgentIncentivesRequest.cs" />
     <Compile Include="Models\Requests\AgentTaxes\GetAgentTaxesRequest.cs" />
+    <Compile Include="Models\Requests\Base\Response.cs" />
     <Compile Include="Models\Requests\Deduction\AddDeductionRequest.cs" />
     <Compile Include="Models\Requests\Deduction\EditDeductionRequest.cs" />
     <Compile Include="Models\Requests\Deduction\GetDeductionListRequest.cs" />
@@ -262,6 +263,8 @@
     <Compile Include="Models\Requests\Hiring\EditHiringRequest.cs" />
     <Compile Include="Models\Requests\Hiring\GetHiringRequest.cs" />
     <Compile Include="Models\Requests\Holiday\AddHolidayRequest.cs" />
+    <Compile Include="Models\Requests\Holiday\DeleteHolidayRequest.cs" />
+    <Compile Include="Models\Requests\Holiday\EditHolidayRequest.cs" />
     <Compile Include="Models\Requests\Holiday\GetHolidayListRequest.cs" />
     <Compile Include="Models\Requests\Holiday\GetHolidayRequest.cs" />
     <Compile Include="Models\Requests\Incentive\AddIncentiveRequest.cs" />
@@ -604,6 +607,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Views\DeleteApi\" />
+    <Folder Include="Views\DeleteHolidayRequest\" />
+    <Folder Include="Views\Delete\" />
+    <Folder Include="Views\DeletHolidayRequest\" />
     <Folder Include="Views\FileUpload\" />
   </ItemGroup>
   <ItemGroup>

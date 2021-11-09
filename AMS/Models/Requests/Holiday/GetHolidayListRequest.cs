@@ -9,7 +9,10 @@ namespace AMS.Models.Requests.Holiday
     {
         private AMSEntities _dbContext = new AMSEntities();
 
-            public Object RunRequest(GetHolidayListRequest request)
+        public string UserId { get; set; }
+
+
+        public Object RunRequest(GetHolidayListRequest request)
             {
                 var response = new GetHolidayListResponse();
                 try

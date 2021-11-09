@@ -19,5 +19,21 @@ namespace AMS.Controllers.Api
             var result = req.RunRequest(req);
             return result;
         }
-    }
+
+        [HttpPost]
+        public object DeleteHoliday([FromBody] DeleteHolidayRequest req)
+        {
+            req.UserId = User.Identity.GetUserId();
+            var result = req.RunRequest(req);
+            return result;
+        }
+
+        [HttpPost]
+        public object EditHoliday([FromBody] EditHolidayRequest req)
+        {
+            req.UserId = User.Identity.GetUserId();
+            var result = req.RunRequest(req);
+            return result;
+        }
+    } 
 }

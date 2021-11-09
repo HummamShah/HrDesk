@@ -11,8 +11,8 @@
         </div>
         <div class="col-sm-3 col-3">
             <div class="col-md-3 text-center mt-5">
-                <button data-toggle="modal" data-target="#addHoliday" role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded">
-                    <span class="spn">Add Holiday</span>
+                <button ng-click="SetHolidayModal('Add')" data-toggle="modal" data-target="#addHoliday" role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded">
+                    <span class="spn" >Add Holiday</span>
                 </button>
             </div>
         </div>
@@ -62,10 +62,10 @@
                                 {{Holiday.AddedAt | date:'MMM d, y'}}
                             </td>
                             <td>
-                                <a href="/Holiday/Edit?Id={{Holiday.Id}}" title="Edit"><i class="fas fa-pencil-alt ml-3"></i></a>
+                                <a href="#" data-toggle="modal" ng-click="UpdateHoliday(Holiday)" data-target="#addHoliday" title="Edit"><i class="fas fa-pencil-alt ml-3"></i></a>
                             </td>
                             <td>
-                                <a href="/Holiday/Delete?Id={{Holiday.Id}}" title="Delete"><i class="fas fa-trash-alt ml-3"></i></a>
+                            <a href="#" ng-click="DeleteHoliday(Holiday.Id)" title="Delete"><i class="fas fa-trash-alt ml-3"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -79,7 +79,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Holiday</h5>
+                    <h5 class="modal-title">{{ModalOptions.Heading}}</h5>
                     <button class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -96,7 +96,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="ml-auto mt-2">
-                        <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="AddHoliday()">Add</button>
+                        <button ng-if="ModalOptions.Action == 'Add'" class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="AddHoliday()">Add</button>
+                        
+                        <button ng-if="ModalOptions.Action == 'Edit'" class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-if="UpdateHoliday.Edit=='Edit'"  ng-click="EditHoliday(Holiday)">Edit</button>
                     </div>
                     <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
                 </div>
