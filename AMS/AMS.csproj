@@ -241,7 +241,6 @@
     <Compile Include="Models\Jobs\MyJob.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Requests\AgentAttendance\AddAgentExcuseRequest.cs" />
-    <Compile Include="Models\Requests\AgentAttendance\GetAgentAttendanceRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetEmployessListRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetListingRequest.cs" />
     <Compile Include="Models\Requests\AgentAttendance\GetAttendanceSummaryRequest.cs" />
