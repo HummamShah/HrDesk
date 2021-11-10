@@ -11,7 +11,7 @@ namespace AMS.Models.Requests.Holiday
 
     public class EditHolidayRequest
     {
-        private AMSEntities _dbchanges = new AMSEntities();
+        private AMSEntities _dbContext = new AMSEntities();
         public string UserId { get; set; }
         public DateTime Date { get; set; }
         public string Remarks { get; set; }
@@ -23,10 +23,22 @@ namespace AMS.Models.Requests.Holiday
             response.ValidationErrors = new List<string>();
             try
             {
-                var Holiday = _dbchanges.Holidays.Where(x => x.Id == request.Id).FirstOrDefault();
+                var ExistingHolidays = _dbContext.Holidays.ToList();
+
+                var Holiday = _dbContext.Holidays.Where(x => x.Id == request.Id).FirstOrDefault();
+
+                foreach (var date in ExistingHolidays)
+                {
+                    if (request.Date == date.Date)
+                    {
+                        response.ValidationErrors.Add("This date has already been added!");
+                        response.Success = false;
+                        return response;
+                    }
+                }
                 Holiday.Date = request.Date;
                 Holiday.Remarks = request.Remarks;
-                _dbchanges.SaveChanges();
+                _dbContext.SaveChanges();
                 response.Success = true;
             }
             catch (Exception e)
