@@ -66,8 +66,9 @@
                                     <img ng-if="UserIdentity.ImageUrl == null || UserIdentity.ImageUrl == '' " src="~/Content/Image/userImageAvatar.jpg" />
                                     <img ng-if="UserIdentity.ImageUrl !=null && UserIdentity.ImageUrl != '' " src={{UserIdentity.ImageUrl}} />
                                 </div>
-                                <h5 class="mb-1 text-white">{{User.FirstName}} {{User.LastName}}</h5>
-                                @*<h6 class="text-light">{{User.DepartmentEnum}}</h6>*@
+                                <h4 class="mb-1 text-white">{{User.FirstName}} {{User.LastName}}</h4>
+                                <h5 class="text-light">{{User.DepartmentName}}</h5>
+                                <h6 class="text-light">{{User.PositionName}}</h6>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group shadow-none">

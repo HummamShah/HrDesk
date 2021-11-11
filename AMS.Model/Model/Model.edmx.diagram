@@ -18,33 +18,35 @@
         <AssociationConnector Association="AMSModel.FK_LeaveDates_Leaves" />
         <EntityTypeShape EntityType="AMSModel.Shifts" Width="1.5" PointX="3" PointY="1.875" />
         <EntityTypeShape EntityType="AMSModel.Documents" Width="1.5" PointX="7.5" PointY="16.875" />
-        <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="0.75" />
         <EntityTypeShape EntityType="AMSModel.AgentAttendance" Width="1.5" PointX="7.5" PointY="2.75" />
-        <AssociationConnector Association="AMSModel.FK_Agent_Agent" />
-        <AssociationConnector Association="AMSModel.FK_Agent_Shifts" />
-        <AssociationConnector Association="AMSModel.FK_Agent_User" />
-        <AssociationConnector Association="AMSModel.FK_AgentAttendace_Agent" />
-        <AssociationConnector Association="AMSModel.FK_Documents_AgentId" />
-        <AssociationConnector Association="AMSModel.FK_Documents_UploadedBy" />
-        <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentAttendace_Shifts" />
         <EntityTypeShape EntityType="AMSModel.AgentIncentives" Width="1.5" PointX="10.5" PointY="4.75" />
         <EntityTypeShape EntityType="AMSModel.AgentTaxes" Width="1.5" PointX="12.5" PointY="8.75" />
         <EntityTypeShape EntityType="AMSModel.Incentives" Width="1.5" PointX="8.25" PointY="20.75" />
-        <AssociationConnector Association="AMSModel.FK_AgentIncentives_Agent" />
-        <AssociationConnector Association="AMSModel.FK_AgentTaxes_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentIncentives_Incentive" />
         <EntityTypeShape EntityType="AMSModel.Tax" Width="1.5" PointX="0.75" PointY="11" />
         <AssociationConnector Association="AMSModel.FK_AgentTaxes_Tax" />
         <EntityTypeShape EntityType="AMSModel.Deductions" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="AMSModel.AgentDeductions" Width="1.5" PointX="13.625" PointY="3.75" />
-        <AssociationConnector Association="AMSModel.FK_AgentDeductions_Agent" />
         <AssociationConnector Association="AMSModel.FK_AgentDeductions_Deduction" />
         <EntityTypeShape EntityType="AMSModel.Pay" Width="1.5" PointX="7.5" PointY="24.875" />
         <EntityTypeShape EntityType="AMSModel.PayDetails" Width="1.5" PointX="9.75" PointY="25.75" />
-        <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <AssociationConnector Association="AMSModel.FK_PayDetails_Pay" />
         <EntityTypeShape EntityType="AMSModel.Holidays" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AMSModel.DepartmentPositions" Width="1.5" PointX="3" PointY="10.75" />
+        <AssociationConnector Association="AMSModel.FK_DepartmentPosition_Department" />
+        <EntityTypeShape EntityType="AMSModel.Agent" Width="1.5" PointX="5.25" PointY="0.75" />
+        <AssociationConnector Association="AMSModel.FK_Agent_Agent" />
+        <AssociationConnector Association="AMSModel.FK_Agent_Shifts" />
+        <AssociationConnector Association="AMSModel.FK_Agent_User" />
+        <AssociationConnector Association="AMSModel.FK_AgentAttendace_Agent" />
+        <AssociationConnector Association="AMSModel.FK_AgentDeductions_Agent" />
+        <AssociationConnector Association="AMSModel.FK_AgentIncentives_Agent" />
+        <AssociationConnector Association="AMSModel.FK_AgentTaxes_Agent" />
+        <AssociationConnector Association="AMSModel.FK_Documents_AgentId" />
+        <AssociationConnector Association="AMSModel.FK_Documents_UploadedBy" />
+        <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
+        <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

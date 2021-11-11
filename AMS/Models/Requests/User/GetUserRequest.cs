@@ -17,7 +17,8 @@ namespace AMS.Models.Requests.User
 		public int AgentId { get; set; }
 		public string UpdatedBy { get; set; }
 		public int? DepartmentId { get; set; }
-		public string DepartmentEnum { get; set; }
+		public string PositionName { get; set; }
+		public string DepartmentName { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Address { get; set; }
@@ -73,6 +74,11 @@ namespace AMS.Models.Requests.User
 				response.Contact1 = Data.Contact1;
 				response.Contact2 = Data.Contact2;
 				response.DepartmentId = Data.DepartmentId;
+				if (response.DepartmentId.HasValue)
+				{
+					response.DepartmentName = _dbContext.Department.Where(x => x.Id == response.DepartmentId).FirstOrDefault().Name;
+				}
+				response.PositionName = Data.PositionName;
 				response.Email = Data.Email;
 				response.HasSupervisor = Data.HasSupervisor;
 				response.LastName = Data.LastName;
@@ -178,31 +184,6 @@ namespace AMS.Models.Requests.User
 					response.Certificates.Add(row);
 				}
 
-				//response.Taxes = new List<AgentTaxes.AgentTaxes>();
-				//var AgentTaxes = Data.AgentTaxes.Where(x => x.AgentId == Data.Id).ToList();
-				//foreach (var taxes in AgentTaxes) {
-				//	var Taxes = new AgentTaxes.AgentTaxes();
-				//	Taxes.Id = taxes.Id;
-				//	Taxes.TaxId = taxes.TaxId;
-				//	Taxes.TaxName = taxes.TaxName;
-				//	Taxes.AgentId = taxes.AgentId;
-				//	Taxes.AgentName = taxes.AgentName;
-				//	response.Taxes.Add(Taxes);
-				//}
-
-				//response.Incentives = new List<AgentIncentives.AgentIncentives>();
-				//var AgentIncentives = Data.AgentIncentives.Where(x => x.AgentId == Data.Id).ToList();
-				//foreach (var incentive in AgentIncentives)
-				//{
-				//	var Incentive = new AgentIncentives.AgentIncentives();
-				//	Incentive.Id = incentive.Id;
-				//	Incentive.IncentiveId = incentive.IncentiveId;
-				//	Incentive.IncentiveName = incentive.IncentiveName;
-				//	Incentive.AgentId = incentive.AgentId;
-				//	Incentive.AgentName = incentive.AgentName;
-				//	response.Incentives.Add(Incentive);
-				//}
-
 				var MonthAttendance = Data.AgentAttendance.Where(x => x.CreatedAt.Value.Date.Month == DateTime.Today.Month && x.IsAttendanceMarked == true).ToList();
 				response.AbsentCount = MonthAttendance.Where(x => x.IsAbsent == true).Count();
 				response.PresentCount = MonthAttendance.Where(x => x.IsPresent == true).Count();
@@ -214,11 +195,11 @@ namespace AMS.Models.Requests.User
 				{
 					if (TodaysAttendance.IsAbsent == false)
 						response.TodayClockIn = TodaysAttendance.StartDateTime;
-					if (response.DepartmentId.HasValue)
-					{
-						response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+                    if (response.DepartmentId.HasValue)
+                    {
+						response.DepartmentName = _dbContext.Department.Where(x => x.Id == response.DepartmentId).FirstOrDefault().Name;
 					}
-					response.IsLate = TodaysAttendance.IsLate;
+                    response.IsLate = TodaysAttendance.IsLate;
 					response.IsPresent = TodaysAttendance.IsPresent;
 					response.IsAbsent = TodaysAttendance.IsAbsent;
 					response.IsExcused = TodaysAttendance.IsExcused;
@@ -235,6 +216,11 @@ namespace AMS.Models.Requests.User
 				response.Contact1 = Data.Contact1;
 				response.Contact2 = Data.Contact2;
 				response.DepartmentId = Data.DepartmentId;
+				if (response.DepartmentId.HasValue)
+				{
+					response.DepartmentName = _dbContext.Department.Where(x => x.Id == response.DepartmentId).FirstOrDefault().Name;
+				}
+				response.PositionName = Data.PositionName;
 				response.Email = Data.Email;
 				response.HasSupervisor = Data.HasSupervisor;
 				response.LastName = Data.LastName;
@@ -246,7 +232,7 @@ namespace AMS.Models.Requests.User
 				response.Gender = Data.Gender;
 				response.ShiftId = Data.ShiftId;
 
-				// uncomment all the below liens of codes if we need the documents when an employee himslef needs it. For now, the above line of codes work only for HR when he/she provieds the AgentId through query string
+				// TODO: uncomment all the below liens of codes if we need the documents when an employee himslef needs it. For now, the above line of codes work only for HR when he/she provieds the AgentId through query string
 
 
 				//response.Docs = new List<Document>();
@@ -302,7 +288,7 @@ namespace AMS.Models.Requests.User
 						response.TodayClockIn = TodaysAttendance.StartDateTime;
 					if (response.DepartmentId.HasValue)
 					{
-						response.DepartmentEnum = ((Departments)Data.DepartmentId.Value).ToString();
+						response.DepartmentName = _dbContext.Department.Where(x=>x.Id == response.DepartmentId).FirstOrDefault().Name;
 					}
 					response.IsLate = TodaysAttendance.IsLate;
 					response.IsPresent = TodaysAttendance.IsPresent;

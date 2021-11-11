@@ -19,12 +19,12 @@ namespace AMS.Model.Model
         {
             this.Agent1 = new HashSet<Agent>();
             this.AgentAttendance = new HashSet<AgentAttendance>();
+            this.AgentDeductions = new HashSet<AgentDeductions>();
+            this.AgentIncentives = new HashSet<AgentIncentives>();
+            this.AgentTaxes = new HashSet<AgentTaxes>();
             this.Documents = new HashSet<Documents>();
             this.Documents1 = new HashSet<Documents>();
             this.Leaves = new HashSet<Leaves>();
-            this.AgentIncentives = new HashSet<AgentIncentives>();
-            this.AgentTaxes = new HashSet<AgentTaxes>();
-            this.AgentDeductions = new HashSet<AgentDeductions>();
             this.Pay = new HashSet<Pay>();
         }
     
@@ -38,6 +38,8 @@ namespace AMS.Model.Model
         public string Address { get; set; }
         public Nullable<int> Designation { get; set; }
         public Nullable<int> DepartmentId { get; set; }
+        public string PositionName { get; set; }
+        public string JobDescription { get; set; }
         public int ShiftId { get; set; }
         public string Email { get; set; }
         public string ImageUrl { get; set; }
@@ -60,11 +62,11 @@ namespace AMS.Model.Model
         public string ApprovedBy { get; set; }
         public string Remarks { get; set; }
         public string Gender { get; set; }
+        public decimal Salary { get; set; }
         public string ApprovalImageUrl { get; set; }
         public string DocumentsImageUrl { get; set; }
         public string CompanyBelonging { get; set; }
         public string ExitEmployeeFormImageUrl { get; set; }
-        public decimal Salary { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agent> Agent1 { get; set; }
@@ -74,17 +76,17 @@ namespace AMS.Model.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentAttendance> AgentAttendance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documents> Documents { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documents> Documents1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Leaves> Leaves { get; set; }
+        public virtual ICollection<AgentDeductions> AgentDeductions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentIncentives> AgentIncentives { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentTaxes> AgentTaxes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AgentDeductions> AgentDeductions { get; set; }
+        public virtual ICollection<Documents> Documents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documents> Documents1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Leaves> Leaves { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pay> Pay { get; set; }
     }

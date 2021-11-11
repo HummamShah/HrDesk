@@ -33,6 +33,7 @@ namespace AMS.Models.Requests.User
 		public int? Designation { get; set; }
 		public int? DepartmentId { get; set; }
 		public string DepartmentName { get; set; }
+		public string JobDescription { get; set; }
 		public string Email { get; set; }
 		public string Address { get; set; }
 		public string CreatedBy { get; set; }
@@ -69,6 +70,7 @@ namespace AMS.Models.Requests.User
 				temp.CreatedAt = d.CreatedAt;
 				temp.CreatedBy = d.CreatedBy;
 				temp.DepartmentId = d.DepartmentId;
+				temp.JobDescription = d.JobDescription;
 				temp.Designation = d.Designation;
 				if (d.DepartmentId.HasValue)
 				{

@@ -18,6 +18,12 @@ namespace AMS.Models.Requests.Pay
             try
             {
                 var Agent = _dbContext.Agent.Where(x => x.Id == request.Id).FirstOrDefault();
+                // validation if the salary is neither zero nor less than zero
+                if (Agent.Salary <= 0) {
+                    response.IsSuccessful = false;
+                    response.ValidationErrors.Add("Please set the salary first");
+                    return response;
+                }
                 response.AgentId = request.Id;
                 response.AgentName = Agent.FisrtName + " " + Agent.LastName;
                 response.Month = request.Month;     //DateTime.Now.Month;

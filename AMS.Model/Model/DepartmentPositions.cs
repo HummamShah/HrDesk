@@ -12,15 +12,17 @@ namespace AMS.Model.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class AgentDeductions
+    public partial class DepartmentPositions
     {
         public int Id { get; set; }
-        public int AgentId { get; set; }
-        public int DeductionId { get; set; }
-        public string AgentName { get; set; }
-        public string DeductionName { get; set; }
+        public int DeptId { get; set; }
+        public string DeptName { get; set; }
+        public string PositionName { get; set; }
+        public Nullable<int> PositionOrder { get; set; }
+        public string JobDescription { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
     
-        public virtual Deductions Deductions { get; set; }
-        public virtual Agent Agent { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

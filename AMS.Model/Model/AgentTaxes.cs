@@ -20,7 +20,7 @@ namespace AMS.Model.Model
         public string AgentName { get; set; }
         public string TaxName { get; set; }
     
-        public virtual Agent Agent { get; set; }
         public virtual Tax Tax { get; set; }
+        public virtual Agent Agent { get; set; }
     }
 }

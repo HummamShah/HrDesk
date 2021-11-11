@@ -25,7 +25,7 @@ namespace AMS.Models.Requests.AgentAttendance
                     Id = _dbContext.Agent.Where(x => x.UserId == request.CurrentUserId).FirstOrDefault().Id;
                 }
                 var tomorrow = DateTime.Today.AddDays(1);
-                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id && x.Date != tomorrow).OrderBy(x => x.CreatedAt).ToList();
+                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id && x.Date < tomorrow).OrderBy(x => x.CreatedAt).ToList();
                 var firstOfMonth = new DateTime(request.Year, request.Month + 1, 1);
                 var lastOFMonth = firstOfMonth.AddMonths(1).AddDays(-1);
                 Attendances = Attendances.Where(x => x.Date >= firstOfMonth && x.Date <= lastOFMonth).ToList();
@@ -41,49 +41,52 @@ namespace AMS.Models.Requests.AgentAttendance
                     response.AgentAttandanceList = new List<AgentAttendanceData>();
                     foreach (var Attendance in Attendances)
                     {
-                        var AgentAttendance = new AgentAttendanceData();
-                        AgentAttendance.Id = Attendance.Id;
-                        AgentAttendance.Date = Attendance.Date;
-                        AgentAttendance.StartDate = Attendance.StartDateTime;
-
-                        if (Attendance.StartDateTime.HasValue)
+                        if (Attendance.CreatedAt.Value.Date == DateTime.Today && !Attendance.IsAttendanceMarked) { }
+                        else
                         {
-                            if (Attendance.EndDateTime != null)
+                            var AgentAttendance = new AgentAttendanceData();
+                            AgentAttendance.Id = Attendance.Id;
+                            AgentAttendance.Date = Attendance.Date;
+                            AgentAttendance.StartDate = Attendance.StartDateTime;
+
+                            if (Attendance.StartDateTime.HasValue)
                             {
-                                AgentAttendance.EndDate = Attendance.EndDateTime;
-                                TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
-                                AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
-                                var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
-                                AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                if (Attendance.EndDateTime != null)
+                                {
+                                    AgentAttendance.EndDate = Attendance.EndDateTime;
+                                    TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+                                    AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                                    var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+                                    AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                }
+                                else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < Attendance.Shifts.EndTime.Value.TimeOfDay)
+                                {
+                                    AgentAttendance.WorkingHours = "Currently Working";
+                                }
+                                else
+                                {
+                                    TimeSpan ts = new TimeSpan(17, 30, 0);
+                                    AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + ts;
+                                    //AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + Attendance.Shifts.EndTime.Value.TimeOfDay;
+                                    TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
+                                    AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
+                                    var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+                                    AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                }
                             }
-                            else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < Attendance.Shifts.EndTime.Value.TimeOfDay)
-                            {
-                                AgentAttendance.WorkingHours = "Currently Working";
-                            }
-                            else
-                            {
-                                TimeSpan ts = new TimeSpan(17, 30, 0);
-                                AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + ts;
-                                //AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + Attendance.Shifts.EndTime.Value.TimeOfDay;
-                                TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
-                                AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
-                                var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
-                                AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
-                            }
+                            AgentAttendance.IsLate = Attendance.IsLate;
+                            AgentAttendance.IsExcused = Attendance.IsExcused;
+                            AgentAttendance.IsPresent = Attendance.IsPresent;
+                            AgentAttendance.IsAbsent = Attendance.IsAbsent;
+                            AgentAttendance.IsHoliday = Attendance.IsHoliday;
+                            AgentAttendance.IsAttendanceMarked = Attendance.IsAttendanceMarked;
+                            AgentAttendance.ShiftId = Attendance.ShiftId;
+                            AgentAttendance.ShiftName = Attendance.Shifts.Name;
+
+                            response.AgentAttandanceList.Add(AgentAttendance);
                         }
-                        AgentAttendance.IsLate = Attendance.IsLate;
-                        AgentAttendance.IsExcused = Attendance.IsExcused;
-                        AgentAttendance.IsPresent = Attendance.IsPresent;
-                        AgentAttendance.IsAbsent = Attendance.IsAbsent;
-                        AgentAttendance.IsHoliday= Attendance.IsHoliday;
-
-                        AgentAttendance.IsAttendanceMarked = Attendance.IsAttendanceMarked;
-                        AgentAttendance.ShiftId = Attendance.ShiftId;
-                        AgentAttendance.ShiftName = Attendance.Shifts.Name;
-
-                        response.AgentAttandanceList.Add(AgentAttendance);
-                        response.IsSuccessful = true;
                     }
+                    response.IsSuccessful = true;
                 }
                 else {
                     response.AttendanceIsEmpty = true;

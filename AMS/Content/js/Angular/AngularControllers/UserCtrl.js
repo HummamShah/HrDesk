@@ -17,6 +17,7 @@
                 var Filters = ["FirstName", "LastName", "Email", "DepartmentName", "CreatedBy"];
                 $scope.SetSearchColoumns(Filters);
                 $scope.Assignment = {};
+                $scope.PositionDropDown = [];
                 $scope.AssignmentTypes = ["FirstName", "Email", "DepartmentName", "CreatedBy"];
                 var ListingOptions = {
                     CurrentPage: 1,
@@ -26,6 +27,35 @@
                 $scope.InitListing();
             }
 
+            // ====================================================== ADD INIT ============================================================
+
+            $scope.AddInit = function () {
+
+                $scope.GetIncentiveList();
+                $scope.GetTaxList();
+                $scope.GetShiftList();
+                $scope.GetDeductionList();
+                $scope.User = {};
+                $scope.Document = {};
+                GetDepartments();
+                $scope.PositionDropDown = [];
+                $scope.User.Docs = [{ "Title": "Resume", "ChooseInput": false }, { "Title": "CNIC front", "ChooseInput": false }, { "Title": "CNIC back", "ChooseInput": false }, { "Title": "Appointment Letter", "ChooseInput": false }];
+                $scope.User.EducationalDocs = [];
+                $scope.User.Certificates = [];
+                $scope.User.Taxes = [];
+                $scope.User.Incentives = [];
+                $scope.User.Deductions = [];
+                $scope.AddEducationalDocRow();
+                $scope.AddCertificateRow();
+                console.log($scope.User.EducationalDocs);
+                $scope.AjaxGet("/api/DepartmentApi/GetDepartmentsDropdown", null).then(
+                    function (response) {
+                        console.log(response);
+                        $scope.Departments = response.data.Data;
+                    }
+                );
+            }
+
             // ====================================================== EDIT INIT ============================================================
 
             $scope.EditInit = function () {
@@ -33,44 +63,46 @@
                 $scope.GetTaxList();
                 $scope.GetDeductionList();
                 $scope.GetShiftList();
+                $scope.PositionDropDown = [];
                 $scope.User = {};
                 GetDepartments();
                 var Id = $scope.GetUrlParameter("Id");
                 $scope.AjaxGet("/api/UserApi/GetUser", { Id: Id }).then(
                     function (response) {
-                        console.log(response);
                         $scope.User = response.data;
-                        console.log($scope.User.Incentives);
-                        console.log("inside edit init");
                         $scope.User.Docs.forEach(x => {
                             x.ChooseInput = false;
-                            console.log(x.ChooseInput);
                         });
-                        console.log($scope.User.Docs);
+                        $scope.GetPositionsByDepartmentId($scope.User.DepartmentId);
                     }
                 );
             }
 
+            // ====================================================== ADD ADMIN INIT ============================================================
+
+            $scope.AddAdminInit = function () {
+                $scope.Admin = {};
+            }
             // ====================================================== ADD USER ============================================================
 
             $scope.AddUser = function (user) {
-                console.log(user.Taxes);
-                console.log(user.Deductions);
-                console.log(user.Incentives);
+                user.Position = JSON.parse(user.Position);
+
+                console.log(user.Position);
                 if (user.FirstName == null || user.FirstName == "") {
                     toaster.pop('error', "error", "Please Enter First Name");
                     return;
                 }
-                if (user.Email == null || user.Email == "") {
-                    toaster.pop('error', "error", "Please Enter Email!");
+                if (user.LastName == null || user.LastName == "") {
+                    toaster.pop('error', "error", "Please Enter Last Name");
                     return;
                 }
                 if (user.Contact1 == null) {
                     toaster.pop('error', "error", "Please Enter Primary Contact!");
                     return;
                 }
-                if (user.Password == null || user.Password == "") {
-                    toaster.pop('error', "error", "Please Enter Password!");
+                if (user.Email == null || user.Email == "") {
+                    toaster.pop('error', "error", "Please Enter Correct Email!");
                     return;
                 }
                 if (user.RemainingLeaves == null) {
@@ -89,8 +121,20 @@
                     toaster.pop('error', "error", "The total of Annual & Medical Leaves should be equal to Remaining Leaves!");
                     return;
                 }
+                if (user.DepartmentId == null) {
+                    toaster.pop('error', "error", "Please select department");
+                    return;
+                }
                 if (user.ShiftId == null) {
                     toaster.pop('error', "error", "Please select shift");
+                    return;
+                }
+                if (user.Password == null || user.Password == "") {
+                    toaster.pop('error', "error", "Please Enter Password!");
+                    return;
+                }
+                if (user.ConfirmPassword == null || user.ConfirmPassword == "") {
+                    toaster.pop('error', "error", "Please Enter Confirm Password!");
                     return;
                 }
                 if (user.Password != user.ConfirmPassword) {
@@ -98,7 +142,6 @@
                     return;
                 }
                 $scope.IsServiceRunning = true;
-
                 $scope.AjaxPost("/api/UserApi/RegisterUser", user).then(
                     function (response) {
                         console.log(response);
@@ -141,8 +184,33 @@
 
             $scope.EditUser = function (user) {
                 console.log(user);
+                user.Position = JSON.parse(user.Position);
+                if (user.Contact1 == null || user.Contact1 ==  "") {
+                    toaster.pop('error', "error", "Please Enter Primary Contact!");
+                    return;
+                }
+                if (user.RemainingLeaves == null) {
+                    toaster.pop('error', "error", "Please Select Remaining Leaves!");
+                    return;
+                }
+                if (user.AnnualLeaves == null) {
+                    toaster.pop('error', "error", "Please Select Annual Leaves!");
+                    return;
+                }
+                if (user.MedicalLeaves == null) {
+                    toaster.pop('error', "error", "Please Select Medical Leaves!");
+                    return;
+                }
                 if ((user.AnnualLeaves + user.MedicalLeaves) != user.RemainingLeaves) {
                     toaster.pop('error', "error", "The total of Annual & Medical Leaves should be equal to Remaining Leaves!");
+                    return;
+                }
+                if (user.DepartmentId == null || user.DepartmentId == 0) {
+                    toaster.pop('error', "error", "Please select department");
+                    return;
+                }
+                if (user.ShiftId == null) {
+                    toaster.pop('error', "error", "Please select shift");
                     return;
                 }
                 $scope.AjaxPost("/api/UserApi/EditUser", user).then(
@@ -157,11 +225,13 @@
                 );
             }
 
-            // ====================================================== ADD ADMIN INIT ============================================================
-
-            $scope.AddAdminInit = function () {
-                $scope.Admin = {};
+            // ================================================== USER JD FOR MODAL ================================================
+            $scope.ShowUserJD = function (userJD) {
+                console.log(userJD);
+                $scope.UserJD = userJD;
             }
+
+            // ========================================================= GET DEPRATMENTS ================================================
             function GetDepartments() {
                 $scope.AjaxGet("/api/DepartmentApi/GetDepartmentsDropdown", null).then(
                     function (response) {
@@ -171,30 +241,11 @@
                 );
             }
 
-            // ====================================================== ADD INIT ============================================================
-
-            $scope.AddInit = function () {
-
-                $scope.GetIncentiveList();
-                $scope.GetTaxList();
-                $scope.GetShiftList();
-                $scope.GetDeductionList();
-                $scope.User = {};
-                $scope.Document = {};
-                $scope.User.Docs = [{ "Title": "Resume", "ChooseInput": false }, { "Title": "CNIC front", "ChooseInput": false }, { "Title": "CNIC back", "ChooseInput": false }, { "Title": "Appointment Letter", "ChooseInput": false }];
-                $scope.User.EducationalDocs = [];
-                $scope.User.Certificates = [];
-                $scope.User.Taxes = [];
-                $scope.User.Incentives = [];
-                $scope.AddEducationalDocRow();
-                $scope.AddCertificateRow();
-                console.log($scope.User.EducationalDocs);
-                $scope.AjaxGet("/api/DepartmentApi/GetDepartmentsDropdown", null).then(
-                    function (response) {
-                        console.log(response);
-                        $scope.Departments = response.data.Data;
-                    }
-                );
+            // ==================================================== GET POSITIONS DROP DOWN =========================================================
+            $scope.GetPositionsByDepartmentId = function (deptId) {
+                $scope.Departments[deptId-1].PositionsList.forEach( (x) => { 
+                    $scope.PositionDropDown.push(x);
+                });
             }
 
             // =================================================== GET SHIFTS LIST =========================================================
@@ -396,13 +447,35 @@
                 console.log(Doc.ChooseInput);
             }
 
+            // =======================================================  VALIDATE CONTACT NUMBER 1 & 2 ====================================================
+            // TODO: make a generic function for any number instead of the below specific functions
+            $scope.IsContactNumber1 = function () {
+                for (var i = 0; i < $scope.User.Contact1.length; i++) {
+                    if (isNaN($scope.User.Contact1[i])) {
+                        var temp = $scope.User.Contact1.split('');
+                        temp.splice(i, 1);
+                        $scope.User.Contact1 = temp.join('');
+                        return;
+                    }
+                }
+            }
+            $scope.IsContactNumber2 = function () {
+                for (var i = 0; i < $scope.User.Contact2.length; i++) {
+                    if (isNaN($scope.User.Contact2[i])) {
+                        var temp = $scope.User.Contact2.split('');
+                        temp.splice(i, 1);
+                        $scope.User.Contact2 = temp.join('');
+                        return;
+                    }
+                }
+            }
+
             // ========================================================== DISABLE INPUT FIELD ===============================================================
             $scope.DisableInputField = function (Doc) {
                 console.log(Doc.ChooseInput);
                 Doc.ChooseInput = false;
                 console.log(Doc.ChooseInput);
             }
-
 
             $scope.UploadAdminImage = function (files, prop) {
                 $scope.GetSingleImageUploadUrl(files).then(

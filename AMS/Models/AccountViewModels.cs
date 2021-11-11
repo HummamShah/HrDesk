@@ -2,6 +2,7 @@
 using AMS.Models.Requests.FileUpload;
 using AMS.Models.Requests.Incentive;
 using AMS.Models.Requests.Tax;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -105,6 +106,7 @@ namespace AMS.Models
         public string Address { get; set; }
         public int? Designation { get; set; }
         public int? DepartmentId { get; set; }
+        public Position Position { get; set; }
         public string ImageUrl { get; set; }
         public string Gender { get; set; }
         public bool? HasSupervisor { get; set; }
@@ -155,5 +157,16 @@ namespace AMS.Models
         public bool Success { get; set; }
         public IEnumerable<string> ValidationErrors { get; set; }
         public bool IsRoleAdded { get; set; }
+    }
+    public class Position {
+        public int Id { get; set; }
+        public int DeptId{ get; set; }
+        public string DeptName{ get; set; }
+        public int PositionOrder { get; set; }
+        public string PositionName { get; set; }
+        public string JobDescription { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Department{ get; set; }
     }
 }

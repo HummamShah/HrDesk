@@ -9,11 +9,6 @@
         <div class="col-sm-9 col-9">
             <h3 class="mt-4">Pay Roll</h3>
         </div>
-        @*<div class="col-sm-3 col-3">
-            <a href="/User/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
-                Add <span><i class="fas fa-plus"></i></span>
-            </a>
-        </div>*@
     </div>
     <div class="card mb-4">
         <div class="card-header">
@@ -75,7 +70,7 @@
                                 {{AgentPayDetail.DeductionInDays}}
                             </td>
                             <td>
-                                <a ng-if="!AgentPayDetail.IsGenerated" href="/Pay/PaySlip?Id={{AgentPayDetail.Id}}&Month={{selectedMonth}}&Year={{selectedYear}}" title="Genrate Pay Slip"><i class="fas fa-pencil-alt ml-3"></i></a>
+                                <a ng-if="!AgentPayDetail.IsGenerated" href="/Pay/PaySlip?Id={{AgentPayDetail.Id}}&Month={{selectedMonth}}&Year={{selectedYear}}" title="Genrate Pay Slip"><i class="fas fa-plus ml-3"></i></a>
                                 <a ng-if="AgentPayDetail.IsGenerated" title="View Pay Slip"><i class="fas fa-eye ml-3"></i></a>
                             </td>
                         </tr>

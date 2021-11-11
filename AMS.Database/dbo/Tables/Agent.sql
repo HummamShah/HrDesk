@@ -10,6 +10,8 @@
 	[Address] nvarchar(max),
 	[Designation] int,
 	[DepartmentId] int,
+	[PositionName] nvarchar(max),
+	[JobDescription] nvarchar(max),
 	[ShiftId] int not null default(1),
 	[Email] nvarchar(max),
 	[ImageUrl] nvarchar(max),

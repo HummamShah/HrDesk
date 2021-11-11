@@ -174,6 +174,9 @@ namespace AMS.Controllers.Api
                     AgentData.MedicalLeaves = model.MedicalLeaves;
                     AgentData.AnnualLeaves = model.AnnualLeaves;
                     AgentData.Gender = model.Gender;
+                    AgentData.DepartmentId = model.DepartmentId;
+                    AgentData.PositionName = model.Position.PositionName;
+                    AgentData.JobDescription = model.Position.JobDescription;
                     AgentData.ShiftId = model.ShiftId;
                     AgentData.Salary = model.Salary;
                     if (model.HasSupervisor.HasValue)
@@ -313,6 +316,8 @@ namespace AMS.Controllers.Api
             var AgentData = db.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
             var DepartId = AgentData.DepartmentId;
             AgentData.DepartmentId = request.DepartmentId;
+            AgentData.PositionName = request.Position.PositionName;
+            AgentData.JobDescription = request.Position.JobDescription;
             AgentData.FisrtName = request.FirstName;
             AgentData.LastName = request.LastName;
             AgentData.Address = request.Address;

@@ -38,7 +38,7 @@ namespace AMS.Model.Model
         public int ShiftId { get; set; }
         public bool IsHoliday { get; set; }
     
-        public virtual Agent Agent { get; set; }
         public virtual Shifts Shifts { get; set; }
+        public virtual Agent Agent { get; set; }
     }
 }

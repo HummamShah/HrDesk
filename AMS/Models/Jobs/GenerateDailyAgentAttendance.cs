@@ -61,6 +61,19 @@ namespace AMS.Models.Jobs
                 var yesterday = DateTime.Today.AddDays(-1);
                 var Attendance = _dbContext.AgentAttendance.Where(x => x.Date == yesterday).ToList();
 
+                // marking holiday for yesterday
+                var wasYesterdayHoliday = _dbContext.Holidays.Where(x => x.Date == yesterday).FirstOrDefault();
+                if (wasYesterdayHoliday != null)
+                {
+                    foreach (var attendance in Attendance) {
+                        attendance.IsHoliday = true;
+                        attendance.IsAbsent = false;
+                        attendance.IsAttendanceMarked = true;
+                        _dbContext.SaveChanges();
+                    }
+                    return;
+                }
+
                 // deducting leave for yesterday's absentees
                 var Absentees = Attendance.Where(x => x.IsAbsent == true).ToList();
                 foreach (var absentAgent in Absentees)

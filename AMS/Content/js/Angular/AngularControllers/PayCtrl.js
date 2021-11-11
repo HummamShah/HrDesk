@@ -61,8 +61,14 @@
                 console.log(Year);
                 $scope.AjaxPost("/api/PayApi/GeneratePaySlip", { Id: Id, Month, Year}).then(
                     function (response) {
-                        console.log(response);
-                        $scope.PaySlip = response.data;
+                        if (response.data.IsSuccessful) {
+                            console.log(response);
+                            $scope.PaySlip = response.data;
+                        }
+                        else {
+                            toaster.pop('error', 'error', response.data.ValidationErrors[0]);
+                            $timeout(function () { window.location.href = '/Pay'; }, 2000);
+                        }
                     }
                 );
             }
@@ -119,7 +125,7 @@
                             console.log("inside success");
                             $timeout(function () { window.location.href = '/Pay'; }, 2000);
                         }
-                        else {toaster.pop(response.data.ValidationErrors[0]);}
+                        else {toaster.pop('error', 'error', response.data.ValidationErrors[0]);}
                     }
                 );
             }

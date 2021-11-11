@@ -88,7 +88,7 @@ namespace AMS.Controllers
                         if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday && DateTime.Now.DayOfWeek != DayOfWeek.Saturday)
                         {
                             //Mark Agent Present;
-                            var Attendance = new Model.Model.AgentAttendance();
+                            var Attendance = new AgentAttendance();
                             var today = DateTime.Now.Date;
                             var yesterday = today.AddDays(-1);
                             var Agent = db.Agent.Where(x => x.Email == model.Email).FirstOrDefault();
@@ -102,7 +102,6 @@ namespace AMS.Controllers
                                 }
                                 if (TodayAttendance.Count() < 1)
                                 {
-
                                     TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).AddMinutes(1).TimeOfDay;
                                     TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
                                     TimeSpan now = DateTime.Now.TimeOfDay;

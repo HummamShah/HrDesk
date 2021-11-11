@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AMS.Model.Requests.Department
 {
@@ -20,6 +18,7 @@ namespace AMS.Model.Requests.Department
         public DateTime UpdatedAt { get; set; }
         public string UpdatedBy { get; internal set; }
 
+        public List<DepartmentPositions> PositionsList = new List<DepartmentPositions>();
         public object RunRequest(EditDepartmentRequest req)
         {
             var response = new EditDepartmentResponse();
@@ -27,6 +26,28 @@ namespace AMS.Model.Requests.Department
             Department.Name = req.Name;
             Department.Description = req.Description;
             Department.UpdatedAt = DateTime.Now;
+
+            // removing the previously added positions
+            var Positions = db.DepartmentPositions.Where(x => x.DeptId == req.Id).ToList();
+            foreach (var position in Positions)
+            {
+                db.DepartmentPositions.Remove(position);
+                db.SaveChanges();
+            }
+
+            // adding department positions
+            foreach (var deptPosition in req.PositionsList)
+            {
+                var DeptPosition = new DepartmentPositions();
+                DeptPosition.DeptId = req.Id;
+                DeptPosition.DeptName = req.Name;
+                DeptPosition.PositionOrder = deptPosition.PositionOrder;
+                DeptPosition.PositionName = deptPosition.PositionName;
+                DeptPosition.JobDescription = deptPosition.JobDescription;
+                db.DepartmentPositions.Add(DeptPosition);
+                db.SaveChanges();
+            }
+
             db.SaveChanges();
             return response;
         }

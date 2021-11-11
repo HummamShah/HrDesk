@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AMS.Model.Requests.Department
 {
@@ -17,6 +15,7 @@ namespace AMS.Model.Requests.Department
         public string Name { get; set; }
         public string Description { get; set; }
         public string CreatedBy { get; set; }
+        public string PositionsNames { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
     public class GetListingRequest
@@ -35,6 +34,8 @@ namespace AMS.Model.Requests.Department
                 temp.Description = depart.Description;
                 temp.CreatedBy = depart.CreatedBy;
                 temp.CreatedAt = depart.CreatedAt;
+                temp.PositionsNames = String.Join(", ", db.DepartmentPositions.Where(x => x.DeptId == depart.Id).Select(y => y.PositionName));
+                
                 response.Data.Add(temp);
             }
             return response;

@@ -4,12 +4,6 @@
 }
 <div class="container-fluid" ng-controller="AgentAttendanceCtrl" ng-init="initIndex()">
     <div class="row" style="margin-top: 20px;">
-        @*<div class="col-xl-5 col-md-12 col-lg-12">
-            <canvas id="bar" class="chart-bar"
-                    chart-data="data" chart-labels="labels">
-                chart-series="series"
-            </canvas>
-        </div>*@
         <div class="col-xl-5 col-md-12 col-lg-auto">
             <div class="card">
                 <div class="card-header  border-0">
@@ -39,7 +33,7 @@
                             </div>
                         </div>
                         <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
-                            <div style="color: chartreuse" class="col-md-1 col-xl-auto text-center py-3">
+                            <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.PresentCount}}</h6>
                                 <h6 class="mb-0 mt-3">On Time</h6>
                             </div>
@@ -55,7 +49,7 @@
                                 <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
                                 <h6 class="mb-0 mt-3">Absent</h6>
                             </div>
-                            <div style="color: black" class="col-md-1 col-xl-auto text-center py-3">
+                            <div style="color: darkcyan" class="col-md-1 col-xl-auto text-center py-3">
                                 <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.HolidayCount}}</h6>
                                 <h6 class="mb-0 mt-3">Holiday</h6>
                             </div>
@@ -106,7 +100,7 @@
                                         <span ng-if="Attendance.IsPresent == true" style="color: forestgreen">On Time</span>
                                         <span ng-if="Attendance.IsExcused == true" style="color: blueviolet">Excused</span>
                                         <span ng-if="Attendance.IsAbsent == true" style="color:black">Absent</span>
-                                        <span ng-if="Attendance.IsHoliday == true" style="color:black">Holiday</span>
+                                        <span ng-if="Attendance.IsHoliday == true" style="color: darkcyan">Holiday</span>
                                     </td>
                                     <td>
                                         <span ng-if="Attendance.IsAbsent == false && Attendance.IsHoliday == false">{{Attendance.StartDate | date:'hh:mm a'}}</span>

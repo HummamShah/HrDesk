@@ -17,8 +17,8 @@ namespace AMS.Model.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Shifts()
         {
-            this.Agent = new HashSet<Agent>();
             this.AgentAttendance = new HashSet<AgentAttendance>();
+            this.Agent = new HashSet<Agent>();
         }
     
         public int Id { get; set; }
@@ -27,8 +27,8 @@ namespace AMS.Model.Model
         public Nullable<System.DateTime> EndTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Agent> Agent { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentAttendance> AgentAttendance { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Agent> Agent { get; set; }
     }
 }

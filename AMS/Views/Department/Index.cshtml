@@ -41,6 +41,9 @@
                                 Created By
                             </th>
                             <th>
+                                Positions
+                            </th>
+                            <th>
                                 Action
                             </th>
                         </tr>
@@ -64,29 +67,14 @@
                                 {{Department.CreatedBy}}
                             </td>
                             <td>
+                                {{Department.PositionsNames}}
+                            </td>
+                            <td>
                                 <a href="/Department/Edit?Id={{Department.Id}}" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                @*<div class="float-right">
-                        <button ng-disabled="ListingOptions.CurrentPage == 1" ng-click="PreviousPage()">Previous</button>
-                        <span>{{ListingOptions.CurrentPage}}</span>
-                        <button ng-disabled="ListingOptions.TotalRecords < (ListingOptions.CurrentPage  * ListingOptions.PageSize)" ng-click="NextPage()">Next</button>
-                        <span>
-                            <small class="Pagination-text">Showing from {{(ListingOptions.PageSize  * (ListingOptions.CurrentPage - 1))}} - {{ListingOptions.PageSize * ListingOptions.CurrentPage}} outof {{ListingOptions.TotalRecords}}</small>
-                        </span>
-                    </div>
-                    <div class="float-left">
-                        <span>
-                            <small class="Pagination-text">Show Per Page</small>
-                            <select ng-model="ListingOptions.PageSize" ng-click="UpdatePaginationSize()">
-                                <option value="10" ng-selected="ListingOptions.PageSize == 10">10</option>
-                                <option value="50" ng-selected="ListingOptions.PageSize == 50">50</option>
-                                <option value="100" ng-selected="ListingOptions.PageSize == 100">100</option>
-                            </select>
-                        </span>
-                    </div>*@
             </div>
         </div>
     </div>
