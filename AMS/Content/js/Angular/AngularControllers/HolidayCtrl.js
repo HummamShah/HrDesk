@@ -89,6 +89,10 @@
                     toaster.pop('error', "error", "Please choose weekdays");
                     return;
                 }
+                if ($scope.Holiday.Remarks == '' || $scope.Holiday.Remarks == null) {
+                    toaster.pop('error', "error", "Please enter remarks!");
+                    return;
+                }
                 
                 console.log(Data)
                 $scope.AjaxPost('/Api/HolidayApi/EditHoliday', Data).then(
@@ -106,7 +110,7 @@
                             }
                         }
                         else {
-                            toaster.pop('error', "error", "Could Not Delete Holiday, TRY AGAIN!");
+                            toaster.pop('error', "error", "Could Not Edit Holiday, TRY AGAIN!");
                         }
                     }
                 );
@@ -125,6 +129,10 @@
                 }
                 if ($scope.Holiday.Date.getDay() == 0 || $scope.Holiday.Date.getDay() == 6) {
                     toaster.pop('error', "error", "Please choose weekdays");
+                    return;
+                }
+                if ($scope.Holiday.Remarks == '' || $scope.Holiday.Remarks == null) {
+                    toaster.pop('error', "error", "Please enter remarks!");
                     return;
                 }
                 console.log($scope.Holiday.Date);

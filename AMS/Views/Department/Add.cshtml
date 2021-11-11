@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <button type="button" class="btn btn-success float-right" ng-click="AddDepartment(Department)">Add Dept</button>
+                                        <button type="button" class="btn btn-success float-right" ng-click="AddDepartment(Department)" data-dismiss="modal">Add Dept</button>
                                         <a href="/Department/" title="Cancel" class="btn btn-danger float-right">Cancel</a>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="ml-auto mt-2">
-                        <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="AddPosition(DepartmentPosition)" data-dismiss="modal">Add {{ModalTitle}}</button>
+                        <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="AddPosition(DepartmentPosition)">Add {{ModalTitle}}</button>
                     </div>
                     <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
                 </div>

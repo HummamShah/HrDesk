@@ -18,6 +18,7 @@ namespace AMS.Models.Requests.User
 		public string UpdatedBy { get; set; }
 		public int? DepartmentId { get; set; }
 		public string PositionName { get; set; }
+		public string JobDescription { get; set; }
 		public string DepartmentName { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -221,6 +222,7 @@ namespace AMS.Models.Requests.User
 					response.DepartmentName = _dbContext.Department.Where(x => x.Id == response.DepartmentId).FirstOrDefault().Name;
 				}
 				response.PositionName = Data.PositionName;
+				response.JobDescription = Data.JobDescription;
 				response.Email = Data.Email;
 				response.HasSupervisor = Data.HasSupervisor;
 				response.LastName = Data.LastName;

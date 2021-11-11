@@ -607,10 +607,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="Views\DeleteApi\" />
-    <Folder Include="Views\DeleteHolidayRequest\" />
-    <Folder Include="Views\Delete\" />
-    <Folder Include="Views\DeletHolidayRequest\" />
     <Folder Include="Views\FileUpload\" />
   </ItemGroup>
   <ItemGroup>
