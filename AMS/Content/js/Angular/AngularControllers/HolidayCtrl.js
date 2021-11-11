@@ -30,7 +30,7 @@
             // =================================================== DELETE HOLIDAY ====================================================
             $scope.DeleteHoliday = function (Id) {
                 console.log(Id);
-                $scope.AjaxPost('/Api/HolidayApi/DeleteHoliday', {Id: Id}).then(
+                $scope.AjaxPost('/Api/HolidayApi/DeleteHoliday', { Id: Id}).then(
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
@@ -47,6 +47,9 @@
                         }
                     }
                 );
+            }
+            $scope.SaveId = function (Id) {
+                $scope.DeleteId = Id;
             }
             $scope.ModalOptions = {};
             $scope.SetHolidayModal = function (action) {
@@ -71,16 +74,31 @@
             $scope.EditHoliday = function (Holiday) {
                 var Data = {
                     Id: $scope.HolidayId,
-                    Date: Holiday.Date,
+                    Date: $scope.GetDatePostFormat($scope.Holiday.Date),
                     Remarks: Holiday.Remarks
                 }
+                if ($scope.Holiday.Date == null) {
+                    toaster.pop('error', "error", "Please choose date");
+                    return;
+                }
+                if ($scope.Holiday.Date < new Date()) {
+                    toaster.pop('error', "error", "You can't add holiday for passed dates");
+                    return;
+                }
+                if ($scope.Holiday.Date.getDay() == 0 || $scope.Holiday.Date.getDay() == 6) {
+                    toaster.pop('error', "error", "Please choose weekdays");
+                    return;
+                }
+                
                 console.log(Data)
                 $scope.AjaxPost('/Api/HolidayApi/EditHoliday', Data).then(
+                    
                     function (response) {
                         if (response.status == 200) {
                             console.log(response);
+                           
                             if (response.data.Success) {
-                                toaster.pop('success', "success", "Holiday has been Deleted!");
+                                toaster.pop('success', "success", "Holiday has been Edited!");
                                 $timeout(function () { window.location.href = '/Holiday'; }, 2000);
                             }
                             else if (!response.data.Success) {
