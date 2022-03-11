@@ -11,13 +11,17 @@
 
         function ($scope, $rootScope, $timeout, $q, $window, $http, toaster) {
         console.log("Connected to AgentAttendanceCtrl App");
-
+           
         // ================================================== INIT INDEX (Agent) ==========================================================
-        $scope.initIndex = function () {
+            $scope.initIndex = function () {
+                var Id = $scope.UserIdentity;
             var date = new Date();
             $scope.DateFrom = new Date(date.getFullYear(), date.getMonth(), 1);
             $scope.DateTo = new Date();
-            $scope.GetSummary(null, $scope.selectedYear, $scope.selectedMonth,);
+
+            console.log("Id", Id)
+            console.log("newVr", $scope.UserIdentityInit());
+            /*$scope.GetSummary(null, $scope.selectedYear, $scope.selectedMonth,);*/
             $scope.searchedMonth = $scope.selectedMonth;
         }
 
@@ -32,6 +36,7 @@
         // ================================================== INIT INDEX (HR: Single Employee) ==========================================================
         $scope.initIndexHRagent = function () {
             $scope.GetAllEmployeesList();
+            $scope.AgentAttendance = {};
         }
 
         // ================================================== GET All EMPLOYESS LIST ==========================================================
@@ -89,9 +94,9 @@
         }
 
         // ================================================= GET MONTH SUMMARY ============================================================
-        $scope.GetSummary = function (AgentId, Year, Month) {
-            console.log(AgentId, Year, Month);
-            $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { AgentId: AgentId , Year: Year, Month: Month }).then(
+            $scope.GetSummary = function (Employee, Date) {
+                console.log("EMployee And Date", Employee, Date)
+                $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { Date: $scope.GetDatePostFormat(Date), AgentId: $scope.UserIdentity.Id, AgentsId: Employee.Id }).then(
                 function (response) {
                     if (response.status == 200) {
                         $scope.Summary = response.data;

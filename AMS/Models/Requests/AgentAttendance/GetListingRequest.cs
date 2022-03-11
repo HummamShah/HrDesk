@@ -90,8 +90,11 @@ namespace AMS.Model.Requests.AgentAttendance
 							AgentAttendance.EndDateTime = attendance.EndDateTime;
 							TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
 							AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
-							var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
-							AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                            if (AgentAttendance.WorkingHours != "")
+                            {
+								var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
+								AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+							}
 						}
 						else if (attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < attendance.Shifts.EndTime.Value.TimeOfDay)
 						{

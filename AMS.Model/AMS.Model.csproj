@@ -161,6 +161,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Notification.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Pay.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

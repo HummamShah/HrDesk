@@ -26,6 +26,7 @@ namespace AMS.Model.Model
             this.Documents1 = new HashSet<Documents>();
             this.Leaves = new HashSet<Leaves>();
             this.Pay = new HashSet<Pay>();
+            this.Notification = new HashSet<Notification>();
         }
     
         public int Id { get; set; }
@@ -89,5 +90,7 @@ namespace AMS.Model.Model
         public virtual ICollection<Leaves> Leaves { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pay> Pay { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notification { get; set; }
     }
 }

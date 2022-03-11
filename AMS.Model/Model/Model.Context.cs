@@ -46,5 +46,6 @@ namespace AMS.Model.Model
         public virtual DbSet<Holidays> Holidays { get; set; }
         public virtual DbSet<DepartmentPositions> DepartmentPositions { get; set; }
         public virtual DbSet<Agent> Agent { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
     }
 }

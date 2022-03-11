@@ -38,8 +38,8 @@ namespace AMS.Models.Requests.User
 
 			//TODO set data  according to type = pmd,presale,lead
 			var Data = _dbContext.Agent.Where(x => x.UserId == req.UserId).FirstOrDefault();
-			/*response.Id = Data.Id;*/
-			response.FirstName = Data.FisrtName;
+            response.Id = Data.Id;
+            response.FirstName = Data.FisrtName;
 			response.LastName = Data.LastName;
 			response.ImageUrl = Data.ImageUrl;
 			response.Role = Data.AspNetUsers.AspNetRoles.Select(x => x.Name).ToList();

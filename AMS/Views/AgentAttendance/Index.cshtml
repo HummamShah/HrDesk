@@ -4,57 +4,47 @@
 }
 <div class="container-fluid" ng-controller="AgentAttendanceCtrl" ng-init="initIndex()">
     <div class="row" style="margin-top: 20px;">
-        <div class="col-xl-5 col-md-12 col-lg-auto">
+        <div class="col-12">
             <div class="card">
-                <div class="card-header  border-0">
-                    <h4 class="card-title">Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
+                <div class="card-header border-0">
+                    <h4 class="card-title d-flex justify-content-center">Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
                 </div>
-                <div class="card-body pt-0 pb-0">
+                <div class="card-body">
                     <div class="row mb-0 pb-0">
                         <div class="row mb-0 pb-0 ml-4">
-                            <div class="col-md-1 col-xl-auto text-center py-3">
-                                <select ng-model="selectedMonth">
-                                    <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
-                                </select>
+                            <div class='col-sm-3 align-self-center'>
+                                <label class="form-control-sm-5">Select Date:</label>
                             </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3">
-                                <select ng-model="selectedYear">
-                                    <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
-                                </select>
+                            <div class='col-sm-5 align-self-center'>
+                                <input type="date" class="form-control form-control-sm-5" ng-model="Date">
                             </div>
-                            <div class="col-md-1 col-xl-auto text-center py-3">
-                                <button class="btn btn-primary btn-block col-md-1 col-xl-auto" style="margin-top: -5px;" ng-click="GetSummary(null, selectedYear, selectedMonth)">GET SUMMARY</button>
+                            <div class='col-sm-4 align-self-center'>
+                                <button class="btn btn-primary btn-block form-control-sm-5" ng-click="GetSummary(Date)">GET SUMMARY</button>
                             </div>
-
-                            <div class="col-md-1 col-xl-auto text-center py-3 ml-5" ng-if="Summary.AttendanceIsEmpty">
-                                <div>
-                                    There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}
+                        </div>
+                            <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.PresentCount}}</h6>
+                                    <h6 class="mb-0 mt-3">On Time</h6>
+                                </div>
+                                <div style="color: red" class="col-md-1 col-xl-auto text-center py-3 ">
+                                    <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{Summary.LateCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Late</h6>
+                                </div>
+                                <div style="color: blueviolet" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.ExcuseCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Excused</h6>
+                                </div>
+                                <div style="color: black" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Absent</h6>
+                                </div>
+                                <div style="color: darkcyan" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.HolidayCount}}</h6>
+                                    <h6 class="mb-0 mt-3">Holiday</h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
-                            <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.PresentCount}}</h6>
-                                <h6 class="mb-0 mt-3">On Time</h6>
-                            </div>
-                            <div style="color: red" class="col-md-1 col-xl-auto text-center py-3 ">
-                                <h6 class=" avatar avatar-md bradius fs-20 bg-orange-transparent">{{Summary.LateCount}}</h6>
-                                <h6 class="mb-0 mt-3">Late</h6>
-                            </div>
-                            <div style="color: blueviolet" class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.ExcuseCount}}</h6>
-                                <h6 class="mb-0 mt-3">Excused</h6>
-                            </div>
-                            <div style="color: black" class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.AbsentCount}}</h6>
-                                <h6 class="mb-0 mt-3">Absent</h6>
-                            </div>
-                            <div style="color: darkcyan" class="col-md-1 col-xl-auto text-center py-3">
-                                <h6 class="avatar avatar-md bradius fs-20 bg-danger-transparent">{{Summary.HolidayCount}}</h6>
-                                <h6 class="mb-0 mt-3">Holiday</h6>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -126,3 +116,4 @@
         </div>
     </div>
 </div>
+

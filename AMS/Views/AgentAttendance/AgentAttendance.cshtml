@@ -8,49 +8,30 @@
 {
     <div class="container-fluid" ng-controller="AgentAttendanceCtrl" ng-init="initIndexHRagent()">
         <div class="row" style="margin-top: 20px;">
-            @*<div class="col-xl-5 col-md-12 col-lg-12">
-                    <canvas id="bar" class="chart-bar"
-                            chart-data="data" chart-labels="labels">
-                        chart-series="series"
-                    </canvas>
-                </div>*@
-            <div class="col-xl-5 col-md-12 col-lg-auto">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header  border-0">
                         <h4 class="card-title">Summary for {{months[searchedMonth].name}} {{selectedYear}}</h4>
                     </div>
                     <div class="card-body pt-0 pb-0">
                         <div class="row mb-0 pb-0">
-                            <div class="row mb-0 pb-0 ml-4">
-                                <div class="col-md-1 col-xl-auto text-center py-3">
-                                    <select ng-model="selectedEmployee">
-                                        <option disabled ng-selected value="">Select Agent</option>
-                                        <option ng-repeat="employee in EmployeesList" value={{employee.Id}} ng-selected="employee.Id == selectedEmployee">{{employee.Name}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 col-xl-auto text-center py-3">
-                                    <select ng-model="selectedMonth">
-                                        <option ng-repeat="month in months" value={{month.id}} ng-selected="month.id == selectedMonth">{{month.name}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 col-xl-auto text-center py-3">
-                                    <select ng-model="selectedYear">
-                                        <option ng-repeat="year in years" value={{year}} ng-selected="year == selectedYear">{{year}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 col-xl-auto text-center py-3">
-                                    <button class="btn btn-primary btn-block col-md-1 col-xl-auto" ng-disabled ="selectedEmployee== null" style="margin-top: -5px;" ng-click="GetSummary(selectedEmployee, selectedYear, selectedMonth)">GET SUMMARY</button>
-                                </div>
+                            <div class="col-md-4 text-center py-3 align-self-center">
+                                <ui-select ng-model="AgentAttendance.Agent" theme="select2" style="width:100%">
+                                    <ui-select-match placeholder="Select a Employee in the list...">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in EmployeesList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-md-3 text-center py-3">
+                                <input type="date" class="form-control" ng-model="Date">
+                            </div>
+                            <div class="col-md-3 text-center py-3">
+                                <button class="btn btn-primary btn-block form-control-sm-5" ng-disabled="AgentAttendance.Agent== null" ng-click="GetSummary(AgentAttendance.Agent,Date)">GET SUMMARY</button>
+                            </div>
 
-                                <div style="margin-top: 11px;">
-                                    <button class="btn btn-primary pull-right" ng-disabled="AttendanceList.length == 0 || AttendanceList == null" ng-click="Export('AgentAttendanceReport', 'agentAttendanceTable')"><i class="fas fa-file-excel"></i></button>
-                                </div>
-
-                                <div class="col-md-1 col-xl-auto text-center py-3 ml-5" ng-if="Summary.AttendanceIsEmpty">
-                                    <div>
-                                        There is no histroy for {{months[searchedMonth].name}} {{selectedYear}}
-                                    </div>
-                                </div>
+                            <div class="col-md-1 text-center py-3">
+                                <button class="btn btn-primary pull-right" ng-disabled="AttendanceList.length == 0 || AttendanceList == null" ng-click="Export('AgentAttendanceReport', 'agentAttendanceTable')"><i class="fas fa-file-excel"></i></button>
                             </div>
                             <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
                                 <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
@@ -147,5 +128,7 @@
         </div>
     </div>
 }
+
+
 
 

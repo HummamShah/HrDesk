@@ -19,9 +19,6 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Designation" Type="int" />
           <Property Name="DepartmentId" Type="int" />
-          <Property Name="PositionName" Type="nvarchar(max)" />
-          <Property Name="JobDescription" Type="nvarchar(max)" />
-          <Property Name="ShiftId" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="ImageUrl" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
@@ -43,11 +40,14 @@
           <Property Name="ApprovedBy" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="Gender" Type="nvarchar(max)" />
-          <Property Name="Salary" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="ApprovalImageUrl" Type="nvarchar(max)" />
           <Property Name="DocumentsImageUrl" Type="nvarchar(max)" />
           <Property Name="CompanyBelonging" Type="nvarchar(max)" />
           <Property Name="ExitEmployeeFormImageUrl" Type="nvarchar(max)" />
+          <Property Name="ShiftId" Type="int" Nullable="false" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="JobDescription" Type="nvarchar(max)" />
+          <Property Name="PositionName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -57,7 +57,6 @@
           <Property Name="AgentId" Type="int" Nullable="false" />
           <Property Name="IsPresent" Type="bit" Nullable="false" />
           <Property Name="IsLate" Type="bit" Nullable="false" />
-          <Property Name="IsHoliday" Type="bit" Nullable="false" />
           <Property Name="StartDateTime" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
           <Property Name="StartDate" Type="datetime" />
@@ -76,6 +75,7 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ShiftId" Type="int" Nullable="false" />
+          <Property Name="IsHoliday" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AgentDeductions">
           <Key>
@@ -254,6 +254,22 @@
           <Property Name="Reason" Type="nvarchar(max)" />
           <Property Name="DaysCount" Type="int" />
         </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar(max)" />
+          <Property Name="UpdatedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="Pay">
           <Key>
             <PropertyRef Name="Id" />
@@ -262,7 +278,6 @@
           <Property Name="AgentId" Type="int" />
           <Property Name="AgentName" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar(max)" />
-          <Property Name="MonthEnum" Type="nvarchar(max)" />
           <Property Name="Year" Type="int" />
           <Property Name="PaySlipUrl" Type="nvarchar(max)" />
           <Property Name="GeneratedOn" Type="datetime" />
@@ -273,6 +288,7 @@
           <Property Name="TotalTaxDeduction" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TotalDeductionsDeduction" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TotalIncentiveAddition" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MonthEnum" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PayDetails">
           <Key>
@@ -554,6 +570,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Notification_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pay_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="Pay" Type="Self.Pay" Multiplicity="*" />
@@ -597,6 +625,7 @@
           <EntitySet Name="Incentives" EntityType="Self.Incentives" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDates" EntityType="Self.LeaveDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leaves" EntityType="Self.Leaves" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayDetails" EntityType="Self.PayDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
@@ -680,6 +709,10 @@
           <AssociationSet Name="FK_Leaves_Agent" Association="Self.FK_Leaves_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Leaves" EntitySet="Leaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_Agent" Association="Self.FK_Notification_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
           <AssociationSet Name="FK_Pay_Agent" Association="Self.FK_Pay_Agent">
             <End Role="Agent" EntitySet="Agent" />
@@ -896,6 +929,11 @@
           <AssociationSet Name="FK_Pay_Agent" Association="AMSModel.FK_Pay_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Pay" EntitySet="Pay" />
+          </AssociationSet>
+          <EntitySet Name="Notification" EntityType="AMSModel.Notification" />
+          <AssociationSet Name="FK_Notification_Agent" Association="AMSModel.FK_Notification_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
@@ -1251,6 +1289,7 @@
           <NavigationProperty Name="Documents1" Relationship="AMSModel.FK_Documents_UploadedBy" FromRole="Agent" ToRole="Documents" />
           <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
           <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
+          <NavigationProperty Name="Notification" Relationship="AMSModel.FK_Notification_Agent" FromRole="Agent" ToRole="Notification" />
         </EntityType>
         <Association Name="FK_Agent_Agent">
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
@@ -1380,6 +1419,35 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Pay">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Notification_Agent" FromRole="Notification" ToRole="Agent" />
+        </EntityType>
+        <Association Name="FK_Notification_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="AMSModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
               <PropertyRef Name="AgentId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1706,6 +1774,23 @@
                 <ScalarProperty Name="FisrtName" ColumnName="FisrtName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notification">
+            <EntityTypeMapping TypeName="AMSModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

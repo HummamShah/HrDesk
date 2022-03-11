@@ -10,88 +10,127 @@ namespace AMS.Models.Requests.AgentAttendance
         private AMSEntities _dbContext = new AMSEntities();
         public string CurrentUserId{ get; set; }
         public int? AgentId{ get; set; }
-        public int Month{ get; set; }
-        public int Year{ get; set; }
+        public int? AgentsId{ get; set; }
+        public DateTime Date{ get; set; }
+      /*  public int Month{ get; set; }
+        public int Year{ get; set; }*/
         public Object RunRequest(GetAttendanceSummaryRequest request)
         {
             var response = new GetAttendanceSummaryResponse();
+            response.AgentAttandanceList = new List<AgentAttendanceData>();
             try
             {
-                int Id;
-                if (request.AgentId != null) {
-                    Id = request.AgentId.Value;
-                }
-                else {
-                    Id = _dbContext.Agent.Where(x => x.UserId == request.CurrentUserId).FirstOrDefault().Id;
-                }
-                var tomorrow = DateTime.Today.AddDays(1);
-                var Attendances = _dbContext.AgentAttendance.Where(x => x.Agent.Id == Id && x.Date < tomorrow).OrderBy(x => x.CreatedAt).ToList();
-                var firstOfMonth = new DateTime(request.Year, request.Month + 1, 1);
-                var lastOFMonth = firstOfMonth.AddMonths(1).AddDays(-1);
-                Attendances = Attendances.Where(x => x.Date >= firstOfMonth && x.Date <= lastOFMonth).ToList();
-                if (Attendances.Count != 0)
+                if (request.AgentId != null)
                 {
-                    response.AbsentCount = Attendances.Where(x => x.IsAbsent == true).Count();
-                    response.PresentCount = Attendances.Where(x => x.IsPresent == true).Count();
-                    response.LateCount = Attendances.Where(x => x.IsLate == true).Count();
-                    response.ExcuseCount = Attendances.Where(x => x.IsExcused == true).Count();
-                    response.HolidayCount = Attendances.Where(x => x.IsHoliday == true).Count();
+                    var Attendances = _dbContext.AgentAttendance.Where(x => x.Date.Value.Month == request.Date.Month && x.AgentId == request.AgentId).ToList();
 
-                    // getting individual attendance details
-                    response.AgentAttandanceList = new List<AgentAttendanceData>();
-                    foreach (var Attendance in Attendances)
+                    if (Attendances.Count != 0)
                     {
-                        if (Attendance.CreatedAt.Value.Date == DateTime.Today && !Attendance.IsAttendanceMarked) { }
-                        else
+                        response.AbsentCount = Attendances.Where(x => x.IsAbsent == true).Count();
+                        response.PresentCount = Attendances.Where(x => x.IsPresent == true).Count();
+                        response.LateCount = Attendances.Where(x => x.IsLate == true).Count();
+                        response.ExcuseCount = Attendances.Where(x => x.IsExcused == true).Count();
+                        response.HolidayCount = Attendances.Where(x => x.IsHoliday == true).Count();
+                        // getting individual attendance details
+                        foreach (var Attendance in Attendances)
                         {
-                            var AgentAttendance = new AgentAttendanceData();
-                            AgentAttendance.Id = Attendance.Id;
-                            AgentAttendance.Date = Attendance.Date;
-                            AgentAttendance.StartDate = Attendance.StartDateTime;
-
+                            var AGD = new AgentAttendanceData();
+                            AGD.Date = Attendance.Date;
+                            AGD.IsLate = Attendance.IsLate;
+                            AGD.IsExcused = Attendance.IsExcused;
+                            AGD.IsPresent = Attendance.IsPresent;
+                            AGD.IsAbsent = Attendance.IsAbsent;
+                            AGD.IsHoliday = Attendance.IsHoliday;
+                            AGD.IsAttendanceMarked = Attendance.IsAttendanceMarked;
+                            AGD.ShiftId = Attendance.ShiftId;
+                            AGD.ShiftName = Attendance.Shifts.Name;
+                            AGD.StartDate = Attendance.StartDateTime;
                             if (Attendance.StartDateTime.HasValue)
                             {
                                 if (Attendance.EndDateTime != null)
                                 {
-                                    AgentAttendance.EndDate = Attendance.EndDateTime;
-                                    TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
-                                    AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
-                                    var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
-                                    AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                    AGD.EndDate = Attendance.EndDateTime;
+                                    TimeSpan duration = AGD.EndDate.Value.TimeOfDay - AGD.StartDate.Value.TimeOfDay;
+                                    AGD.WorkingHours = duration.TotalHours.ToString("#.##");
+                                    var time = TimeSpan.FromHours(Convert.ToDouble(AGD.WorkingHours));
+                                    AGD.WorkingHours = time.Hours + "h " + time.Minutes + "m";
                                 }
                                 else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < Attendance.Shifts.EndTime.Value.TimeOfDay)
                                 {
-                                    AgentAttendance.WorkingHours = "Currently Working";
+                                    AGD.WorkingHours = "Currently Working";
                                 }
                                 else
                                 {
                                     TimeSpan ts = new TimeSpan(17, 30, 0);
-                                    AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + ts;
-                                    //AgentAttendance.EndDate = Attendance.StartDateTime.Value.Date + Attendance.Shifts.EndTime.Value.TimeOfDay;
-                                    TimeSpan duration = AgentAttendance.EndDate.Value.TimeOfDay - AgentAttendance.StartDate.Value.TimeOfDay;
-                                    AgentAttendance.WorkingHours = duration.TotalHours.ToString("#.##");
-                                    var time = TimeSpan.FromHours(Convert.ToDouble(AgentAttendance.WorkingHours));
-                                    AgentAttendance.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                    AGD.EndDate = Attendance.StartDateTime.Value.Date + ts;
+                                    TimeSpan duration = AGD.EndDate.Value.TimeOfDay - AGD.StartDate.Value.TimeOfDay;
+                                    AGD.WorkingHours = duration.TotalHours.ToString("#.##");
+                                    var time = TimeSpan.FromHours(Convert.ToDouble(AGD.WorkingHours));
+                                    AGD.WorkingHours = time.Hours + "h " + time.Minutes + "m";
                                 }
                             }
-                            AgentAttendance.IsLate = Attendance.IsLate;
-                            AgentAttendance.IsExcused = Attendance.IsExcused;
-                            AgentAttendance.IsPresent = Attendance.IsPresent;
-                            AgentAttendance.IsAbsent = Attendance.IsAbsent;
-                            AgentAttendance.IsHoliday = Attendance.IsHoliday;
-                            AgentAttendance.IsAttendanceMarked = Attendance.IsAttendanceMarked;
-                            AgentAttendance.ShiftId = Attendance.ShiftId;
-                            AgentAttendance.ShiftName = Attendance.Shifts.Name;
+                            response.AgentAttandanceList.Add(AGD);
+                            response.IsSuccessful = true;
 
-                            response.AgentAttandanceList.Add(AgentAttendance);
                         }
                     }
-                    response.IsSuccessful = true;
                 }
-                else {
-                    response.AttendanceIsEmpty = true;
-                    response.IsSuccessful = true;
+                if (request.AgentsId != null)
+                {
+                    var Attendances = _dbContext.AgentAttendance.Where(x => x.Date.Value.Month == request.Date.Month && x.AgentId == request.AgentsId).ToList();
+
+                    if (Attendances.Count != 0)
+                    {
+                        response.AbsentCount = Attendances.Where(x => x.IsAbsent == true).Count();
+                        response.PresentCount = Attendances.Where(x => x.IsPresent == true).Count();
+                        response.LateCount = Attendances.Where(x => x.IsLate == true).Count();
+                        response.ExcuseCount = Attendances.Where(x => x.IsExcused == true).Count();
+                        response.HolidayCount = Attendances.Where(x => x.IsHoliday == true).Count();
+                        // getting individual attendance details
+                        foreach (var Attendance in Attendances)
+                        {
+                            var AGD = new AgentAttendanceData();
+                            AGD.Date = Attendance.Date;
+                            AGD.IsLate = Attendance.IsLate;
+                            AGD.IsExcused = Attendance.IsExcused;
+                            AGD.IsPresent = Attendance.IsPresent;
+                            AGD.IsAbsent = Attendance.IsAbsent;
+                            AGD.IsHoliday = Attendance.IsHoliday;
+                            AGD.IsAttendanceMarked = Attendance.IsAttendanceMarked;
+                            AGD.ShiftId = Attendance.ShiftId;
+                            AGD.ShiftName = Attendance.Shifts.Name;
+                            AGD.StartDate = Attendance.StartDateTime;
+                            if (Attendance.StartDateTime.HasValue)
+                            {
+                                if (Attendance.EndDateTime != null)
+                                {
+                                    AGD.EndDate = Attendance.EndDateTime;
+                                    TimeSpan duration = AGD.EndDate.Value.TimeOfDay - AGD.StartDate.Value.TimeOfDay;
+                                    AGD.WorkingHours = duration.TotalHours.ToString("#.##");
+                                    var time = TimeSpan.FromHours(Convert.ToDouble(AGD.WorkingHours));
+                                    AGD.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                }
+                                else if (Attendance.StartDateTime.Value.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < Attendance.Shifts.EndTime.Value.TimeOfDay)
+                                {
+                                    AGD.WorkingHours = "Currently Working";
+                                }
+                                else
+                                {
+                                    TimeSpan ts = new TimeSpan(17, 30, 0);
+                                    AGD.EndDate = Attendance.StartDateTime.Value.Date + ts;
+                                    TimeSpan duration = AGD.EndDate.Value.TimeOfDay - AGD.StartDate.Value.TimeOfDay;
+                                    AGD.WorkingHours = duration.TotalHours.ToString("#.##");
+                                    var time = TimeSpan.FromHours(Convert.ToDouble(AGD.WorkingHours));
+                                    AGD.WorkingHours = time.Hours + "h " + time.Minutes + "m";
+                                }
+                            }
+                            response.AgentAttandanceList.Add(AGD);
+                            response.IsSuccessful = true;
+
+                        }
+                    }
                 }
+              
             }
             catch (Exception e)
             {
@@ -110,10 +149,10 @@ namespace AMS.Models.Requests.AgentAttendance
         public int HolidayCount { get; set; }
         public bool IsSuccessful { get; set; }
         public bool AttendanceIsEmpty { get; set; }
-        public List<AgentAttendanceData> AgentAttandanceList { get; set; } = new List<AgentAttendanceData>();
+        public List<AgentAttendanceData> AgentAttandanceList { get; set; }
         public List<string> ValidationErrors { get; set; } = new List<string>();
     }
-    public class AgentAttendanceData
+ public class AgentAttendanceData
     {
         public int Id { get; set; }
         public DateTime? Date { get; set; }

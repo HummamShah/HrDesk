@@ -25,5 +25,7 @@ namespace AMS.Model.Model
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
+    
+        public virtual Agent Agent { get; set; }
     }
 }

@@ -47,6 +47,8 @@
         <AssociationConnector Association="AMSModel.FK_Documents_UploadedBy" />
         <AssociationConnector Association="AMSModel.FK_Leaves_Agent" />
         <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
+        <EntityTypeShape EntityType="AMSModel.Notification" Width="1.5" PointX="7.5" PointY="0.75" />
+        <AssociationConnector Association="AMSModel.FK_Notification_Agent" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
