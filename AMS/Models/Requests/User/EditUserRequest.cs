@@ -16,6 +16,7 @@ namespace AMS.Models.Requests.User
         public int AgentId { get; set; }
         public string UpdatedBy { get; set; }
         public int DepartmentId { get; set; }
+        public string PositionName { get; set; }
         public Position Position { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

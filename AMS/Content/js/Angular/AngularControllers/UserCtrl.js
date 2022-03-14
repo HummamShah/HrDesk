@@ -180,11 +180,23 @@
                 );
             }
 
+            // ====================================================== Reset Password ============================================================
+            $scope.ResetPassword = function (Email) {
+                $scope.AjaxPost("/api/UserApi/RegisterUser", { Email: Email}).then(
+                    function (response) {
+                        console.log("Success", response);
+                        if (response.status == 200 && response.data.Success) {
+                            toaster.pop('success', "success", "Password Reset Successfully!");
+                            $timeout(function () { window.location.href = '/User'; }, 3000);
+                        } else {
+                            toaster.pop('error', "error", "Could Not Reset User Password!");
+                        }
+                    }
+                );
+            }
             // ====================================================== EDIT USER ============================================================
 
             $scope.EditUser = function (user) {
-                console.log(user);
-                user.Position = JSON.parse(user.Position);
                 if (user.Contact1 == null || user.Contact1 ==  "") {
                     toaster.pop('error', "error", "Please Enter Primary Contact!");
                     return;

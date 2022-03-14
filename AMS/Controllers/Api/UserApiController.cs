@@ -150,6 +150,13 @@ namespace AMS.Controllers.Api
         {
             var response = new RegisterUserResponse();
             var RolesToBeAdded = new List<string>();
+            if (model.UserId == null)
+            {
+                var User = db.AspNetUsers.Where(x => x.Email == model.Email).FirstOrDefault();
+                var RemovePassword = _userManager.RemovePassword(User.Id);
+                var AddNewPassword = await _userManager.AddPasswordAsync(User.Id, "Password123$");
+                response.Success = true;
+            }
             if (ModelState.IsValid && model.ConfirmPassword == model.Password)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; //We can put username field instead of email
@@ -316,8 +323,11 @@ namespace AMS.Controllers.Api
             var AgentData = db.Agent.Where(x => x.Id == request.AgentId).FirstOrDefault();
             var DepartId = AgentData.DepartmentId;
             AgentData.DepartmentId = request.DepartmentId;
-            AgentData.PositionName = request.Position.PositionName;
-            AgentData.JobDescription = request.Position.JobDescription;
+            AgentData.PositionName = request.PositionName;
+            if (request.Position !=null)
+            {
+                AgentData.JobDescription = request.Position.JobDescription;
+            }
             AgentData.FisrtName = request.FirstName;
             AgentData.LastName = request.LastName;
             AgentData.Address = request.Address;
