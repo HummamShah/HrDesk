@@ -94,18 +94,33 @@
         }
 
         // ================================================= GET MONTH SUMMARY ============================================================
-            $scope.GetSummary = function (Employee, Date) {
+            $scope.GetSummary = function (Date,Employee) {
                 console.log("EMployee And Date", Employee, Date)
-                $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { Date: $scope.GetDatePostFormat(Date), AgentId: $scope.UserIdentity.Id, AgentsId: Employee.Id }).then(
-                function (response) {
-                    if (response.status == 200) {
-                        $scope.Summary = response.data;
-                        $scope.AttendanceList = response.data.AgentAttandanceList;
-                        $scope.searchedMonth = $scope.selectedMonth;
-                        console.log($scope.Summary);
-                    }
+                if (Employee != null) {
+                    $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { Date: $scope.GetDatePostFormat(Date), AgentsId: Employee.Id }).then(
+                        function (response) {
+                            if (response.status == 200) {
+                                $scope.Summary = response.data;
+                                $scope.AttendanceList = response.data.AgentAttandanceList;
+                                $scope.searchedMonth = $scope.selectedMonth;
+                                console.log($scope.Summary);
+                            }
+                        }
+                    );
                 }
-            );
+                else {
+                    $scope.AjaxPost("/api/AgentAttendanceApi/GetSummary", { Date: $scope.GetDatePostFormat(Date), AgentId: $scope.UserIdentity.Id }).then(
+                        function (response) {
+                            if (response.status == 200) {
+                                $scope.Summary = response.data;
+                                $scope.AttendanceList = response.data.AgentAttandanceList;
+                                $scope.searchedMonth = $scope.selectedMonth;
+                                console.log($scope.Summary);
+                            }
+                        }
+                    );
+
+                }
         }
 
         // ================================================================ VARIABLES =========================================================

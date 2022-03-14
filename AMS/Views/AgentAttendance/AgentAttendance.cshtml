@@ -27,13 +27,41 @@
                                 <input type="date" class="form-control" ng-model="Date">
                             </div>
                             <div class="col-md-3 text-center py-3">
-                                <button class="btn btn-primary btn-block form-control-sm-5" ng-disabled="AgentAttendance.Agent== null" ng-click="GetSummary(AgentAttendance.Agent,Date)">GET SUMMARY</button>
+                                <button class="btn btn-primary btn-block form-control-sm-5" ng-disabled="AgentAttendance.Agent== null" ng-click="GetSummary(Date,AgentAttendance.Agent)">GET SUMMARY</button>
                             </div>
 
                             <div class="col-md-1 text-center py-3">
                                 <button class="btn btn-primary pull-right" ng-disabled="AttendanceList.length == 0 || AttendanceList == null" ng-click="Export('AgentAttendanceReport', 'agentAttendanceTable')"><i class="fas fa-file-excel"></i></button>
                             </div>
                             <div class="row mb-0 pb-0 ml-5" ng-if="!Summary.AttendanceIsEmpty">
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
+                                <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
+                                    <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent"></h6>
+                                    <h6 class="mb-0 mt-3"></h6>
+                                </div>
                                 <div style="color: forestgreen" class="col-md-1 col-xl-auto text-center py-3">
                                     <h6 class="avatar avatar-md bradius fs-20 bg-success-transparent">{{Summary.PresentCount}}</h6>
                                     <h6 class="mb-0 mt-3">On Time</h6>
