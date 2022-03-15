@@ -23,9 +23,11 @@ namespace AMS.Models.Requests.User
 			foreach (var d in Data)
 			{
 				var temp = new AgentsDropdownData();
+				if (d.IsActive != false)
 				temp.Id = d.Id;
 				temp.Name = d.FisrtName + " " + d.LastName;
 				response.Data.Add(temp);
+
 			}
 			return response;
 		}

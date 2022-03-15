@@ -4,22 +4,14 @@
     Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
 }
 
-<div class="container-fluid" ng-controller="UserCtrl" ng-init="initIndex()">
-    <div class="row">
-        <div class="col-sm-9 col-9">
-            <h3 class="mt-4">Users List</h3>
-        </div>
-        <div class="col-sm-3 col-3">
-            <a href="/User/Add" class="btn-sm btn-primary mt-4 float-right" style="text-decoration-line:none; cursor:pointer;">
-                Add <span><i class="fas fa-plus"></i></span>
-            </a>
-        </div>
-
-    </div>
-    <div class="card mb-4">
+<div class="container-fluid mt-4" ng-controller="UserCtrl" ng-init="initIndex()">
+    <div class="card">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
             User List
+            <a href="/User/Add" class="btn-sm btn-primary float-right" style="text-decoration-line:none; cursor:pointer;">
+                Add <span><i class="fas fa-plus"></i></span>
+            </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -30,23 +22,13 @@
                                 ID <a href="" class="sort-icon" ng-click="SetSortingColoumn('Id')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
                             </th>
                             <th>
-                                First Name <a href="" class="sort-icon" ng-click="SetSortingColoumn('FirstName')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
-                            </th>
-                            <th>
-                                Last Name <a href="" class="sort-icon" ng-click="SetSortingColoumn('LastName')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
+                                Name <a href="" class="sort-icon" ng-click="SetSortingColoumn('Name')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
                             </th>
                             <th>
                                 Contact <a href="" class="sort-icon" ng-click="SetSortingColoumn('Contact')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
                             </th>
                             <th>
                                 Email <a href="" class="sort-icon" ng-click="SetSortingColoumn('Email')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
-                            </th>
-
-                            <th>
-                                Created By <a href="" class="sort-icon" ng-click="SetSortingColoumn('CreatedBy')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
-                            </th>
-                            <th>
-                                Created At <a href="" class="sort-icon" ng-click="SetSortingColoumn('CreatedAt')"><i class="fas fa-arrow-up" ng-class="Sorting.AscClass"></i><i class="fas fa-arrow-down" ng-class="Sorting.DescClass"></i></a>
                             </th>
                             <th>
                                 Job Description
@@ -62,10 +44,7 @@
                                 {{User.Id}}
                             </td>
                             <td>
-                                {{User.FirstName}}
-                            </td>
-                            <td>
-                                {{User.LastName}}
+                                {{User.Name}}
                             </td>
                             <td>
                                 {{User.Contact1}}
@@ -73,15 +52,8 @@
                             <td>
                                 {{User.Email}}
                             </td>
-
                             <td>
-                                {{User.CreatedBy}}
-                            </td>
-                            <td>
-                                {{User.CreatedAt | date:'MMM d, y'}}
-                            </td>
-                            <td>
-                                <a href="#" data-toggle="modal" ng-click="ShowUserJD(User.JobDescription)" data-target="#showJD" title="Edit"><i class="fas fa-expand-alt ml-3"></i></a>
+                                <a href="#" data-toggle="modal" ng-click="ShowUserJD(User.JobDescription , User.Id)" data-target="#showJD" title="Edit"><i class="fas fa-expand-alt ml-3"></i></a>
                             </td>
                             <td>
                                 <a href="/User/Edit?Id={{User.Id}}" title="Edit"><i class="fas fa-pencil-alt ml-3"></i></a>
@@ -89,24 +61,6 @@
                         </tr>
                     </tbody>
                 </table>
-                @*<div class="float-right">
-                        <button ng-disabled="ListingOptions.CurrentPage == 1" ng-click="PreviousPage()">Previous</button>
-                        <span>{{ListingOptions.CurrentPage}}</span>
-                        <button ng-disabled="ListingOptions.TotalRecords < (ListingOptions.CurrentPage  * ListingOptions.PageSize)" ng-click="NextPage()">Next</button>
-                        <span>
-                            <small class="Pagination-text">Showing from {{(ListingOptions.PageSize  * (ListingOptions.CurrentPage - 1))}} - {{ListingOptions.PageSize * ListingOptions.CurrentPage}} outof {{ListingOptions.TotalRecords}}</small>
-                        </span>
-                    </div>
-                    <div class="float-left">
-                        <span>
-                            <small class="Pagination-text">Show Per Page</small>
-                            <select ng-model="ListingOptions.PageSize" ng-click="UpdatePaginationSize()">
-                                <option value="10" ng-selected="ListingOptions.PageSize == 10">10</option>
-                                <option value="50" ng-selected="ListingOptions.PageSize == 50">50</option>
-                                <option value="100" ng-selected="ListingOptions.PageSize == 100">100</option>
-                            </select>
-                        </span>
-                    </div>*@
             </div>
         </div>
     </div>
@@ -127,6 +81,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <a href="#" class="btn btn-outline-danger" ng-click="Terminate(Id)">Terminate</a>
                     <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Close</a>
                 </div>
             </div>

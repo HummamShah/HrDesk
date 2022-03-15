@@ -70,7 +70,6 @@ namespace AMS.Controllers.Api
             return result;
         }
 
-
         [System.Web.Http.HttpPost]
         public object EditAdmin([FromBody] EditAdminRequest req)
         {
@@ -79,8 +78,13 @@ namespace AMS.Controllers.Api
             return result;
         }
 
-
-
+        [System.Web.Http.HttpPost]
+        public object Terminate([FromBody] TerminateUserRequest req)
+        {
+            req.UpdatedBy = User.Identity.Name;
+            var result = req.RunRequest(req);
+            return result;
+        }
 
         // GET api/<controller>
         [System.Web.Http.HttpPost]
@@ -168,6 +172,7 @@ namespace AMS.Controllers.Api
                     var CurrentUserName = User.Identity.Name;
                     var AgentData = new Agent();
                     AgentData.UserId = user.Id;
+                    AgentData.IsActive = true;
                     AgentData.FisrtName = model.FirstName;
                     AgentData.LastName = model.LastName;
                     AgentData.Address = model.Address;

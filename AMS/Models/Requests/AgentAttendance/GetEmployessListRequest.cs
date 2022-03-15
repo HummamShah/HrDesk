@@ -22,9 +22,12 @@ namespace AMS.Models.Requests.AgentAttendance
 
                 foreach (var employee in Employees) {
                     var Employee = new Employees();
+                    if (employee.IsActive != false) 
+                    { 
                     Employee.Id = employee.Id;
                     Employee.Name = employee.FisrtName + " " + employee.LastName;
                     response.EmployeesList.Add(Employee);
+                    }
                 }
                 response.IsSuccessful = true;
             }

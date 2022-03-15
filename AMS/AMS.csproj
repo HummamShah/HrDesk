@@ -286,6 +286,7 @@
     <Compile Include="Models\Requests\Tax\EditTaxRequest.cs" />
     <Compile Include="Models\Requests\Tax\GetTaxListRequest.cs" />
     <Compile Include="Models\Requests\Tax\GetTaxRequest.cs" />
+    <Compile Include="Models\Requests\User\TerminateUserRequest.cs" />
     <Compile Include="Models\Requests\User\EditAdminRequest.cs" />
     <Compile Include="Models\Requests\User\EditUserRequest.cs" />
     <Compile Include="Models\Requests\User\GetAgentsForAssignmentRequest.cs" />
@@ -382,7 +383,6 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="bin\System.Net.Http.Formatting.dll" />
     <Content Include="bin\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\System.Security.Claims.dll" />
     <Content Include="bin\System.Web.Helpers.dll" />
     <Content Include="bin\System.Web.Helpers.xml" />
     <Content Include="bin\System.Web.Http.dll" />

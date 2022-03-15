@@ -4,21 +4,23 @@
     ViewBag.Title = "Log in";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+<link href="/Content/Site.css" rel="stylesheet" />
 
+<link href="/Content/bootstrap.css" rel="stylesheet" />
 <div class="container">
-   
+
     <div class="col-md-6" style=" margin-left: auto; margin-right: auto;">
         <section class="container-fluid jumbotron LoginBG">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 <img src="~/Content/Image/SharptelLogoLogin.png" class="image-fit" />
-                
+
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group ">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-3 " })
                     <div class="col-md-12">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control L-input" , @style = "max-width:100%" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control L-input", @style = "max-width:100%" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>

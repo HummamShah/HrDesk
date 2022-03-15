@@ -70,22 +70,17 @@
                                 <a class="nav-link" href="/AgentAttendance/Index">My Attendence</a>
                                 @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.HR))
                                 {
-                                    <a class="nav-link" href="/AgentAttendance/AgentAttendance">Agent Attendance</a>
-                                    <a class="nav-link" href="/AgentAttendance/StaffAttendance">Staff Attendance</a>
+                                    <a class="nav-link" href="/AgentAttendance/AgentAttendance">Individual Attendance</a>
+                                    <a class="nav-link" href="/AgentAttendance/StaffAttendance">All Attendance</a>
                                 }
                             </nav>
                         </div>
                         @if (User.IsInRole(UserRoles.HR))
                         {
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseHoliday" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            <a class="nav-link collapsed" href="/Holiday/">
                                 Holidays
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="pagesCollapseHoliday" aria-labelledby="headingthree">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/Holiday/">Holidays</a>
-                                </nav>
-                            </div>
                         }
                         <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#leave" aria-expanded="false" aria-controls="pagesCollapseTickets">
                             Leave
@@ -114,29 +109,17 @@
                         }
                         @if (User.IsInRole(UserRoles.HR))
                         {
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseDepartment1" aria-expanded="false" aria-controls="pagesCollapseTickets">
-                                User
+                            <a class="nav-link collapsed" href="/User/">
+                                Users
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="pagesCollapseDepartment1" aria-labelledby="headingthree">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/User/Add">Add User</a>
-                                    <a class="nav-link" href="/User/">Users</a>
-                                </nav>
-                            </div>
                         }
                         @if (User.IsInRole(UserRoles.HR))
                         {
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseDepartment" aria-expanded="false" aria-controls="pagesCollapseTickets">
+                            <a class="nav-link collapsed" href="/Department/">
                                 Department
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="pagesCollapseDepartment" aria-labelledby="headingthree">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/Department/Add">Add Department</a>
-                                    <a class="nav-link" href="/Department/">Departments</a>
-                                </nav>
-                            </div>
                         }
                         @if (User.IsInRole(UserRoles.HR))
                         {

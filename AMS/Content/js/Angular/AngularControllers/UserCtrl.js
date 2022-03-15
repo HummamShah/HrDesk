@@ -238,9 +238,10 @@
             }
 
             // ================================================== USER JD FOR MODAL ================================================
-            $scope.ShowUserJD = function (userJD) {
+            $scope.ShowUserJD = function (userJD , Id) {
                 console.log(userJD);
                 $scope.UserJD = userJD;
+                $scope.Id = Id;
             }
 
             // ========================================================= GET DEPRATMENTS ================================================
@@ -482,6 +483,20 @@
                 }
             }
 
+            // ========================================================== Terminate User ===============================================================
+            $scope.Terminate = function (Id) {
+                $scope.AjaxPost("/api/UserApi/Terminate", { AgentId: Id}).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            toaster.pop('success', "success", "Terminate Successfully!");
+                            $timeout(function () { window.location.href = '/User'; }, 2000);
+                        } else {
+                            toaster.pop('error', "error", "Could Not Terminate!");
+                        }
+                    }
+                );
+
+            }
             // ========================================================== DISABLE INPUT FIELD ===============================================================
             $scope.DisableInputField = function (Doc) {
                 console.log(Doc.ChooseInput);

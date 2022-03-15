@@ -13,7 +13,7 @@ namespace AMS.Models.Jobs
             var today = DateTime.Today;
             if (today.DayOfWeek == DayOfWeek.Friday)
             {
-                var Agent = _dbContext.Agent.ToList();
+                var Agent = _dbContext.Agent.Where(x=> x.IsActive == false).ToList();
                 var tom = DateTime.Today.AddDays(3);
                 if (_dbContext.AgentAttendance.Where(x => x.Date == tom).Count() < 1)
                 {
@@ -35,7 +35,7 @@ namespace AMS.Models.Jobs
             }
             else if (today.DayOfWeek != DayOfWeek.Saturday && today.DayOfWeek != DayOfWeek.Sunday)
             {
-                var Agent = _dbContext.Agent.ToList();
+                var Agent = _dbContext.Agent.Where(x => x.IsActive == false).ToList();
                 var tom = DateTime.Today.AddDays(1);
                 if (_dbContext.AgentAttendance.Where(x => x.Date == tom).Count() < 1)
                 {

@@ -39,6 +39,7 @@ namespace AMS.Models.Requests.User
 		public string CreatedBy { get; set; }
 		public DateTime? CreatedAt { get; set; }
 		public string UpdatedBy { get; set; }
+		public string Name { get; set; }
 		public DateTime? UpdatedAt { get; set; }
 
 
@@ -59,29 +60,31 @@ namespace AMS.Models.Requests.User
 			foreach (var d in Data)
 			{
 				var temp = new UserData();
-				temp.Id = d.Id;
-				temp.FirstName = d.FisrtName;
-				temp.LastName = d.LastName;
-				temp.UserId = d.UserId;
-				temp.Contact1 = d.Contact1;
-				temp.Contact2 = d.Contact2;
-				temp.Address = d.Address;
-				temp.Email = d.Email;
-				temp.CreatedAt = d.CreatedAt;
-				temp.CreatedBy = d.CreatedBy;
-				temp.DepartmentId = d.DepartmentId;
-				temp.JobDescription = d.JobDescription;
-				temp.Designation = d.Designation;
-				if (d.DepartmentId.HasValue)
-				{
-					temp.DepartmentName = ((Departments)d.DepartmentId.Value).ToString();
+                if (d.IsActive != false)
+                {
+					temp.Id = d.Id;
+					temp.Name = d.FisrtName + " " + d.LastName;
+					temp.UserId = d.UserId;
+					temp.Contact1 = d.Contact1;
+					temp.Contact2 = d.Contact2;
+					temp.Address = d.Address;
+					temp.Email = d.Email;
+					temp.CreatedAt = d.CreatedAt;
+					temp.CreatedBy = d.CreatedBy;
+					temp.DepartmentId = d.DepartmentId;
+					temp.JobDescription = d.JobDescription;
+					temp.Designation = d.Designation;
+					if (d.DepartmentId.HasValue)
+					{
+						temp.DepartmentName = ((Departments)d.DepartmentId.Value).ToString();
 
+					}
+					/*if (d.Designation.HasValue)
+					{
+						temp.DesignationEnum = ((Designation)d.Designation.Value).ToString();
+					}*/
+					response.Data.Add(temp);
 				}
-				/*if (d.Designation.HasValue)
-				{
-					temp.DesignationEnum = ((Designation)d.Designation.Value).ToString();
-				}*/
-				response.Data.Add(temp);
 			}
 			return response;
 		}
