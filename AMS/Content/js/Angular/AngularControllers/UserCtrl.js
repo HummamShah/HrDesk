@@ -86,7 +86,7 @@
             // ====================================================== ADD USER ============================================================
 
             $scope.AddUser = function (user) {
-                user.Position = JSON.parse(user.Position);
+                //user.Position = JSON.parse(user.Position);
 
                 console.log(user.Position);
                 if (user.FirstName == null || user.FirstName == "") {

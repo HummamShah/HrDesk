@@ -44,12 +44,12 @@
                                                         <label>Address</label>
                                                         <input type="text" class="form-control" ng-model="User.Address" />
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="form-group col-md-3">
                                                         <label class="required">Primary Contact</label>
                                                         <input type="text" maxlength="11" ng-change="IsContactNumber1()" class="form-control" ng-model="User.Contact1" placeholder="11 digit number" />
                                                     </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="form-group col-md-3">
                                                         <label>Alternate Contact</label>
                                                         <input type="text" maxlength="11" ng-change="IsContactNumber2()" class="form-control" ng-model="User.Contact2" placeholder="11 digit number" />
@@ -58,8 +58,6 @@
                                                         <label class="required">Email</label>
                                                         <input type="email" class="form-control" ng-model="User.Email" />
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="form-group col-md-3">
                                                         <label class="required">Remaining Leaves</label>
                                                         <input type="number" class="form-control" min="0" max="30" value="30" onkeydown="return false" ng-model="User.RemainingLeaves" />
@@ -68,12 +66,12 @@
                                                         <label class="required">Annual Leaves</label>
                                                         <input type="number" class="form-control" min="0" max="20" value="20" onkeydown="return false" ng-model="User.AnnualLeaves" />
                                                     </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="form-group col-md-3">
                                                         <label class="required">Medical Leaves</label>
                                                         <input type="number" class="form-control" min="0" max="10" value="10" onkeydown="return false" ng-model="User.MedicalLeaves" />
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="form-group col-md-3">
                                                         <div class="">
                                                             <label class="required">Department</label>
@@ -84,39 +82,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-3">
-                                                        <div class="">
-                                                            <label>Position</label>
-                                                            <select ng-model="User.Position" class="form-control">
-                                                                <option disabled selected value="">Select Position</option>
-                                                                <option ng-repeat="Position in PositionDropDown" value="{{Position}}">{{Position.PositionName}}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-3">
-                                                        <div class="">
-                                                            <label class="required">Shift</label>
-                                                            <select ng-model="User.ShiftId" class="form-control">
-                                                                <option disabled selected value="">Select Shift</option>
-                                                                <option ng-repeat="Shift in ShiftsList" ng-selected="Shift.Id == User.ShiftId" value="{{Shift.Id}}">{{Shift.Name}}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-md-3" style="margin-top: 42px;">
-                                                        <label>Has Supervisor</label>
-                                                        <input type="checkbox" class="" ng-model="User.HasSupervisor" ng-change="CheckForDepartment(User.DepartmentId)" />
-                                                    </div>
-                                                    <div class="form-group col-md-3" ng-if="User.HasSupervisor">
-                                                        <label>Supervisor</label>
-                                                        <select ng-model="User.SupervisorId" class="form-control">
-                                                            <option disabled selected value="">Select Supervisor</option>
-                                                            <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-3">
                                                         <label class="required">Password</label>
                                                         <input type="password" class="form-control" ng-model="User.Password" />
                                                     </div>
@@ -125,6 +90,17 @@
                                                         <input type="password" class="form-control" ng-model="User.ConfirmPassword" />
                                                     </div>
                                                 </div>
+                                                <!--<div class="row">-->
+                                                @*<div class="form-group col-md-3">
+            <div class="">
+                <label>Position</label>
+                <select ng-model="User.Position" class="form-control">
+                    <option disabled selected value="">Select Position</option>
+                    <option ng-repeat="Position in PositionDropDown" value="{{Position}}">{{Position.PositionName}}</option>
+                </select>
+            </div>
+        </div>*@
+                                                <!--</div>-->
                                                 <div class="row">
                                                     <div class="form-group col-md-3">
                                                         <label>Gross Salary</label>
@@ -164,6 +140,29 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <div class="">
+                                                            <label class="required">Shift</label>
+                                                            <select ng-model="User.ShiftId" class="form-control">
+                                                                <option disabled selected value="">Select Shift</option>
+                                                                <option ng-repeat="Shift in ShiftsList" ng-selected="Shift.Id == User.ShiftId" value="{{Shift.Id}}">{{Shift.Name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-3" style="margin-top: 42px;">
+                                                        <label>Has Supervisor</label>
+                                                        <input type="checkbox" class="" ng-model="User.HasSupervisor" ng-change="CheckForDepartment(User.DepartmentId)" />
+                                                    </div>
+                                                    <div class="form-group col-md-3" ng-if="User.HasSupervisor">
+                                                        <label>Supervisor</label>
+                                                        <select ng-model="User.SupervisorId" class="form-control">
+                                                            <option disabled selected value="">Select Supervisor</option>
+                                                            <option ng-repeat="Supervisor in Supervisors" value="{{Supervisor.Id}}">{{Supervisor.Name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                             </form>
                                         </div>
                                     </div>
