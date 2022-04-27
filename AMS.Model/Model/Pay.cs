@@ -35,6 +35,9 @@ namespace AMS.Model.Model
         public Nullable<decimal> TotalDeductionsDeduction { get; set; }
         public Nullable<decimal> TotalIncentiveAddition { get; set; }
         public string MonthEnum { get; set; }
+        public Nullable<decimal> Basic { get; set; }
+        public Nullable<decimal> HouseRent { get; set; }
+        public Nullable<decimal> Utilities { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PayDetails> PayDetails { get; set; }

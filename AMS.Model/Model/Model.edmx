@@ -289,6 +289,9 @@
           <Property Name="TotalDeductionsDeduction" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TotalIncentiveAddition" Type="decimal" Precision="18" Scale="0" />
           <Property Name="MonthEnum" Type="nvarchar(max)" />
+          <Property Name="Basic" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="HouseRent" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Utilities" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="PayDetails">
           <Key>
@@ -1173,6 +1176,9 @@
           <NavigationProperty Name="PayDetails" Relationship="AMSModel.FK_PayDetails_Pay" FromRole="Pay" ToRole="PayDetails" />
           <Property Name="MonthEnum" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Agent" Relationship="AMSModel.FK_Pay_Agent" FromRole="Pay" ToRole="Agent" />
+          <Property Name="Basic" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="HouseRent" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Utilities" Type="Decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="PayDetails">
           <Key>
@@ -1678,6 +1684,9 @@
           <EntitySetMapping Name="Pay">
             <EntityTypeMapping TypeName="AMSModel.Pay">
               <MappingFragment StoreEntitySet="Pay">
+                <ScalarProperty Name="Utilities" ColumnName="Utilities" />
+                <ScalarProperty Name="HouseRent" ColumnName="HouseRent" />
+                <ScalarProperty Name="Basic" ColumnName="Basic" />
                 <ScalarProperty Name="MonthEnum" ColumnName="MonthEnum" />
                 <ScalarProperty Name="TotalIncentiveAddition" ColumnName="TotalIncentiveAddition" />
                 <ScalarProperty Name="TotalDeductionsDeduction" ColumnName="TotalDeductionsDeduction" />

@@ -15,5 +15,8 @@
 	[TotalTaxDeduction] decimal,
 	[TotalDeductionsDeduction] decimal,
 	[TotalIncentiveAddition] decimal,
-	CONSTRAINT [FK_Pay_Agent] FOREIGN KEY (AgentId) REFERENCES [dbo].Agent([Id])
+	[Basic] DECIMAL(18, 3) NULL, 
+    [HouseRent] DECIMAL(18, 3) NULL,
+    [Utilities] DECIMAL(18, 3) NULL,
+    CONSTRAINT [FK_Pay_Agent] FOREIGN KEY (AgentId) REFERENCES [dbo].Agent([Id])
 )

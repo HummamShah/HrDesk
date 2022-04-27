@@ -118,6 +118,9 @@
 
             // ============================================= SAVE PAY SLIP ==================================================
             $scope.SavePaySlip = function (paySlip) {
+                $scope.PaySlip.BasicPay = $scope.PaySlip.BasicSalary * 64.52 / 100;
+                $scope.PaySlip.HouseRent = $scope.PaySlip.BasicSalary * 29.03 / 100;
+                $scope.PaySlip.Utilities = $scope.PaySlip.BasicSalary * 6.45 / 100;
                 $scope.AjaxPost("/api/PayApi/SavePaySlip", paySlip).then(
                     function (response) {
                         console.log(response);

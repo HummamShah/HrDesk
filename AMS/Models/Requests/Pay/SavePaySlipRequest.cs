@@ -16,6 +16,9 @@ namespace AMS.Models.Requests.Pay
         public string MonthEnum { get; set; } 
         public int Year { get; set; }
         public decimal DeductionInDaysCalc { get; set; }
+        public decimal BasicPay { get; set; }
+        public decimal HouseRent { get; set; }
+        public decimal Utilities { get; set; }
         public decimal SalaryPerDay { get; set; }
         public decimal TotalTaxDeduction { get; set; }
         public decimal TotalDeductionsDeduction { get; set; }
@@ -32,6 +35,9 @@ namespace AMS.Models.Requests.Pay
             {
                 var PaySlip = new Model.Model.Pay();
                 PaySlip.AgentId = request.AgentId;
+                PaySlip.Basic = request.BasicPay;
+                PaySlip.HouseRent = request.HouseRent;
+                PaySlip.Utilities = request.Utilities;
                 PaySlip.AgentName = request.AgentName;
                 PaySlip.Month = request.Month;
                 PaySlip.Year = request.Year;
