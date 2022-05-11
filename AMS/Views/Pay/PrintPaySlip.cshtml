@@ -30,12 +30,16 @@
     <title>Pay Slip @Date</title>
     <style type="text/css">
         .img-fluid {
-            max-width: 100%;
-            height: auto;
+           
+            position: absolute;
+            top: 0;
+            left: 40px;
+            height:55px;
+        }
         }
 
         .header {
-            text-align: center;
+            text-align: center !important;
         }
 
         .align {
@@ -86,6 +90,10 @@
             padding-left: -5px !important;
             padding-right: -9px !important;
         }
+        .space{
+            margin-right:30px;
+            margin-left:20px;
+        }
     </style>
 </head>
 <body class="container-fluid">
@@ -93,17 +101,20 @@
 
         <a href="" class="scrollto"><img src="logo.png" alt="" class="img-fluid"></a>
       </div> -->
-    <div class="header">
+    <div class="header" style="text-align: center !important;">
         <h2><b>Wi-tribe Pakistan Limited</b></h2>
         <br>
 
         <h3>PAY SLIP</h3>
         <h5>@MonthAndYear</h5>
+      
+            <img src="~/Content/Image/SharptelLogo.png"   alt="" class="img-fluid">
+       
     </div>
     <br>
     <div class="align">
         <h5>Paid By Bank</h5>
-        <h5>Lwp days 0 Days Worked 30.00</h5>
+        <h5><b class="space">Lwp days</b>0  <b class="space">Days Worked</b> 30.00</h5>
     </div>
     <div class="row">
         <div class="col-6 pr-0">
@@ -174,7 +185,7 @@
                     <th></th>
                     <th>Standard C</th>
                     <th>Current Month</th>
-                    <th>Adjustmen</th>
+                    <th>Adjustment</th>
                 </tr>
                 <tr>
                     <td>Basic Pay</td>
@@ -212,10 +223,7 @@
                     <td>@Model.GrossPay</td>
                     <td>@Model.GrossPay</td>
                 </tr>
-                <tr>
-                    <td><b>Gross Pay & Allowances</b></td>
 
-                </tr>
             </table>
 
         </div>
@@ -309,14 +317,80 @@
                 </tr>
 
             </table>
-            <div class="box">
-                <h5>
-                    Total Deductions
-                </h5>
-            </div>
+
 
         </div>
+
     </div>
+    <br>
+    <br>
+    <div class="row container-fluid">
+        <div class="col-6 d-flex justify-content-between box">
+            <h5>Gross Pay & Allowances</h5>
+            <h5>,690</h5>
+        </div>
+        <div class="col-6 box">
+            <h5> Total Deduction</h5>
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <div class="row container-fluid">
+        <div class="col-6 d-flex justify-content-between box">
+
+
+            <h5>Net Pay : [0] </h5>
+            <h5>,690</h5>
+
+        </div>
+        <div class="col-6 box">
+            <h5>
+                [ Thousand Hundred Only ]
+            </h5>
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="align mr-4">
+
+        <h5><b class="space">Gratuity</b> 37 Months <b class="space">Amount</b> 160,333</h5>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <footer class="d-flex justify-content-between">
+       
+        <h6>Human Capital Management </h6>
+        <h6>Version 9.03_05032021</h6>
+        <h6>Build 0001 </h6>
+        <h6>USER ID: WITRIBE_PR </h6>
+        <h6>31/12/2021</h6>
+        <h6>11:04:22 AM</h6>
+    </footer>
 
 
 
