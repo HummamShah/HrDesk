@@ -349,6 +349,24 @@ namespace AMS.Controllers.Api
             AgentData.ShiftId = request.ShiftId;
             AgentData.Salary = request.Salary;
 
+            AgentData.HouseRentAllowance = request.HouseRentAllowance;
+            AgentData.Utility = request.Utility;
+            AgentData.VehicleAllowance = request.VehicleAllowance;
+            AgentData.FuelAllowance = request.FuelAllowance;
+            AgentData.EOBIDeduction = request.EOBIDeduction;
+            AgentData.LoanDeduction = request.LoanDeduction;
+            AgentData.OtherDeduction = request.OtherDeduction;
+            AgentData.OtherDeductionDesc = request.OtherDeductionDesc;
+
+            AgentData.EmpCode = request.EmpCode;
+            AgentData.Location = request.Location;
+            AgentData.Section = request.Section;
+            AgentData.Grade = request.Grade;
+            AgentData.DateOfJoining = request.DateOfJoining;
+            AgentData.WWID = request.WWID;
+            AgentData.EmployementType = request.EmployementType;
+            AgentData.PaidBy = request.PaidBy;
+            AgentData.CNIC = request.CNIC;
             // removing previously selected taxes
             var AgentTaxes = db.AgentTaxes.Where(x => x.AgentId == AgentData.Id).ToList();
             foreach (var tax in AgentTaxes) {

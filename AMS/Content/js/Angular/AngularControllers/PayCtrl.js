@@ -132,6 +132,104 @@
                     }
                 );
             }
+            $scope.initList = function () {
+                $scope.Request = {
+                    DateFrom: new Date(),
+                    DateTo: new Date()
+                }
+            }
+            $scope.GetPaySlipList = function (req) {
+                req.DateFrom = $scope.GetDatePostFormat(req.DateFrom);
+                req.DateTo = $scope.GetDatePostFormat(req.DateTo);
+                $scope.AjaxGet("/api/PayApi/GetPaySlipList", req).then(
+                    function (response) {
+                        console.log(response);
+                        $scope.PayRollList = response.data.Data;
+                        console.log($scope.PayRollList);
+                    }
+                );
+
+            }
+            $scope.UpdatePay = function () {
+                var tax = 0; var taxableamount = 0;
+                $scope.PaySlip.GrossPay = $scope.PaySlip.BasicPay + $scope.PaySlip.Utility + $scope.PaySlip.VehicleAllowance + $scope.PaySlip.HouseRent + $scope.PaySlip.FuelAllowance;
+                if ($scope.PaySlip.GrossPay * 12 <= 600000) {
+                    tax = 0;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 600000 &&  $scope.PaySlip.GrossPay * 12 <= 1200000) {
+                    var taxableamount =  $scope.PaySlip.GrossPay * 12 - 600000;
+                    tax = taxableamount * 5 / 100 / 12 ;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 1200000 &&  $scope.PaySlip.GrossPay * 12 <= 1800000) {
+                  var taxableamount =  $scope.PaySlip.GrossPay * 12 - 1200000;
+                    tax = taxableamount * 10 / 100 + 30000 ;
+                    tax = tax / 12;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 1800000 &&  $scope.PaySlip.GrossPay * 12 <= 2500000) {
+                    var taxableamount =  $scope.PaySlip.GrossPay * 12 - 1800000;
+                    tax = taxableamount * 15 / 100 + 90000 ;
+                    tax = tax / 12;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 2500000 &&  $scope.PaySlip.GrossPay * 12 <= 3500000) {
+                    var taxableamount =  $scope.PaySlip.GrossPay * 12 - 2500000;
+                    tax = taxableamount * 17.5 / 100 + 195000 ;
+                    tax = tax / 12;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 3500000 &&  $scope.PaySlip.GrossPay * 12 <= 5000000) {
+                    var taxableamount =  $scope.PaySlip.GrossPay * 12 - 3500000;
+                    tax = taxableamount * 20 / 100 + 370000 ;
+                    tax = tax / 12;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 5000000 &&  $scope.PaySlip.GrossPay * 12 <= 8000000) {
+                    var taxableamount =  $scope.PaySlip.GrossPay * 12 - 5000000;
+                    tax = taxableamount * 22.5 / 100 + 670000 ;
+                    tax = tax / 12;
+                }
+                else if ( $scope.PaySlip.GrossPay * 12 > 8000000 &&  $scope.PaySlip.GrossPay * 12 <= 12000000) {
+                    var taxableamount =  $scope.PaySlip.GrossPay * 12 - 8000000;
+                    tax = taxableamount * 25 / 100 + 1345000 ;
+                    tax = tax / 12;
+                }
+
+                 $scope.PaySlip.Tax = tax;
+                $scope.PaySlip.NetPay = $scope.PaySlip.GrossPay - $scope.PaySlip.EOBI - tax;
+            }
+            $scope.GenerateCurrentPaySlip = function () {
+                $scope.AjaxPost("/api/PayApi/GeneratePaySlipForAll", null).then(
+                    function (response) {
+                        if (response.data.Success) {
+                            $scope.GetPaySlipList();
+                        }
+                        else {
+                            toaster.pop('error', 'error', response.data.ValidationErrors[0]);
+                        }
+                    }
+                );
+            }
+            $scope.EditPaySlipInit = function () {
+                var Id = $scope.GetUrlParameter("Id");
+                $scope.AjaxGet("/api/PayApi/GetPaySlipById", { Id: Id }).then(
+                    function (response) {
+                        console.log(response);
+                        $scope.PaySlip = response.data;
+                        $scope.PaySlip.Date = new Date($scope.PaySlip.Date);
+                        $scope.PaySlip.DOJ = new Date($scope.PaySlip.DOJ);
+                        console.log($scope.PaySlip);
+                    }
+                );
+            }
+            $scope.EditPaySlip = function () {
+                $scope.AjaxPost("/api/PayApi/EditPaySlip", $scope.PaySlip).then(
+                    function (response) {
+                        if (response.data.Success) {
+                            $scope.EditPaySlipInit();
+                        }
+                        else {
+                            toaster.pop('error', 'error', response.data.ValidationErrors[0]);
+                        }
+                    }
+                );
+            }
         }
     ]
 );

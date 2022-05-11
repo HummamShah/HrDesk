@@ -47,6 +47,24 @@ namespace AMS.Models.Requests.User
 		public int? ShiftId { get; set; }
 		public decimal Salary { get; set; }
 		public int DeductionInDays { get; set; }
+
+		public decimal HouseRentAllowance { get; set; }
+		public decimal Utility { get; set; }
+		public decimal VehicleAllowance { get; set; }
+		public decimal FuelAllowance { get; set; }
+		public decimal EOBIDeduction { get; set; }
+		public decimal LoanDeduction { get; set; }
+		public decimal OtherDeduction { get; set; }
+		public string OtherDeductionDesc { get; set; }
+		public string EmpCode { get; set; }
+		public string Location { get; set; }
+		public string Section { get; set; }
+		public string Grade { get; set; }
+		public Nullable<System.DateTime> DateOfJoining { get; set; }
+		public string WWID { get; set; }
+		public string EmployementType { get; set; }
+		public string PaidBy { get; set; }
+		public string CNIC { get; set; }
 		public List<Document> Docs { get; set; }
 		public List<Document> EducationalDocs { get; set; }
 		public List<Document> Certificates { get; set; }
@@ -93,8 +111,27 @@ namespace AMS.Models.Requests.User
 				response.Salary = Data.Salary;
 				response.DeductionInDays = Data.DeductionInDays;
 
-				// get taxes applied on user
-				response.Taxes = new List<GetTaxResponse>();
+				response.HouseRentAllowance = Data.HouseRentAllowance;
+				response.Utility = Data.Utility;
+				response.VehicleAllowance = Data.VehicleAllowance;
+				response.FuelAllowance = Data.FuelAllowance;
+				response.EOBIDeduction = Data.EOBIDeduction;
+				response.LoanDeduction = Data.LoanDeduction;
+				response.OtherDeduction = Data.OtherDeduction;
+				response.OtherDeductionDesc = Data.OtherDeductionDesc;
+
+				response.EmpCode = Data.EmpCode;
+				response.Location = Data.Location;
+				response.Section = Data.Section;
+				response.Grade = Data.Grade;
+				response.DateOfJoining = Data.DateOfJoining;
+				response.WWID = Data.WWID;
+				response.EmployementType = Data.EmployementType;
+				response.PaidBy = Data.PaidBy;
+				response.CNIC = Data.CNIC;
+
+		// get taxes applied on user
+		response.Taxes = new List<GetTaxResponse>();
 				var AgentTaxes = _dbContext.AgentTaxes.Where( x => x.AgentId == Data.Id).ToList();
 				foreach (var tax in AgentTaxes) {
 					var Tax = new GetTaxResponse();

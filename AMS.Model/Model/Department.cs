@@ -18,6 +18,7 @@ namespace AMS.Model.Model
         public Department()
         {
             this.DepartmentPositions = new HashSet<DepartmentPositions>();
+            this.PaySlip = new HashSet<PaySlip>();
         }
     
         public int Id { get; set; }
@@ -31,5 +32,7 @@ namespace AMS.Model.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepartmentPositions> DepartmentPositions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PaySlip> PaySlip { get; set; }
     }
 }
