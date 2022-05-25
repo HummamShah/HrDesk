@@ -277,8 +277,12 @@
     <Compile Include="Models\Requests\Leave\GetLeaveSummaryRequest.cs" />
     <Compile Include="Models\Requests\Leave\GetPendingLeavesRequest.cs" />
     <Compile Include="Models\Requests\Leave\RejectLeaveRequest.cs" />
+    <Compile Include="Models\Requests\Pay\EditPaySlipRequest.cs" />
+    <Compile Include="Models\Requests\Pay\GeneratePaySlipForAllRequest.cs" />
     <Compile Include="Models\Requests\Pay\GeneratePaySlipRequest.cs" />
     <Compile Include="Models\Requests\Pay\GetPayRollListRequest.cs" />
+    <Compile Include="Models\Requests\Pay\GetPaySlipByIdRequest.cs" />
+    <Compile Include="Models\Requests\Pay\GetPaySlipList.cs" />
     <Compile Include="Models\Requests\Pay\SavePaySlipRequest.cs" />
     <Compile Include="Models\Requests\Report\GetAttendanceReportRequest.cs" />
     <Compile Include="Models\Requests\Shifts\GetShiftsRequest.cs" />
@@ -566,6 +570,9 @@
     <Content Include="Views\Deduction\Edit.cshtml" />
     <Content Include="Views\Pay\Edit.cshtml" />
     <Content Include="Views\Holiday\Index.cshtml" />
+    <Content Include="Views\Pay\PaySlipList.cshtml" />
+    <Content Include="Views\Pay\EditPayslip.cshtml" />
+    <Content Include="Views\Pay\PrintPaySlip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

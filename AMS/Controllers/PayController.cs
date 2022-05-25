@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMS.Models.Requests.Pay;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,6 +27,22 @@ namespace AMS.Controllers
         public ActionResult Edit()
         {
             return View();
+        }
+        [Authorize(Roles = "HR")]
+        public ActionResult PaySlipList()
+        {
+            return View();
+        }
+        [Authorize(Roles = "HR")]
+        public ActionResult EditPayslip()
+        {
+            return View();
+        }
+        public ActionResult PrintPaySlip(int Id)
+        {
+            var req = new GetPaySlipByIdRequest { Id = Id };
+            var resp = req.RunRequest(req);
+            return View(resp);
         }
     }
 }

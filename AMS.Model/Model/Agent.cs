@@ -27,6 +27,7 @@ namespace AMS.Model.Model
             this.Leaves = new HashSet<Leaves>();
             this.Pay = new HashSet<Pay>();
             this.Notification = new HashSet<Notification>();
+            this.PaySlip = new HashSet<PaySlip>();
         }
     
         public int Id { get; set; }
@@ -68,6 +69,23 @@ namespace AMS.Model.Model
         public string DocumentsImageUrl { get; set; }
         public string CompanyBelonging { get; set; }
         public string ExitEmployeeFormImageUrl { get; set; }
+        public decimal HouseRentAllowance { get; set; }
+        public decimal Utility { get; set; }
+        public decimal VehicleAllowance { get; set; }
+        public decimal FuelAllowance { get; set; }
+        public decimal EOBIDeduction { get; set; }
+        public decimal LoanDeduction { get; set; }
+        public decimal OtherDeduction { get; set; }
+        public string OtherDeductionDesc { get; set; }
+        public string EmpCode { get; set; }
+        public string Location { get; set; }
+        public string Section { get; set; }
+        public string Grade { get; set; }
+        public Nullable<System.DateTime> DateOfJoining { get; set; }
+        public string WWID { get; set; }
+        public string EmployementType { get; set; }
+        public string PaidBy { get; set; }
+        public string CNIC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agent> Agent1 { get; set; }
@@ -92,5 +110,7 @@ namespace AMS.Model.Model
         public virtual ICollection<Pay> Pay { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notification { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PaySlip> PaySlip { get; set; }
     }
 }

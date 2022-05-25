@@ -19,6 +19,9 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Designation" Type="int" />
           <Property Name="DepartmentId" Type="int" />
+          <Property Name="PositionName" Type="nvarchar(max)" />
+          <Property Name="JobDescription" Type="nvarchar(max)" />
+          <Property Name="ShiftId" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="ImageUrl" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
@@ -40,14 +43,28 @@
           <Property Name="ApprovedBy" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="Gender" Type="nvarchar(max)" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="ApprovalImageUrl" Type="nvarchar(max)" />
           <Property Name="DocumentsImageUrl" Type="nvarchar(max)" />
           <Property Name="CompanyBelonging" Type="nvarchar(max)" />
           <Property Name="ExitEmployeeFormImageUrl" Type="nvarchar(max)" />
-          <Property Name="ShiftId" Type="int" Nullable="false" />
-          <Property Name="Salary" Type="decimal" Precision="18" Scale="3" Nullable="false" />
-          <Property Name="JobDescription" Type="nvarchar(max)" />
-          <Property Name="PositionName" Type="nvarchar(max)" />
+          <Property Name="HouseRentAllowance" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Utility" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="VehicleAllowance" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="FuelAllowance" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="EOBIDeduction" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="LoanDeduction" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="OtherDeduction" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="OtherDeductionDesc" Type="nvarchar(max)" />
+          <Property Name="EmpCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Location" Type="nvarchar" MaxLength="20" />
+          <Property Name="Section" Type="nvarchar" MaxLength="29" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="20" />
+          <Property Name="DateOfJoining" Type="datetime" />
+          <Property Name="WWID" Type="nvarchar(max)" />
+          <Property Name="EmployementType" Type="nvarchar(max)" />
+          <Property Name="PaidBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CNIC" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="AgentAttendance">
           <Key>
@@ -57,6 +74,7 @@
           <Property Name="AgentId" Type="int" Nullable="false" />
           <Property Name="IsPresent" Type="bit" Nullable="false" />
           <Property Name="IsLate" Type="bit" Nullable="false" />
+          <Property Name="IsHoliday" Type="bit" Nullable="false" />
           <Property Name="StartDateTime" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
           <Property Name="StartDate" Type="datetime" />
@@ -75,7 +93,6 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ShiftId" Type="int" Nullable="false" />
-          <Property Name="IsHoliday" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AgentDeductions">
           <Key>
@@ -278,6 +295,7 @@
           <Property Name="AgentId" Type="int" />
           <Property Name="AgentName" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar(max)" />
+          <Property Name="MonthEnum" Type="nvarchar(max)" />
           <Property Name="Year" Type="int" />
           <Property Name="PaySlipUrl" Type="nvarchar(max)" />
           <Property Name="GeneratedOn" Type="datetime" />
@@ -288,7 +306,6 @@
           <Property Name="TotalTaxDeduction" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TotalDeductionsDeduction" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TotalIncentiveAddition" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MonthEnum" Type="nvarchar(max)" />
           <Property Name="Basic" Type="decimal" Precision="18" Scale="3" />
           <Property Name="HouseRent" Type="decimal" Precision="18" Scale="3" />
           <Property Name="Utilities" Type="decimal" Precision="18" Scale="3" />
@@ -303,6 +320,38 @@
           <Property Name="Type" Type="nvarchar(max)" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PaySlip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="PadiBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="DaysWorked" Type="int" Nullable="false" />
+          <Property Name="EmpCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="EmpName" Type="nvarchar(max)" />
+          <Property Name="AgentId" Type="int" Nullable="false" />
+          <Property Name="Location" Type="nvarchar(max)" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Designation" Type="nvarchar" MaxLength="200" />
+          <Property Name="Section" Type="nvarchar" MaxLength="200" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="200" />
+          <Property Name="DOJ" Type="datetime" />
+          <Property Name="CNIC" Type="nvarchar" MaxLength="200" />
+          <Property Name="Shift" Type="nvarchar" MaxLength="200" />
+          <Property Name="WWID" Type="nvarchar" MaxLength="200" />
+          <Property Name="BasicPay" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="HouseRent" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Utility" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="FuelAllowance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="VehicleAllowance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Incentive" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Tax" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="EOBI" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="GrossPay" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NetPay" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Status" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Shifts">
           <Key>
@@ -573,18 +622,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Notification_Agent">
-          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
-          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Pay_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="Pay" Type="Self.Pay" Multiplicity="*" />
@@ -606,6 +643,30 @@
             </Principal>
             <Dependent Role="PayDetails">
               <PropertyRef Name="PaySlipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaySlip_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="PaySlip" Type="Self.PaySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaySlip">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaySlip_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="PaySlip" Type="Self.PaySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaySlip">
+              <PropertyRef Name="DepartmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -631,6 +692,7 @@
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayDetails" EntityType="Self.PayDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaySlip" EntityType="Self.PaySlip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tax" EntityType="Self.Tax" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agent_Agent" Association="Self.FK_Agent_Agent">
@@ -713,10 +775,6 @@
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Leaves" EntitySet="Leaves" />
           </AssociationSet>
-          <AssociationSet Name="FK_Notification_Agent" Association="Self.FK_Notification_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="Notification" EntitySet="Notification" />
-          </AssociationSet>
           <AssociationSet Name="FK_Pay_Agent" Association="Self.FK_Pay_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Pay" EntitySet="Pay" />
@@ -724,6 +782,14 @@
           <AssociationSet Name="FK_PayDetails_Pay" Association="Self.FK_PayDetails_Pay">
             <End Role="Pay" EntitySet="Pay" />
             <End Role="PayDetails" EntitySet="PayDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaySlip_Agent" Association="Self.FK_PaySlip_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="PaySlip" EntitySet="PaySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaySlip_Department" Association="Self.FK_PaySlip_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="PaySlip" EntitySet="PaySlip" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -794,6 +860,7 @@
           <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DepartmentPositions" Relationship="AMSModel.FK_DepartmentPosition_Department" FromRole="Department" ToRole="DepartmentPositions" />
+          <NavigationProperty Name="PaySlip" Relationship="AMSModel.FK_PaySlip_Department" FromRole="Department" ToRole="PaySlip" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -937,6 +1004,15 @@
           <AssociationSet Name="FK_Notification_Agent" Association="AMSModel.FK_Notification_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <EntitySet Name="PaySlip" EntityType="AMSModel.PaySlip" />
+          <AssociationSet Name="FK_PaySlip_Agent" Association="AMSModel.FK_PaySlip_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="PaySlip" EntitySet="PaySlip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaySlip_Department" Association="AMSModel.FK_PaySlip_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="PaySlip" EntitySet="PaySlip" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leaves">
@@ -1296,6 +1372,24 @@
           <NavigationProperty Name="Leaves" Relationship="AMSModel.FK_Leaves_Agent" FromRole="Agent" ToRole="Leaves" />
           <NavigationProperty Name="Pay" Relationship="AMSModel.FK_Pay_Agent" FromRole="Agent" ToRole="Pay" />
           <NavigationProperty Name="Notification" Relationship="AMSModel.FK_Notification_Agent" FromRole="Agent" ToRole="Notification" />
+          <Property Name="HouseRentAllowance" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Utility" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="VehicleAllowance" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="FuelAllowance" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="EOBIDeduction" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="LoanDeduction" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="OtherDeduction" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="OtherDeductionDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Section" Type="String" MaxLength="29" FixedLength="false" Unicode="true" />
+          <Property Name="Grade" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfJoining" Type="DateTime" Precision="3" />
+          <Property Name="WWID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployementType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaidBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CNIC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PaySlip" Relationship="AMSModel.FK_PaySlip_Agent" FromRole="Agent" ToRole="PaySlip" />
         </EntityType>
         <Association Name="FK_Agent_Agent">
           <End Type="AMSModel.Agent" Role="Agent" Multiplicity="0..1" />
@@ -1455,6 +1549,64 @@
             </Principal>
             <Dependent Role="Notification">
               <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaySlip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="PadiBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DaysWorked" Type="Int32" Nullable="false" />
+          <Property Name="EmpCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmpName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Designation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Section" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Grade" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DOJ" Type="DateTime" Precision="3" />
+          <Property Name="CNIC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Shift" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WWID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BasicPay" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="HouseRent" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Utility" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="FuelAllowance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="VehicleAllowance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Incentive" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Tax" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="EOBI" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="GrossPay" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NetPay" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="AMSModel.FK_PaySlip_Agent" FromRole="PaySlip" ToRole="Agent" />
+          <NavigationProperty Name="Department" Relationship="AMSModel.FK_PaySlip_Department" FromRole="PaySlip" ToRole="Department" />
+        </EntityType>
+        <Association Name="FK_PaySlip_Agent">
+          <End Type="AMSModel.Agent" Role="Agent" Multiplicity="1" />
+          <End Type="AMSModel.PaySlip" Role="PaySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaySlip">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaySlip_Department">
+          <End Type="AMSModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="AMSModel.PaySlip" Role="PaySlip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaySlip">
+              <PropertyRef Name="DepartmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1745,6 +1897,23 @@
           <EntitySetMapping Name="Agent">
             <EntityTypeMapping TypeName="AMSModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="PaidBy" ColumnName="PaidBy" />
+                <ScalarProperty Name="EmployementType" ColumnName="EmployementType" />
+                <ScalarProperty Name="WWID" ColumnName="WWID" />
+                <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+                <ScalarProperty Name="OtherDeductionDesc" ColumnName="OtherDeductionDesc" />
+                <ScalarProperty Name="OtherDeduction" ColumnName="OtherDeduction" />
+                <ScalarProperty Name="LoanDeduction" ColumnName="LoanDeduction" />
+                <ScalarProperty Name="EOBIDeduction" ColumnName="EOBIDeduction" />
+                <ScalarProperty Name="FuelAllowance" ColumnName="FuelAllowance" />
+                <ScalarProperty Name="VehicleAllowance" ColumnName="VehicleAllowance" />
+                <ScalarProperty Name="Utility" ColumnName="Utility" />
+                <ScalarProperty Name="HouseRentAllowance" ColumnName="HouseRentAllowance" />
                 <ScalarProperty Name="ExitEmployeeFormImageUrl" ColumnName="ExitEmployeeFormImageUrl" />
                 <ScalarProperty Name="CompanyBelonging" ColumnName="CompanyBelonging" />
                 <ScalarProperty Name="DocumentsImageUrl" ColumnName="DocumentsImageUrl" />
@@ -1800,6 +1969,39 @@
                 <ScalarProperty Name="Link" ColumnName="Link" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaySlip">
+            <EntityTypeMapping TypeName="AMSModel.PaySlip">
+              <MappingFragment StoreEntitySet="PaySlip">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NetPay" ColumnName="NetPay" />
+                <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+                <ScalarProperty Name="EOBI" ColumnName="EOBI" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Incentive" ColumnName="Incentive" />
+                <ScalarProperty Name="VehicleAllowance" ColumnName="VehicleAllowance" />
+                <ScalarProperty Name="FuelAllowance" ColumnName="FuelAllowance" />
+                <ScalarProperty Name="Utility" ColumnName="Utility" />
+                <ScalarProperty Name="HouseRent" ColumnName="HouseRent" />
+                <ScalarProperty Name="BasicPay" ColumnName="BasicPay" />
+                <ScalarProperty Name="WWID" ColumnName="WWID" />
+                <ScalarProperty Name="Shift" ColumnName="Shift" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+                <ScalarProperty Name="DaysWorked" ColumnName="DaysWorked" />
+                <ScalarProperty Name="PadiBy" ColumnName="PadiBy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

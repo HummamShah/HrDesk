@@ -1,0 +1,404 @@
+﻿@model AMS.Models.Requests.Pay.GetPaySlipByIdResponse
+    @{ 
+        Layout = null;
+    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    @{ 
+        var Date = DateTime.Today.ToString("MMM");
+        var MonthAndYear = DateTime.Today.ToString("MMM yyyy");
+        var DOJ = "";
+        if (Model.Date.HasValue)
+        {
+            Date = Model.Date.Value.ToString("MMM");
+            MonthAndYear = Model.Date.Value.ToString("MMM yyyy");
+        }
+        if (Model.DOJ.HasValue)
+        {
+            DOJ = Model.DOJ.Value.ToString("dd MMM yyyy");
+        }
+
+   }
+    <title>Pay Slip @Date</title>
+    <style type="text/css">
+        .img-fluid {
+           
+            position: absolute;
+            top: 0;
+            left: 40px;
+            height:55px;
+        }
+        }
+
+        .header {
+            text-align: center !important;
+        }
+
+        .align {
+            text-align: right;
+        }
+
+        .box {
+            border: 1px solid black;
+        }
+
+        .table, th, td {
+            border: 1px solid black;
+        }
+
+        .margin {
+            margin-right: 70px;
+        }
+
+        .margin2 {
+            margin-right: 60px;
+        }
+
+        .margin3 {
+            margin-right: 78px;
+        }
+
+        .margin4 {
+            margin-right: 51px;
+        }
+
+        .margin5 {
+            margin-right: 34px;
+        }
+
+        .margin6 {
+            margin-right: 103px;
+        }
+
+        .margin7 {
+            margin-right: 112px;
+        }
+
+        .alignn {
+            text-align: center;
+        }
+
+        .removegap {
+            padding-left: -5px !important;
+            padding-right: -9px !important;
+        }
+        .space{
+            margin-right:30px;
+            margin-left:20px;
+        }
+    </style>
+</head>
+<body class="container-fluid">
+    <!-- <div class="logo float-left">
+
+        <a href="" class="scrollto"><img src="logo.png" alt="" class="img-fluid"></a>
+      </div> -->
+    <div class="header" style="text-align: center !important;">
+        <h2><b>Wi-tribe Pakistan Limited</b></h2>
+        <br>
+
+        <h3>PAY SLIP</h3>
+        <h5>@MonthAndYear</h5>
+      
+            <img src="~/Content/Image/SharptelLogo.png"   alt="" class="img-fluid">
+       
+    </div>
+    <br>
+    <div class="align">
+        <h5>Paid By Bank</h5>
+        <h5><b class="space">Lwp days</b>0  <b class="space">Days Worked</b> 30.00</h5>
+    </div>
+    <div class="row">
+        <div class="col-6 pr-0">
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <span><b class="margin">Emp code</b> </span>
+                        <span style="float: right;margin-right: 14px;">@Model.EmpCode</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin2">Emp Name</b> </span>
+                        <span style="float: right;margin-right: 14px;">@Model.EmpName</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Location</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.Location</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Depratment</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.DepartmentName</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Section / Div</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.Section</span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3"> Grade</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.Grade</span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">DOJ</b></span>
+                        <span style="float: right;margin-right: 14px;">@DOJ</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>
+                            EOBI
+                        </b>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td class="alignn"><b>Pay & Allowances</b></td>
+                </tr>
+
+            </table>
+
+            <table style="width:100%">
+                <tr>
+                    <th></th>
+                    <th>Standard C</th>
+                    <th>Current Month</th>
+                    <th>Adjustment</th>
+                </tr>
+                <tr>
+                    <td>Basic Pay</td>
+                    <td>@Model.BasicPay</td>
+                    <td>@Model.BasicPay</td>
+                    <td>@Model.BasicPay</td>
+                </tr>
+                <tr>
+                    <td>House Rent Allowance</td>
+                    <td>@Model.HouseRent</td>
+                    <td>@Model.HouseRent</td>
+                    <td>@Model.HouseRent</td>
+                </tr>
+                <tr>
+                    <td>Utility</td>
+                    <td>@Model.Utility</td>
+                    <td>@Model.Utility</td>
+                    <td>@Model.Utility</td>
+                </tr>
+                <tr>
+                    <td>Fuel Allowance</td>
+                    <td>@Model.FuelAllowance</td>
+                    <td>@Model.FuelAllowance</td>
+                    <td>@Model.FuelAllowance</td>
+                </tr>
+                <tr>
+                    <td>Incentive</td>
+                    <td>@Model.Incentive</td>
+                    <td>@Model.Incentive</td>
+                    <td>@Model.Incentive</td>
+                </tr>
+                <tr>
+                    <td><b>TOTAL</b></td>
+                    <td>@Model.GrossPay</td>
+                    <td>@Model.GrossPay</td>
+                    <td>@Model.GrossPay</td>
+                </tr>
+
+            </table>
+
+        </div>
+        <div class="col-6 pl-0">
+            <table style="width:100%">
+                <tr>
+                    <td><b class="margin">SESSI</b> </td>
+
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Bank Branch</b></span>
+                        <span style="float: right;margin-right: 14px;">Faysal Bank Ltd</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Account #</b></span>
+                        <span style="float: right;margin-right: 14px;">1000000001020000100</span>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">CNIC</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.CNIC</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Shift</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.Shift</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">WWID</b></span>
+                        <span style="float: right;margin-right: 14px;">@Model.WWID</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <span><b class="margin3">Company</b></span>
+                        <span style="float: right;margin-right: 14px;">Sharptel</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>
+                            EOBI
+                        </b>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td class="alignn">
+                        <b>Deductions</b>
+                    </td>
+                </tr>
+
+            </table>
+
+            <table style="width:100%">
+                <tr>
+                    <th></th>
+                    <th>Standard</th>
+                    <th>Current Month</th>
+                </tr>
+                <tr>
+                    <td>Income Tax</td>
+                    <td>@Model.Tax</td>
+                    <td>@Model.Tax</td>
+                </tr>
+                <tr>
+                    <td>EOBI</td>
+                    <td>@Model.EOBI</td>
+                    <td>@Model.EOBI</td>
+                </tr>
+                <tr>
+                    <td><b>TOTAL</b></td>
+                    <td>@{var totalDed = @Model.EOBI + @Model.Tax;}@totalDed</td>
+                    <td>@totalDed</td>
+                </tr>
+
+            </table>
+
+
+        </div>
+
+    </div>
+    <br>
+    <br>
+    <div class="row container-fluid">
+        <div class="col-6 d-flex justify-content-between box">
+            <h5>Gross Pay & Allowances</h5>
+            <h5>,690</h5>
+        </div>
+        <div class="col-6 box">
+            <h5> Total Deduction</h5>
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <div class="row container-fluid">
+        <div class="col-6 d-flex justify-content-between box">
+
+
+            <h5>Net Pay : [0] </h5>
+            <h5>,690</h5>
+
+        </div>
+        <div class="col-6 box">
+            <h5>
+                [ Thousand Hundred Only ]
+            </h5>
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="align mr-4">
+
+        <h5><b class="space">Gratuity</b> 37 Months <b class="space">Amount</b> 160,333</h5>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <footer class="d-flex justify-content-between">
+       
+        <h6>Human Capital Management </h6>
+        <h6>Version 9.03_05032021</h6>
+        <h6>Build 0001 </h6>
+        <h6>USER ID: WITRIBE_PR </h6>
+        <h6>31/12/2021</h6>
+        <h6>11:04:22 AM</h6>
+    </footer>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -170,6 +170,9 @@
     <Compile Include="Model\PayDetails.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PaySlip.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Shifts.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div class="container-fluid" ng-controller="PayCtrl" ng-init="initList()">
+    <div class="row">
+        <div class="col-sm-9 col-9">
+            <h3 class="mt-4">Pay Roll</h3>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+           PaySlip list
+        </div>
+        <div class="row mb-0 pb-0" style=" margin-left: 200px; ">
+            <div class="col-md-auto col-xl-auto text-center py-4 ">
+                <div class="form-group">
+                    <label>Date From</label>
+                    <input type="date" class="form-control" ng-model="Request.DateFrom" />
+                </div>
+            </div>
+            <div class="col-md-auto col-xl-auto text-center py-4">
+                <div class="form-group">
+                    <label>Date To</label>
+                    <input type="date" class="form-control" ng-model="Request.DateTo" />
+                </div>
+            </div>
+            <div class="col-md-auto col-xl-auto text-center py-3">
+                <button role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded mt-2" ng-click="GetPaySlipList(Request)">
+                    <i class="fa fa-chevron-left"></i> <span class="spn ml-1">GET</span>
+                </button>
+            </div>
+
+            <div class="col-md-auto col-xl-auto text-center py-3">
+                <button role="button" class="btn btn-outline-primary btn-lg btn-iconed btn-rounded mt-2" ng-click="GenerateCurrentPaySlip(Request)">
+                    <i class="fa fa-chevron-left"></i> <span class="spn ml-1">Generate Pay Slip for Current Month</span>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-md" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="overflow:hidden;">
+                            <th>
+                             Id 
+                            </th>
+                            <th>
+                                Name 
+                            </th>
+                            <th>
+                                Gross 
+                            </th>
+                            <th>
+                                Net 
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="AgentPayDetail in PayRollList">
+                            @* | orderBy:Sorting.Field:Sorting.IsAscending *@
+                            <td>
+                                {{AgentPayDetail.EmpCode}}
+                            </td>
+                            <td>
+                                {{AgentPayDetail.EmpName}}  
+                            </td>
+                            <td>
+                                {{AgentPayDetail.GrossPay | number}}
+                            </td>
+                            <td>
+                                {{AgentPayDetail.NetPay | number}}
+                            </td>
+                            <td>
+                                <a ng-if="AgentPayDetail.Status == 'Pending'" href="/Pay/EditPayslip?Id={{AgentPayDetail.Id}}" title="Edit Pay Slip"><i class="fas fa-eye ml-3"></i></a>
+                                <a ng-if="AgentPayDetail.Status == 'Pending'" href="/Pay/PrintPayslip?Id={{AgentPayDetail.Id}}" title="Edit Pay Slip"><i class="fas fa-print ml-3"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

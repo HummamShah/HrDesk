@@ -49,6 +49,9 @@
         <AssociationConnector Association="AMSModel.FK_Pay_Agent" />
         <EntityTypeShape EntityType="AMSModel.Notification" Width="1.5" PointX="7.5" PointY="0.75" />
         <AssociationConnector Association="AMSModel.FK_Notification_Agent" />
+        <EntityTypeShape EntityType="AMSModel.PaySlip" Width="1.5" PointX="10.5" PointY="12.75" />
+        <AssociationConnector Association="AMSModel.FK_PaySlip_Agent" />
+        <AssociationConnector Association="AMSModel.FK_PaySlip_Department" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

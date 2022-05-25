@@ -468,6 +468,7 @@ app.controller('baseCtrl',
                 $scope.GetDatePostFormat = function (date) {
                     return moment(date).format("YYYY-MMM-DD")
                 }
+
                 $scope.GetDateTimePostFormat = function (date) {
                     return moment(date).format("YYYY-MMM-DD hh:mm a")
                 }
