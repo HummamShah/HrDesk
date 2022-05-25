@@ -154,13 +154,13 @@ namespace AMS.Controllers.Api
         {
             var response = new RegisterUserResponse();
             var RolesToBeAdded = new List<string>();
-            /*if (model.UserId == null)
+            if (model.UserId == null)
             {
                 var User = db.AspNetUsers.Where(x => x.Email == model.Email).FirstOrDefault();
                 var RemovePassword = _userManager.RemovePassword(User.Id);
                 var AddNewPassword = await _userManager.AddPasswordAsync(User.Id, "Password123$");
                 response.Success = true;
-            }*/
+            }
             if (ModelState.IsValid && model.ConfirmPassword == model.Password)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; //We can put username field instead of email
