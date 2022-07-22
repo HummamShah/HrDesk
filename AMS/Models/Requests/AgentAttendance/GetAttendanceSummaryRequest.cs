@@ -22,7 +22,7 @@ namespace AMS.Models.Requests.AgentAttendance
             {
                 if (request.AgentId != null)
                 {
-                    var Attendances = _dbContext.AgentAttendance.Where(x => x.Date.Value.Month == request.Date.Month && x.AgentId == request.AgentId).ToList();
+                    var Attendances = _dbContext.AgentAttendance.Where(x => x.Date.Value.Month == request.Date.Month && x.Date.Value.Year == request.Date.Year && x.AgentId == request.AgentId).ToList();
 
                     if (Attendances.Count != 0)
                     {

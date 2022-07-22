@@ -15,7 +15,7 @@
             <i class="fas fa-table mr-1"></i>
            PaySlip list
         </div>
-        <div class="row mb-0 pb-0" style=" margin-left: 200px; ">
+        <div class="row mb-0 pb-0 ml-3" style="justify-content: center; align-items: center;">
             <div class="col-md-auto col-xl-auto text-center py-4 ">
                 <div class="form-group">
                     <label>Date From</label>
@@ -66,7 +66,7 @@
                         <tr ng-repeat="AgentPayDetail in PayRollList">
                             @* | orderBy:Sorting.Field:Sorting.IsAscending *@
                             <td>
-                                {{AgentPayDetail.EmpCode}}
+                                {{AgentPayDetail.Id}}
                             </td>
                             <td>
                                 {{AgentPayDetail.EmpName}}  
