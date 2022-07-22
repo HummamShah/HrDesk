@@ -100,60 +100,12 @@ namespace AMS.Controllers
                                 {
                                     TodayAttendance = db.AgentAttendance.Where(x => x.Date == yesterday && x.AgentId == AgentId);
                                 }
-                                if (TodayAttendance.Count() < 1)
+                                var LeavesDates = db.LeaveDates.Where(x => x.Dates == today && x.Leaves.AgentId == AgentId).FirstOrDefault();
+                                if(LeavesDates == null)
                                 {
                                     TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).AddMinutes(1).TimeOfDay;
                                     TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
                                     TimeSpan now = DateTime.Now.TimeOfDay;
-                                    var isTodayHoliday = db.Holidays.Where(x => x.Date == today).FirstOrDefault();
-                                    if (isTodayHoliday != null)
-                                    {
-                                        Attendance.IsHoliday = true;
-                                        Attendance.IsAbsent = false;
-                                    }
-                                    else if (now >= MarkAbsentTime)
-                                    {
-                                        Attendance.IsAbsent = true;
-                                    }
-                                    else if (now > LateTime)
-                                    {
-                                        Attendance.IsLate = true;
-                                        Attendance.IsAbsent = false;
-                                        Agent.ConsecutiveLateCounter++;
-                                        if (Agent.ConsecutiveLateCounter % 3 == 0)
-                                        {
-                                            if (Agent.RemainingLeaves > 0 && Agent.AnnualLeaves > 0)
-                                            {
-                                                Agent.RemainingLeaves--;
-                                                Agent.AnnualLeaves--;
-                                            }
-                                            else
-                                                Agent.DeductionInDays++;
-                                        }
-                                    }
-
-                                    else
-                                    {
-                                        Attendance.IsPresent = true;
-                                        Attendance.IsAbsent = false;
-                                    }
-                                    Attendance.AgentId = AgentId;
-                                    Attendance.CreatedAt = DateTime.Now;
-
-                                    Attendance.StartDateTime = DateTime.Now;
-                                    Attendance.Date = DateTime.Now.Date;
-                                    Attendance.Type = (int)AttendanceType.Premises;
-                                    Attendance.IsAttendanceMarked = true;
-                                    Attendance.ShiftId = Agent.ShiftId;
-                                    var Attendanceresult = db.AgentAttendance.Add(Attendance);
-                                    db.SaveChanges();
-                                }
-                                else if (TodayAttendance.FirstOrDefault() != null && TodayAttendance.FirstOrDefault().IsAttendanceMarked == false)
-                                {
-                                    TimeSpan now = DateTime.Now.TimeOfDay;
-                                    TimeSpan LateTime = Agent.Shifts.StartTime.Value.AddHours(1).AddMinutes(1).TimeOfDay;
-                                    TimeSpan MarkAbsentTime = Agent.Shifts.StartTime.Value.AddHours(4).TimeOfDay;
-                                    Attendance = TodayAttendance.FirstOrDefault();
                                     var isTodayHoliday = db.Holidays.Where(x => x.Date == today).FirstOrDefault();
                                     if (isTodayHoliday != null)
                                     {
@@ -187,15 +139,24 @@ namespace AMS.Controllers
                                     }
                                     Attendance.AgentId = AgentId;
                                     Attendance.CreatedAt = DateTime.Now;
+
                                     Attendance.StartDateTime = DateTime.Now;
                                     Attendance.Date = DateTime.Now.Date;
                                     Attendance.Type = (int)AttendanceType.Premises;
                                     Attendance.IsAttendanceMarked = true;
                                     Attendance.ShiftId = Agent.ShiftId;
-                                    //var Attendanceresult = db.AgentAttendance.Add(Attendance);
-                                    db.SaveChanges();
+                                    if (TodayAttendance.FirstOrDefault() != null && TodayAttendance.FirstOrDefault().IsAttendanceMarked == false)
+                                    {
+                                        db.SaveChanges();
+                                    }
+                                    else if (TodayAttendance.Count() < 1)
+                                    {
+                                        var Attendanceresult = db.AgentAttendance.Add(Attendance);
+                                        db.SaveChanges();
+                                    }
 
                                 }
+                                
                             }
                         }
                         return RedirectToLocal(returnUrl);

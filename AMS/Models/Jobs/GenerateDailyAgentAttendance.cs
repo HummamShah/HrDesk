@@ -76,16 +76,22 @@ namespace AMS.Models.Jobs
 
                 // deducting leave for yesterday's absentees
                 var Absentees = Attendance.Where(x => x.IsAbsent == true).ToList();
+                var LeaveDates = _dbContext.LeaveDates.Where(x => x.Dates == yesterday).ToList();
                 foreach (var absentAgent in Absentees)
                 {
-                    if (absentAgent.Agent.RemainingLeaves > 0 && absentAgent.Agent.AnnualLeaves > 0)
+                    var AppliedLeave = LeaveDates.Where(x => x.Leaves.AgentId == absentAgent.AgentId).FirstOrDefault();
+                    if (AppliedLeave == null)
                     {
-                        absentAgent.Agent.RemainingLeaves--;
-                        absentAgent.Agent.AnnualLeaves--;
-                        _dbContext.SaveChanges();
+                        if (absentAgent.Agent.RemainingLeaves > 0 && absentAgent.Agent.AnnualLeaves > 0)
+                        {
+                            absentAgent.Agent.RemainingLeaves--;
+                            absentAgent.Agent.AnnualLeaves--;
+                            _dbContext.SaveChanges();
+                        }
+                        else
+                            absentAgent.Agent.DeductionInDays++;
+
                     }
-                    else
-                        absentAgent.Agent.DeductionInDays++;
                 }
 
                 // setting clock out time for non-marked according to their shift's timing
